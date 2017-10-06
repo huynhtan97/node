@@ -10,7 +10,8 @@ const http2 = require('http2');
 const fs = require('fs');
 const path = require('path');
 
-const loc = path.join(common.fixturesDir, 'person.jpg');
+//replaced common.fixturesDir with common.fixtures
+const loc = path.join(common.fixtures, 'person.jpg');
 let fileData;
 
 assert(fs.existsSync(loc));

@@ -1,0 +1,1724 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for root/perf_hooks.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">root</a> perf_hooks.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">95.24% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>200/210</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.33% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>67/75</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.34% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>50/53</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">95.69% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>200/209</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3028x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3026x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3026x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3048x</span>
+<span class="cline-any cline-yes">3048x</span>
+<span class="cline-any cline-yes">3048x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3039x</span>
+<span class="cline-any cline-yes">3039x</span>
+<span class="cline-any cline-yes">3039x</span>
+<span class="cline-any cline-yes">3039x</span>
+<span class="cline-any cline-yes">3025x</span>
+<span class="cline-any cline-yes">3025x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3039x</span>
+<span class="cline-any cline-yes">3039x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+const {
+  PerformanceEntry,
+  mark: _mark,
+  measure: _measure,
+  milestones,
+  observerCounts,
+  setupObservers,
+  timeOrigin,
+  timerify,
+  constants
+} = process.binding('performance');
+&nbsp;
+const {
+  NODE_PERFORMANCE_ENTRY_TYPE_NODE,
+  NODE_PERFORMANCE_ENTRY_TYPE_MARK,
+  NODE_PERFORMANCE_ENTRY_TYPE_MEASURE,
+  NODE_PERFORMANCE_ENTRY_TYPE_GC,
+  NODE_PERFORMANCE_ENTRY_TYPE_FUNCTION,
+&nbsp;
+  NODE_PERFORMANCE_MILESTONE_NODE_START,
+  NODE_PERFORMANCE_MILESTONE_V8_START,
+  NODE_PERFORMANCE_MILESTONE_LOOP_START,
+  NODE_PERFORMANCE_MILESTONE_LOOP_EXIT,
+  NODE_PERFORMANCE_MILESTONE_BOOTSTRAP_COMPLETE,
+  NODE_PERFORMANCE_MILESTONE_ENVIRONMENT,
+  NODE_PERFORMANCE_MILESTONE_THIRD_PARTY_MAIN_START,
+  NODE_PERFORMANCE_MILESTONE_THIRD_PARTY_MAIN_END,
+  NODE_PERFORMANCE_MILESTONE_CLUSTER_SETUP_START,
+  NODE_PERFORMANCE_MILESTONE_CLUSTER_SETUP_END,
+  NODE_PERFORMANCE_MILESTONE_MODULE_LOAD_START,
+  NODE_PERFORMANCE_MILESTONE_MODULE_LOAD_END,
+  NODE_PERFORMANCE_MILESTONE_PRELOAD_MODULE_LOAD_START,
+  NODE_PERFORMANCE_MILESTONE_PRELOAD_MODULE_LOAD_END
+} = constants;
+&nbsp;
+const L = require('internal/linkedlist');
+const kInspect = require('internal/util').customInspectSymbol;
+const { inherits } = require('util');
+&nbsp;
+const kCallback = Symbol('callback');
+const kTypes = Symbol('types');
+const kEntries = Symbol('entries');
+const kBuffer = Symbol('buffer');
+const kBuffering = Symbol('buffering');
+const kQueued = Symbol('queued');
+const kTimerified = Symbol('timerified');
+const kInsertEntry = Symbol('insert-entry');
+const kIndexEntry = Symbol('index-entry');
+const kClearEntry = Symbol('clear-entry');
+const kGetEntries = Symbol('get-entries');
+const kIndex = Symbol('index');
+const kMarks = Symbol('marks');
+&nbsp;
+observerCounts[NODE_PERFORMANCE_ENTRY_TYPE_MARK] = 1;
+observerCounts[NODE_PERFORMANCE_ENTRY_TYPE_MEASURE] = 1;
+const observers = {};
+const observerableTypes = [
+  'node',
+  'mark',
+  'measure',
+  'gc',
+  'function'
+];
+&nbsp;
+let errors;
+function lazyErrors() {
+  if (errors === undefined)
+    errors = require('internal/errors');
+  return errors;
+}
+&nbsp;
+function now() {
+  const hr = process.hrtime();
+  return hr[0] * 1000 + hr[1] / 1e6;
+}
+&nbsp;
+class PerformanceNodeTiming {
+  constructor() {}
+&nbsp;
+  get name() {
+    return 'node';
+  }
+&nbsp;
+  get entryType() {
+    return 'node';
+  }
+&nbsp;
+  get startTime() {
+    return timeOrigin;
+  }
+&nbsp;
+  get duration() {
+    return now() - timeOrigin;
+  }
+&nbsp;
+  get nodeStart() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_NODE_START];
+  }
+&nbsp;
+  get v8Start() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_V8_START];
+  }
+&nbsp;
+  get environment() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_ENVIRONMENT];
+  }
+&nbsp;
+  get loopStart() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_LOOP_START];
+  }
+&nbsp;
+  get loopExit() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_LOOP_EXIT];
+  }
+&nbsp;
+  get bootstrapComplete() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_BOOTSTRAP_COMPLETE];
+  }
+&nbsp;
+  get thirdPartyMainStart() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_THIRD_PARTY_MAIN_START];
+  }
+&nbsp;
+  get thirdPartyMainEnd() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_THIRD_PARTY_MAIN_END];
+  }
+&nbsp;
+  get clusterSetupStart() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_CLUSTER_SETUP_START];
+  }
+&nbsp;
+  get clusterSetupEnd() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_CLUSTER_SETUP_END];
+  }
+&nbsp;
+  get moduleLoadStart() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_MODULE_LOAD_START];
+  }
+&nbsp;
+  get moduleLoadEnd() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_MODULE_LOAD_END];
+  }
+&nbsp;
+  get preloadModuleLoadStart() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_PRELOAD_MODULE_LOAD_START];
+  }
+&nbsp;
+  get preloadModuleLoadEnd() {
+    return milestones[NODE_PERFORMANCE_MILESTONE_PRELOAD_MODULE_LOAD_END];
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  [k</span>Inspect]() {
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      name: 'node',
+      entryType: 'node',
+      startTime: this.startTime,
+      duration: this.duration,
+      nodeStart: this.nodeStart,
+      v8Start: this.v8Start,
+      bootstrapComplete: this.bootstrapComplete,
+      environment: this.environment,
+      loopStart: this.loopStart,
+      loopExit: this.loopExit,
+      thirdPartyMainStart: this.thirdPartyMainStart,
+      thirdPartyMainEnd: this.thirdPartyMainEnd,
+      clusterSetupStart: this.clusterSetupStart,
+      clusterSetupEnd: this.clusterSetupEnd,
+      moduleLoadStart: this.moduleLoadStart,
+      moduleLoadEnd: this.moduleLoadEnd,
+      preloadModuleLoadStart: this.preloadModuleLoadStart,
+      preloadModuleLoadEnd: this.preloadModuleLoadEnd
+    };
+  }
+}
+// Use this instead of Extends because we want PerformanceEntry in the
+// prototype chain but we do not want to use the PerformanceEntry
+// constructor for this.
+inherits(PerformanceNodeTiming, PerformanceEntry);
+&nbsp;
+const nodeTiming = new PerformanceNodeTiming();
+&nbsp;
+// Maintains a list of entries as a linked list stored in insertion order.
+class PerformanceObserverEntryList {
+  constructor() {
+    Object.defineProperty(this, kEntries, {
+      writable: true,
+      enumerable: false,
+      value: {}
+    });
+    L.init(this[kEntries]);
+  }
+&nbsp;
+  [kInsertEntry](entry) {
+    const item = { entry };
+    L.append(this[kEntries], item);
+    this[kIndexEntry](item);
+  }
+&nbsp;
+  [kIndexEntry](entry) {
+    // Default implementation does nothing
+  }
+&nbsp;
+  [kGetEntries](name, type) {
+    const ret = [];
+    const list = this[kEntries];
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (!L.isEmpty(list)) {
+      let item = L.peek(list);
+      while (item &amp;&amp; item !== list) {
+        const entry = item.entry;
+        if ((name &amp;&amp; entry.name !== name) ||
+            (type &amp;&amp; entry.entryType !== type)) {
+          item = item._idlePrev;
+          continue;
+        }
+        sortedInsert(ret, entry);
+        item = item._idlePrev;
+      }
+    }
+    return ret;
+  }
+&nbsp;
+  // While the items are stored in insertion order, getEntries() is
+  // required to return items sorted by startTime.
+  getEntries() {
+    return this[kGetEntries]();
+  }
+&nbsp;
+  getEntriesByType(type) {
+    return this[kGetEntries](undefined, `${type}`);
+  }
+&nbsp;
+  getEntriesByName(name, type) {
+    return this[kGetEntries](`${name}`, type !== undefined ? `${type}` : type);
+  }
+}
+&nbsp;
+class PerformanceObserver {
+  constructor(callback) {
+    if (typeof callback !== 'function') {
+      const errors = lazyErrors();
+      throw new errors.TypeError('ERR_INVALID_CALLBACK');
+    }
+    Object.defineProperties(this, {
+      [kTypes]: {
+        enumerable: false,
+        writable: true,
+        value: {}
+      },
+      [kCallback]: {
+        enumerable: false,
+        writable: true,
+        value: callback
+      },
+      [kBuffer]: {
+        enumerable: false,
+        writable: true,
+        value: new PerformanceObserverEntryList()
+      },
+      [kBuffering]: {
+        enumerable: false,
+        writable: true,
+        value: false
+      },
+      [kQueued]: {
+        enumerable: false,
+        writable: true,
+        value: false
+      }
+    });
+  }
+&nbsp;
+  disconnect() {
+    const types = this[kTypes];
+    const keys = Object.keys(types);
+    for (var n = 0; n &lt; keys.length; n++) {
+      const item = types[keys[n]];
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (item) {
+        L.remove(item);
+        observerCounts[keys[n]]--;
+      }
+    }
+    this[kTypes] = {};
+  }
+&nbsp;
+  observe(options) {
+    const errors = lazyErrors();
+    if (typeof options !== 'object' || options == null) {
+      throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'options', 'Object');
+    }
+    if (!Array.isArray(options.entryTypes)) {
+      throw new errors.TypeError('ERR_INVALID_OPT_VALUE',
+                                 'entryTypes', options);
+    }
+    const entryTypes = options.entryTypes.filter(filterTypes).map(mapTypes);
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (entryTypes.length === 0) {
+<span class="cstat-no" title="statement not covered" >      throw new errors.Error('ERR_VALID_PERFORMANCE_ENTRY_TYPE');</span>
+    }
+    this.disconnect();
+    this[kBuffer][kEntries] = [];
+    L.init(this[kBuffer][kEntries]);
+    this[kBuffering] = Boolean(options.buffered);
+    for (var n = 0; n &lt; entryTypes.length; n++) {
+      const entryType = entryTypes[n];
+      const list = getObserversList(entryType);
+      const item = { obs: this };
+      this[kTypes][entryType] = item;
+      L.append(list, item);
+      observerCounts[entryType]++;
+    }
+  }
+}
+&nbsp;
+class Performance extends PerformanceObserverEntryList {
+  constructor() {
+    super();
+    this[kIndex] = {
+      [kMarks]: new Set()
+    };
+    this[kInsertEntry](nodeTiming);
+  }
+&nbsp;
+  [kIndexEntry](item) {
+    const index = this[kIndex];
+    const type = item.entry.entryType;
+    let items = index[type];
+    if (!items) {
+      items = index[type] = {};
+      L.init(items);
+    }
+    const entry = item.entry;
+    L.append(items, { entry, item });
+  }
+&nbsp;
+  [kClearEntry](type, name) {
+    const index = this[kIndex];
+    const items = index[type];
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!items) <span class="cstat-no" title="statement not covered" >return;</span>
+    let item = L.peek(items);
+    while (item &amp;&amp; item !== items) {
+      const entry = item.entry;
+      const next = item._idlePrev;
+      if (name !== undefined) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (entry.name === `${name}`) {
+          L.remove(item); // remove from the index
+          L.remove(item.item); // remove from the master
+        }
+      } else {
+        L.remove(item); // remove from the index
+        L.remove(item.item); // remove from the master
+      }
+      item = next;
+    }
+  }
+&nbsp;
+  get nodeTiming() {
+    return nodeTiming;
+  }
+&nbsp;
+  get timeOrigin() {
+    return timeOrigin;
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  no</span>w() {
+<span class="cstat-no" title="statement not covered" >    return now();</span>
+  }
+&nbsp;
+  mark(name) {
+    name = `${name}`;
+    _mark(name);
+    this[kIndex][kMarks].add(name);
+  }
+&nbsp;
+  measure(name, startMark, endMark) {
+    name = `${name}`;
+    endMark = `${endMark}`;
+    startMark = startMark !== undefined ? `${startMark}` : '';
+    const marks = this[kIndex][kMarks];
+    if (!marks.has(endMark) &amp;&amp; !(endMark in nodeTiming)) {
+      const errors = lazyErrors();
+      throw new errors.Error('ERR_INVALID_PERFORMANCE_MARK', endMark);
+    }
+    _measure(name, startMark, endMark);
+  }
+&nbsp;
+  clearMarks(name) {
+    name = name !== undefined ? `${name}` : name;
+    this[kClearEntry]('mark', name);
+    if (name !== undefined)
+      this[kIndex][kMarks].delete(name);
+    else
+      this[kIndex][kMarks].clear();
+  }
+&nbsp;
+  clearMeasures(name) {
+    this[kClearEntry]('measure', name);
+  }
+&nbsp;
+  clearGC() {
+    this[kClearEntry]('gc');
+  }
+&nbsp;
+  clearFunctions(name) {
+    this[kClearEntry]('function', name);
+  }
+&nbsp;
+  timerify(fn) {
+    if (typeof fn !== 'function') {
+      const errors = lazyErrors();
+      throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'fn', 'Function');
+    }
+    if (fn[kTimerified])
+      return fn[kTimerified];
+    const ret = timerify(fn, fn.length);
+    Object.defineProperty(fn, kTimerified, {
+      enumerable: false,
+      configurable: true,
+      writable: false,
+      value: ret
+    });
+    Object.defineProperties(ret, {
+      [kTimerified]: {
+        enumerable: false,
+        configurable: true,
+        writable: false,
+        value: ret
+      },
+      name: {
+        enumerable: false,
+        configurable: true,
+        writable: false,
+        value: `timerified ${fn.name}`
+      }
+    });
+    return ret;
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  [k</span>Inspect]() {
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      timeOrigin,
+      nodeTiming
+    };
+  }
+}
+&nbsp;
+const performance = new Performance();
+&nbsp;
+function getObserversList(type) {
+  let list = observers[type];
+  if (list === undefined) {
+    list = observers[type] = {};
+    L.init(list);
+  }
+  return list;
+}
+&nbsp;
+function doNotify() {
+  this[kQueued] = false;
+  this[kCallback](this[kBuffer], this);
+  this[kBuffer][kEntries] = [];
+  L.init(this[kBuffer][kEntries]);
+}
+&nbsp;
+// Set up the callback used to receive PerformanceObserver notifications
+function observersCallback(entry) {
+  const type = mapTypes(entry.entryType);
+  performance[kInsertEntry](entry);
+  const list = getObserversList(type);
+&nbsp;
+  let current = L.peek(list);
+&nbsp;
+  while (current &amp;&amp; current.obs) {
+    const observer = current.obs;
+    // First, add the item to the observers buffer
+    const buffer = observer[kBuffer];
+    buffer[kInsertEntry](entry);
+    // Second, check to see if we're buffering
+    if (observer[kBuffering]) {
+      // If we are, schedule a setImmediate call if one hasn't already
+      if (!observer[kQueued]) {
+        observer[kQueued] = true;
+        // Use setImmediate instead of nextTick to give more time
+        // for multiple entries to collect.
+        setImmediate(doNotify.bind(observer));
+      }
+    } else {
+      // If not buffering, notify immediately
+      doNotify.call(observer);
+    }
+    current = current._idlePrev;
+  }
+}
+setupObservers(observersCallback);
+&nbsp;
+function filterTypes(i) {
+  return observerableTypes.indexOf(`${i}`) &gt;= 0;
+}
+&nbsp;
+function mapTypes(i) {
+  switch (i) {
+<span class="branch-0 cbranch-no" title="branch not covered" >    case 'node': <span class="cstat-no" title="statement not covered" >return NODE_PERFORMANCE_ENTRY_TYPE_NODE;</span></span>
+    case 'mark': return NODE_PERFORMANCE_ENTRY_TYPE_MARK;
+    case 'measure': return NODE_PERFORMANCE_ENTRY_TYPE_MEASURE;
+    case 'gc': return NODE_PERFORMANCE_ENTRY_TYPE_GC;
+    case 'function': return NODE_PERFORMANCE_ENTRY_TYPE_FUNCTION;
+  }
+}
+&nbsp;
+// The specification requires that PerformanceEntry instances are sorted
+// according to startTime. Unfortunately, they are not necessarily created
+// in that same order, and can be reported to the JS layer in any order,
+// which means we need to keep the list sorted as we insert.
+function getInsertLocation(list, entryStartTime) {
+  let start = 0;
+  let end = list.length;
+  while (start &lt; end) {
+    const pivot = (end + start) &gt;&gt;&gt; 1;
+    if (list[pivot].startTime === entryStartTime)
+      return pivot;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (list[pivot].startTime &lt; entryStartTime)
+<span class="cstat-no" title="statement not covered" >      start = pivot + 1;</span>
+    else
+      end = pivot;
+  }
+<span class="cstat-no" title="statement not covered" >  return start;</span>
+}
+&nbsp;
+function sortedInsert(list, entry) {
+  const entryStartTime = entry.startTime;
+  if (list.length === 0 ||
+      (list[list.length - 1].startTime &lt; entryStartTime)) {
+    list.push(entry);
+    return;
+  }
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (list[0] &amp;&amp; (list[0].startTime &gt; entryStartTime)) {
+<span class="cstat-no" title="statement not covered" >    list.unshift(entry);</span>
+<span class="cstat-no" title="statement not covered" >    return;</span>
+  }
+  const location = getInsertLocation(list, entryStartTime);
+  list.splice(location, 0, entry);
+}
+&nbsp;
+module.exports = {
+  performance,
+  PerformanceObserver
+};
+&nbsp;
+Object.defineProperty(module.exports, 'constants', {
+  configurable: false,
+  enumerable: true,
+  value: constants
+});
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 06 2017 10:15:08 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

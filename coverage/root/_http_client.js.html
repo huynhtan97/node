@@ -1,0 +1,2312 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for root/_http_client.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">root</a> _http_client.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">97.52% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>394/404</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">96.36% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>238/247</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">95.12% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>39/41</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">97.41% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>376/386</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2310x</span>
+<span class="cline-any cline-yes">2310x</span>
+<span class="cline-any cline-yes">2277x</span>
+<span class="cline-any cline-yes">1525x</span>
+<span class="cline-any cline-yes">1492x</span>
+<span class="cline-any cline-yes">1418x</span>
+<span class="cline-any cline-yes">1385x</span>
+<span class="cline-any cline-yes">1363x</span>
+<span class="cline-any cline-yes">1297x</span>
+<span class="cline-any cline-yes">1287x</span>
+<span class="cline-any cline-yes">1254x</span>
+<span class="cline-any cline-yes">1234x</span>
+<span class="cline-any cline-yes">1201x</span>
+<span class="cline-any cline-yes">1201x</span>
+<span class="cline-any cline-yes">19417x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2643x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2623x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2719x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2719x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2693x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2692x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2711x</span>
+<span class="cline-any cline-yes">2711x</span>
+<span class="cline-any cline-yes">2711x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">2705x</span>
+<span class="cline-any cline-yes">1984x</span>
+<span class="cline-any cline-yes">1972x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">721x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2705x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2705x</span>
+<span class="cline-any cline-yes">2705x</span>
+<span class="cline-any cline-yes">2705x</span>
+<span class="cline-any cline-yes">2692x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2705x</span>
+<span class="cline-any cline-yes">2343x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2343x</span>
+<span class="cline-any cline-yes">2310x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2343x</span>
+<span class="cline-any cline-yes">1353x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1352x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1346x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1346x</span>
+<span class="cline-any cline-yes">1346x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1326x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1326x</span>
+<span class="cline-any cline-yes">1326x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1326x</span>
+<span class="cline-any cline-yes">1326x</span>
+<span class="cline-any cline-yes">1326x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1318x</span>
+<span class="cline-any cline-yes">731x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">730x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">587x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1317x</span>
+<span class="cline-any cline-yes">1317x</span>
+<span class="cline-any cline-yes">1107x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1317x</span>
+<span class="cline-any cline-yes">1317x</span>
+<span class="cline-any cline-yes">1313x</span>
+<span class="cline-any cline-yes">680x</span>
+<span class="cline-any cline-yes">680x</span>
+<span class="cline-any cline-yes">7317x</span>
+<span class="cline-any cline-yes">7317x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1312x</span>
+<span class="cline-any cline-yes">1302x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1302x</span>
+<span class="cline-any cline-yes">1302x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1302x</span>
+<span class="cline-any cline-yes">1271x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1302x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">686x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">630x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1312x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1316x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1304x</span>
+<span class="cline-any cline-yes">483x</span>
+<span class="cline-any cline-yes">483x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">821x</span>
+<span class="cline-any cline-yes">821x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1304x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1309x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">1280x</span>
+<span class="cline-any cline-yes">1280x</span>
+<span class="cline-any cline-yes">1280x</span>
+<span class="cline-any cline-yes">1280x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">1302x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1302x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">429x</span>
+<span class="cline-any cline-yes">429x</span>
+<span class="cline-any cline-yes">429x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">429x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">429x</span>
+<span class="cline-any cline-yes">429x</span>
+<span class="cline-any cline-yes">429x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">367x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">429x</span>
+<span class="cline-any cline-yes">429x</span>
+<span class="cline-any cline-yes">429x</span>
+<span class="cline-any cline-yes">429x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">429x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2022x</span>
+<span class="cline-any cline-yes">2022x</span>
+<span class="cline-any cline-yes">2022x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2022x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2022x</span>
+<span class="cline-any cline-yes">2019x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">2012x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">1983x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1143x</span>
+<span class="cline-any cline-yes">1143x</span>
+<span class="cline-any cline-yes">1143x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1187x</span>
+<span class="cline-any cline-yes">1187x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1187x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1187x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1187x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1186x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1186x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1181x</span>
+<span class="cline-any cline-yes">1181x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1181x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1175x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1175x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1131x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1131x</span>
+<span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-yes">295x</span>
+<span class="cline-any cline-yes">295x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">803x</span>
+<span class="cline-any cline-yes">803x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">803x</span>
+<span class="cline-any cline-yes">803x</span>
+<span class="cline-any cline-yes">803x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">803x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">803x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1131x</span>
+<span class="cline-any cline-yes">1131x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1131x</span>
+<span class="cline-any cline-yes">1131x</span>
+<span class="cline-any cline-yes">1130x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">803x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1288x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">1297x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1297x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1315x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-yes">1287x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1315x</span>
+<span class="cline-any cline-yes">1293x</span>
+<span class="cline-any cline-yes">1291x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1315x</span>
+<span class="cline-any cline-yes">1315x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">487x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+&nbsp;
+'use strict';
+&nbsp;
+const util = require('util');
+const net = require('net');
+const url = require('url');
+const HTTPParser = process.binding('http_parser').HTTPParser;
+const assert = require('assert').ok;
+const common = require('_http_common');
+const httpSocketSetup = common.httpSocketSetup;
+const parsers = common.parsers;
+const freeParser = common.freeParser;
+const debug = common.debug;
+const OutgoingMessage = require('_http_outgoing').OutgoingMessage;
+const Agent = require('_http_agent');
+const Buffer = require('buffer').Buffer;
+const { urlToOptions, searchParamsSymbol } = require('internal/url');
+const outHeadersKey = require('internal/http').outHeadersKey;
+const nextTick = require('internal/process/next_tick').nextTick;
+const errors = require('internal/errors');
+&nbsp;
+// The actual list of disallowed characters in regexp form is more like:
+//    /[^A-Za-z0-9\-._~!$&amp;'()*+,;=/:@]/
+// with an additional rule for ignoring percentage-escaped characters, but
+// that's a) hard to capture in a regular expression that performs well, and
+// b) possibly too restrictive for real-world usage. So instead we restrict the
+// filter to just control characters and spaces.
+//
+// This function is used in the case of small paths, where manual character code
+// checks can greatly outperform the equivalent regexp (tested in V8 5.4).
+function isInvalidPath(s) {
+  var i = 0;
+  if (s.charCodeAt(0) &lt;= 32) return true;
+  if (++i &gt;= s.length) return false;
+  if (s.charCodeAt(1) &lt;= 32) return true;
+  if (++i &gt;= s.length) return false;
+  if (s.charCodeAt(2) &lt;= 32) return true;
+  if (++i &gt;= s.length) return false;
+  if (s.charCodeAt(3) &lt;= 32) return true;
+  if (++i &gt;= s.length) return false;
+  if (s.charCodeAt(4) &lt;= 32) return true;
+  if (++i &gt;= s.length) return false;
+  if (s.charCodeAt(5) &lt;= 32) return true;
+  ++i;
+  for (; i &lt; s.length; ++i)
+    if (s.charCodeAt(i) &lt;= 32) return true;
+  return false;
+}
+&nbsp;
+function validateHost(host, name) {
+  if (host != null &amp;&amp; typeof host !== 'string') {
+    throw new errors.TypeError('ERR_INVALID_ARG_TYPE', `options.${name}`,
+                               ['string', 'undefined', 'null'], host);
+  }
+  return host;
+}
+&nbsp;
+function ClientRequest(options, cb) {
+  OutgoingMessage.call(this);
+&nbsp;
+  if (typeof options === 'string') {
+    options = url.parse(options);
+    if (!options.hostname) {
+      throw new errors.Error('ERR_INVALID_DOMAIN_NAME');
+    }
+  } else if (options &amp;&amp; options[searchParamsSymbol] &amp;&amp;
+             options[searchParamsSymbol][searchParamsSymbol]) {
+    // url.URL instance
+    options = urlToOptions(options);
+  } else {
+    options = util._extend({}, options);
+  }
+&nbsp;
+  var agent = options.agent;
+  var defaultAgent = options._defaultAgent || Agent.globalAgent;
+  if (agent === false) {
+    agent = new defaultAgent.constructor();
+  } else if (agent === null || agent === undefined) {
+    if (typeof options.createConnection !== 'function') {
+      agent = defaultAgent;
+    }
+    // Explicitly pass through this statement as agent will not be used
+    // when createConnection is provided.
+  } else if (typeof agent.addRequest !== 'function') {
+    throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'Agent option',
+                               ['Agent-like object', 'undefined', 'false']);
+  }
+  this.agent = agent;
+&nbsp;
+  var protocol = options.protocol || defaultAgent.protocol;
+  var expectedProtocol = defaultAgent.protocol;
+  if (this.agent &amp;&amp; this.agent.protocol)
+    expectedProtocol = this.agent.protocol;
+&nbsp;
+  var path;
+  if (options.path) {
+    path = '' + options.path;
+    var invalidPath;
+    if (path.length &lt;= 39) { // Determined experimentally in V8 5.4
+      invalidPath = isInvalidPath(path);
+    } else {
+      invalidPath = /[\u0000-\u0020]/.test(path);
+    }
+    if (invalidPath)
+      throw new errors.TypeError('ERR_UNESCAPED_CHARACTERS', 'Request path');
+  }
+&nbsp;
+  if (protocol !== expectedProtocol) {
+    throw new errors.Error('ERR_INVALID_PROTOCOL', protocol, expectedProtocol);
+  }
+&nbsp;
+  var defaultPort = options.defaultPort ||
+                    this.agent &amp;&amp; this.agent.defaultPort;
+&nbsp;
+  var port = options.port = options.port || defaultPort || 80;
+  var host = options.host = validateHost(options.hostname, 'hostname') ||
+                            validateHost(options.host, 'host') || 'localhost';
+&nbsp;
+  var setHost = (options.setHost === undefined);
+&nbsp;
+  this.socketPath = options.socketPath;
+  this.timeout = options.timeout;
+&nbsp;
+  var method = options.method;
+  var methodIsString = (typeof method === 'string');
+  if (method != null &amp;&amp; !methodIsString) {
+    throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'method',
+                               'string', method);
+  }
+&nbsp;
+  if (methodIsString &amp;&amp; method) {
+    if (!common._checkIsHttpToken(method)) {
+      throw new errors.TypeError('ERR_INVALID_HTTP_TOKEN', 'Method', method);
+    }
+    method = this.method = method.toUpperCase();
+  } else {
+    method = this.method = 'GET';
+  }
+&nbsp;
+  this.path = options.path || '/';
+  if (cb) {
+    this.once('response', cb);
+  }
+&nbsp;
+  var headersArray = Array.isArray(options.headers);
+  if (!headersArray) {
+    if (options.headers) {
+      var keys = Object.keys(options.headers);
+      for (var i = 0; i &lt; keys.length; i++) {
+        var key = keys[i];
+        this.setHeader(key, options.headers[key]);
+      }
+    }
+    if (host &amp;&amp; !this.getHeader('host') &amp;&amp; setHost) {
+      var hostHeader = host;
+&nbsp;
+      // For the Host header, ensure that IPv6 addresses are enclosed
+      // in square brackets, as defined by URI formatting
+      // https://tools.ietf.org/html/rfc3986#section-3.2.2
+      var posColon = hostHeader.indexOf(':');
+      if (posColon !== -1 &amp;&amp;
+          hostHeader.indexOf(':', posColon + 1) !== -1 &amp;&amp;
+          hostHeader.charCodeAt(0) !== 91/*'['*/) {
+        hostHeader = `[${hostHeader}]`;
+      }
+&nbsp;
+      if (port &amp;&amp; +port !== defaultPort) {
+        hostHeader += ':' + port;
+      }
+      this.setHeader('Host', hostHeader);
+    }
+  }
+&nbsp;
+  if (options.auth &amp;&amp; !this.getHeader('Authorization')) {
+    this.setHeader('Authorization', 'Basic ' +
+                   Buffer.from(options.auth).toString('base64'));
+  }
+&nbsp;
+  if (method === 'GET' ||
+      method === 'HEAD' ||
+      method === 'DELETE' ||
+      method === 'OPTIONS' ||
+      method === 'CONNECT') {
+    this.useChunkedEncodingByDefault = false;
+  } else {
+    this.useChunkedEncodingByDefault = true;
+  }
+&nbsp;
+  if (headersArray) {
+    this._storeHeader(this.method + ' ' + this.path + ' HTTP/1.1\r\n',
+                      options.headers);
+  } else if (this.getHeader('expect')) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (this._header) {
+<span class="cstat-no" title="statement not covered" >      throw new errors.Error('ERR_HTTP_HEADERS_SENT', 'render');</span>
+    }
+&nbsp;
+    this._storeHeader(this.method + ' ' + this.path + ' HTTP/1.1\r\n',
+                      this[outHeadersKey]);
+  }
+&nbsp;
+  this._ended = false;
+  this.res = null;
+  this.aborted = undefined;
+  this.timeoutCb = null;
+  this.upgradeOrConnect = false;
+  this.parser = null;
+  this.maxHeadersCount = null;
+&nbsp;
+  var called = false;
+&nbsp;
+  var oncreate = (err, socket) =&gt; {
+    if (called)
+      return;
+    called = true;
+    if (err) {
+      process.nextTick(() =&gt; this.emit('error', err));
+      return;
+    }
+    this.onSocket(socket);
+    this._deferToConnect(null, null, () =&gt; this._flush());
+  };
+&nbsp;
+  if (this.agent) {
+    // If there is an agent we should default to Connection:keep-alive,
+    // but only if the Agent will actually reuse the connection!
+    // If it's not a keepAlive agent, and the maxSockets==Infinity, then
+    // there's never a case where this socket will actually be reused
+    if (!this.agent.keepAlive &amp;&amp; !Number.isFinite(this.agent.maxSockets)) {
+      this._last = true;
+      this.shouldKeepAlive = false;
+    } else {
+      this._last = false;
+      this.shouldKeepAlive = true;
+    }
+    this.agent.addRequest(this, options);
+  } else {
+    // No agent, default to Connection:close.
+    this._last = true;
+    this.shouldKeepAlive = false;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof options.createConnection === 'function') {
+      const newSocket = options.createConnection(options, oncreate);
+      if (newSocket &amp;&amp; !called) {
+        called = true;
+        this.onSocket(newSocket);
+      } else {
+        return;
+      }
+    } else {
+<span class="cstat-no" title="statement not covered" >      debug('CLIENT use net.createConnection', options);</span>
+<span class="cstat-no" title="statement not covered" >      this.onSocket(net.createConnection(options));</span>
+    }
+  }
+&nbsp;
+  this._deferToConnect(null, null, () =&gt; this._flush());
+}
+&nbsp;
+util.inherits(ClientRequest, OutgoingMessage);
+&nbsp;
+&nbsp;
+ClientRequest.prototype._finish = function _finish() {
+  DTRACE_HTTP_CLIENT_REQUEST(this, this.connection);
+  LTTNG_HTTP_CLIENT_REQUEST(this, this.connection);
+  COUNTER_HTTP_CLIENT_REQUEST();
+  OutgoingMessage.prototype._finish.call(this);
+};
+&nbsp;
+ClientRequest.prototype._implicitHeader = function _implicitHeader() {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (this._header) {
+<span class="cstat-no" title="statement not covered" >    throw new errors.Error('ERR_HTTP_HEADERS_SENT', 'render');</span>
+  }
+  this._storeHeader(this.method + ' ' + this.path + ' HTTP/1.1\r\n',
+                    this[outHeadersKey]);
+};
+&nbsp;
+ClientRequest.prototype.abort = function abort() {
+  if (!this.aborted) {
+    process.nextTick(emitAbortNT.bind(this));
+  }
+  // Mark as aborting so we can avoid sending queued request data
+  // This is used as a truthy flag elsewhere. The use of Date.now is for
+  // debugging purposes only.
+  this.aborted = Date.now();
+&nbsp;
+  // If we're aborting, we don't care about any more response data.
+  if (this.res) {
+    this.res._dump();
+  } else {
+    this.once('response', <span class="fstat-no" title="function not covered" >fu</span>nction(res) {
+<span class="cstat-no" title="statement not covered" >      res._dump();</span>
+    });
+  }
+&nbsp;
+  // In the event that we don't have a socket, we will pop out of
+  // the request queue through handling in onSocket.
+  if (this.socket) {
+    // in-progress
+    this.socket.destroy();
+  }
+};
+&nbsp;
+&nbsp;
+function emitAbortNT() {
+  this.emit('abort');
+}
+&nbsp;
+&nbsp;
+function createHangUpError() {
+  var error = new Error('socket hang up');
+  error.code = 'ECONNRESET';
+  return error;
+}
+&nbsp;
+&nbsp;
+function socketCloseListener() {
+  var socket = this;
+  var req = socket._httpMessage;
+  debug('HTTP socket close');
+&nbsp;
+  // Pull through final chunk, if anything is buffered.
+  // the ondata function will handle it properly, and this
+  // is a no-op if no final chunk remains.
+  socket.read();
+&nbsp;
+  // NOTE: It's important to get parser here, because it could be freed by
+  // the `socketOnData`.
+  var parser = socket.parser;
+  req.emit('close');
+  if (req.res &amp;&amp; req.res.readable) {
+    // Socket closed before we emitted 'end' below.
+    req.res.emit('aborted');
+    var res = req.res;
+    res.on('end', function() {
+      res.emit('close');
+    });
+    res.push(null);
+  } else if (!req.res &amp;&amp; !req.socket._hadError) {
+    // This socket error fired before we started to
+    // receive a response. The error needs to
+    // fire on the request.
+    req.socket._hadError = true;
+    req.emit('error', createHangUpError());
+  }
+&nbsp;
+  // Too bad.  That output wasn't getting written.
+  // This is pretty terrible that it doesn't raise an error.
+  // Fixed better in v0.10
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (req.output)
+    req.output.length = 0;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (req.outputEncodings)
+    req.outputEncodings.length = 0;
+&nbsp;
+  if (parser) {
+    parser.finish();
+    freeParser(parser, req, socket);
+  }
+}
+&nbsp;
+function socketErrorListener(err) {
+  var socket = this;
+  var req = socket._httpMessage;
+  debug('SOCKET ERROR:', err.message, err.stack);
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (req) {
+    // For Safety. Some additional errors might fire later on
+    // and we need to make sure we don't double-fire the error event.
+    req.socket._hadError = true;
+    req.emit('error', err);
+  }
+&nbsp;
+  // Handle any pending data
+  socket.read();
+&nbsp;
+  var parser = socket.parser;
+  if (parser) {
+    parser.finish();
+    freeParser(parser, req, socket);
+  }
+&nbsp;
+  // Ensure that no further data will come out of the socket
+  socket.removeListener('data', socketOnData);
+  socket.removeListener('end', socketOnEnd);
+  socket.destroy();
+}
+&nbsp;
+function freeSocketErrorListener(err) {
+  var socket = this;
+  debug('SOCKET ERROR on FREE socket:', err.message, err.stack);
+  socket.destroy();
+  socket.emit('agentRemove');
+}
+&nbsp;
+function socketOnEnd() {
+  var socket = this;
+  var req = this._httpMessage;
+  var parser = this.parser;
+&nbsp;
+  if (!req.res &amp;&amp; !req.socket._hadError) {
+    // If we don't have a response then we know that the socket
+    // ended prematurely and we need to emit an error on the request.
+    req.socket._hadError = true;
+    req.emit('error', createHangUpError());
+  }
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (parser) {
+    parser.finish();
+    freeParser(parser, req, socket);
+  }
+  socket.destroy();
+}
+&nbsp;
+function socketOnData(d) {
+  var socket = this;
+  var req = this._httpMessage;
+  var parser = this.parser;
+&nbsp;
+  assert(parser &amp;&amp; parser.socket === socket);
+&nbsp;
+  var ret = parser.execute(d);
+  if (ret instanceof Error) {
+    debug('parse error', ret);
+    freeParser(parser, req, socket);
+    socket.destroy();
+    req.socket._hadError = true;
+    req.emit('error', ret);
+  } else if (parser.incoming &amp;&amp; parser.incoming.upgrade) {
+    // Upgrade or CONNECT
+    var bytesParsed = ret;
+    var res = parser.incoming;
+    req.res = res;
+&nbsp;
+    socket.removeListener('data', socketOnData);
+    socket.removeListener('end', socketOnEnd);
+    parser.finish();
+&nbsp;
+    var bodyHead = d.slice(bytesParsed, d.length);
+&nbsp;
+    var eventName = req.method === 'CONNECT' ? 'connect' : 'upgrade';
+    if (req.listenerCount(eventName) &gt; 0) {
+      req.upgradeOrConnect = true;
+&nbsp;
+      // detach the socket
+      socket.emit('agentRemove');
+      socket.removeListener('close', socketCloseListener);
+      socket.removeListener('error', socketErrorListener);
+&nbsp;
+      // TODO(isaacs): Need a way to reset a stream to fresh state
+      // IE, not flowing, and not explicitly paused.
+      socket._readableState.flowing = null;
+&nbsp;
+      req.emit(eventName, res, socket, bodyHead);
+      req.emit('close');
+    } else {
+      // Got Upgrade header or CONNECT method, but have no handler.
+      socket.destroy();
+    }
+    freeParser(parser, req, socket);
+  } else if (parser.incoming &amp;&amp; parser.incoming.complete &amp;&amp;
+             // When the status code is 100 (Continue), the server will
+             // send a final response after this client sends a request
+             // body. So, we must not free the parser.
+             parser.incoming.statusCode !== 100) {
+    socket.removeListener('data', socketOnData);
+    socket.removeListener('end', socketOnEnd);
+    freeParser(parser, req, socket);
+  }
+}
+&nbsp;
+&nbsp;
+// client
+function parserOnIncomingClient(res, shouldKeepAlive) {
+  var socket = this.socket;
+  var req = socket._httpMessage;
+&nbsp;
+&nbsp;
+  // propagate "domain" setting...
+  if (req.domain &amp;&amp; !res.domain) {
+    debug('setting "res.domain"');
+    res.domain = req.domain;
+  }
+&nbsp;
+  debug('AGENT incoming response!');
+&nbsp;
+  if (req.res) {
+    // We already have a response object, this means the server
+    // sent a double response.
+    socket.destroy();
+    return;
+  }
+  req.res = res;
+&nbsp;
+  // Responses to CONNECT request is handled as Upgrade.
+  if (req.method === 'CONNECT') {
+    res.upgrade = true;
+    return 2; // skip body, and the rest
+  }
+&nbsp;
+  // Responses to HEAD requests are crazy.
+  // HEAD responses aren't allowed to have an entity-body
+  // but *can* have a content-length which actually corresponds
+  // to the content-length of the entity-body had the request
+  // been a GET.
+  var isHeadResponse = req.method === 'HEAD';
+  debug('AGENT isHeadResponse', isHeadResponse);
+&nbsp;
+  if (res.statusCode === 100) {
+    // restart the parser, as this is a continue message.
+    req.res = null; // Clear res so that we don't hit double-responses.
+    req.emit('continue');
+    return true;
+  }
+&nbsp;
+  if (req.shouldKeepAlive &amp;&amp; !shouldKeepAlive &amp;&amp; !req.upgradeOrConnect) {
+    // Server MUST respond with Connection:keep-alive for us to enable it.
+    // If we've been upgraded (via WebSockets) we also shouldn't try to
+    // keep the connection open.
+    req.shouldKeepAlive = false;
+  }
+&nbsp;
+&nbsp;
+  DTRACE_HTTP_CLIENT_RESPONSE(socket, req);
+  LTTNG_HTTP_CLIENT_RESPONSE(socket, req);
+  COUNTER_HTTP_CLIENT_RESPONSE();
+  req.res = res;
+  res.req = req;
+&nbsp;
+  // add our listener first, so that we guarantee socket cleanup
+  res.on('end', responseOnEnd);
+  req.on('prefinish', requestOnPrefinish);
+  var handled = req.emit('response', res);
+&nbsp;
+  // If the user did not listen for the 'response' event, then they
+  // can't possibly read the data, so we ._dump() it into the void
+  // so that the socket doesn't hang there in a paused state.
+  if (!handled)
+    res._dump();
+&nbsp;
+  return isHeadResponse;
+}
+&nbsp;
+// client
+function responseKeepAlive(res, req) {
+  var socket = req.socket;
+&nbsp;
+  if (!req.shouldKeepAlive) {
+    if (socket.writable) {
+      debug('AGENT socket.destroySoon()');
+      socket.destroySoon();
+    }
+    assert(!socket.writable);
+  } else {
+    debug('AGENT socket keep-alive');
+    if (req.timeoutCb) {
+      socket.setTimeout(0, req.timeoutCb);
+      req.timeoutCb = null;
+    }
+    socket.removeListener('close', socketCloseListener);
+    socket.removeListener('error', socketErrorListener);
+    socket.once('error', freeSocketErrorListener);
+    // There are cases where _handle === null. Avoid those. Passing null to
+    // nextTick() will call initTriggerId() to retrieve the id.
+    const asyncId = socket._handle ? socket._handle.getAsyncId() : null;
+    // Mark this socket as available, AFTER user-added end
+    // handlers have a chance to run.
+    nextTick(asyncId, emitFreeNT, socket);
+  }
+}
+&nbsp;
+function responseOnEnd() {
+  const res = this;
+  const req = this.req;
+&nbsp;
+  req._ended = true;
+  if (!req.shouldKeepAlive || req.finished)
+    responseKeepAlive(res, req);
+}
+&nbsp;
+function requestOnPrefinish() {
+  const req = this;
+  const res = this.res;
+&nbsp;
+  if (!req.shouldKeepAlive)
+    return;
+&nbsp;
+  if (req._ended)
+    responseKeepAlive(res, req);
+}
+&nbsp;
+function emitFreeNT(socket) {
+  socket.emit('free');
+}
+&nbsp;
+function tickOnSocket(req, socket) {
+  var parser = parsers.alloc();
+  req.socket = socket;
+  req.connection = socket;
+  parser.reinitialize(HTTPParser.RESPONSE);
+  parser.socket = socket;
+  parser.incoming = null;
+  parser.outgoing = req;
+  req.parser = parser;
+&nbsp;
+  socket.parser = parser;
+  socket._httpMessage = req;
+&nbsp;
+  // Setup "drain" propagation.
+  httpSocketSetup(socket);
+&nbsp;
+  // Propagate headers limit from request object to parser
+  if (typeof req.maxHeadersCount === 'number') {
+    parser.maxHeaderPairs = req.maxHeadersCount &lt;&lt; 1;
+  } else {
+    // Set default value because parser may be reused from FreeList
+    parser.maxHeaderPairs = 2000;
+  }
+&nbsp;
+  parser.onIncoming = parserOnIncomingClient;
+  socket.removeListener('error', freeSocketErrorListener);
+  socket.on('error', socketErrorListener);
+  socket.on('data', socketOnData);
+  socket.on('end', socketOnEnd);
+  socket.on('close', socketCloseListener);
+&nbsp;
+  if (req.timeout) {
+    const emitRequestTimeout = () =&gt; req.emit('timeout');
+    socket.once('timeout', emitRequestTimeout);
+    req.once('response', (res) =&gt; {
+      res.once('end', () =&gt; {
+        socket.removeListener('timeout', emitRequestTimeout);
+      });
+    });
+  }
+  req.emit('socket', socket);
+}
+&nbsp;
+ClientRequest.prototype.onSocket = function onSocket(socket) {
+  process.nextTick(onSocketNT, this, socket);
+};
+&nbsp;
+function onSocketNT(req, socket) {
+  if (req.aborted) {
+    // If we were aborted while waiting for a socket, skip the whole thing.
+    if (req.socketPath || !req.agent) {
+      socket.destroy();
+    } else {
+      socket.emit('free');
+    }
+  } else {
+    tickOnSocket(req, socket);
+  }
+}
+&nbsp;
+ClientRequest.prototype._deferToConnect = _deferToConnect;
+function _deferToConnect(method, arguments_, cb) {
+  // This function is for calls that need to happen once the socket is
+  // connected and writable. It's an important promisy thing for all the socket
+  // calls that happen either now (when a socket is assigned) or
+  // in the future (when a socket gets assigned out of the pool and is
+  // eventually writable).
+&nbsp;
+  const callSocketMethod = () =&gt; {
+    if (method)
+      this.socket[method].apply(this.socket, arguments_);
+&nbsp;
+    if (typeof cb === 'function')
+      cb();
+  };
+&nbsp;
+  const onSocket = () =&gt; {
+    if (this.socket.writable) {
+      callSocketMethod();
+    } else {
+      this.socket.once('connect', callSocketMethod);
+    }
+  };
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (!this.socket) {
+    this.once('socket', onSocket);
+  } else {
+<span class="cstat-no" title="statement not covered" >    onSocket();</span>
+  }
+}
+&nbsp;
+ClientRequest.prototype.setTimeout = function setTimeout(msecs, callback) {
+  if (callback) this.once('timeout', callback);
+&nbsp;
+  const emitTimeout = () =&gt; this.emit('timeout');
+&nbsp;
+  if (this.socket &amp;&amp; this.socket.writable) {
+    if (this.timeoutCb)
+      this.socket.setTimeout(0, this.timeoutCb);
+    this.timeoutCb = emitTimeout;
+    this.socket.setTimeout(msecs, emitTimeout);
+    return this;
+  }
+&nbsp;
+  // Set timeoutCb so that it'll get cleaned up on request end
+  this.timeoutCb = emitTimeout;
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (this.socket) {
+    var sock = <span class="cstat-no" title="statement not covered" >this.socket;</span>
+<span class="cstat-no" title="statement not covered" >    this.socket.once('connect', <span class="fstat-no" title="function not covered" >fu</span>nction() {</span>
+<span class="cstat-no" title="statement not covered" >      sock.setTimeout(msecs, emitTimeout);</span>
+    });
+<span class="cstat-no" title="statement not covered" >    return this;</span>
+  }
+&nbsp;
+  this.once('socket', function(sock) {
+    sock.once('connect', function() {
+      sock.setTimeout(msecs, emitTimeout);
+    });
+  });
+&nbsp;
+  return this;
+};
+&nbsp;
+ClientRequest.prototype.setNoDelay = function setNoDelay(noDelay) {
+  this._deferToConnect('setNoDelay', [noDelay]);
+};
+&nbsp;
+ClientRequest.prototype.setSocketKeepAlive =
+    function setSocketKeepAlive(enable, initialDelay) {
+      this._deferToConnect('setKeepAlive', [enable, initialDelay]);
+    };
+&nbsp;
+ClientRequest.prototype.clearTimeout = function clearTimeout(cb) {
+  this.setTimeout(0, cb);
+};
+&nbsp;
+module.exports = {
+  ClientRequest
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 06 2017 10:15:08 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

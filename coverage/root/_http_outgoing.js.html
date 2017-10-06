@@ -1,0 +1,2720 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for root/_http_outgoing.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">root</a> _http_outgoing.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.57% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>436/471</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.14% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>279/313</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.68% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>38/41</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">93.67% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>429/458</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16363x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52590x</span>
+<span class="cline-any cline-yes">14877x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3632x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11245x</span>
+<span class="cline-any cline-yes">11245x</span>
+<span class="cline-any cline-yes">11245x</span>
+<span class="cline-any cline-yes">11245x</span>
+<span class="cline-any cline-yes">11245x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11245x</span>
+<span class="cline-any cline-yes">11245x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14877x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52590x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52593x</span>
+<span class="cline-any cline-yes">52593x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52581x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52581x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27172x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">27153x</span>
+<span class="cline-any cline-yes">1393x</span>
+<span class="cline-any cline-yes">1388x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1393x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25779x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25409x</span>
+<span class="cline-any cline-yes">25409x</span>
+<span class="cline-any cline-yes">25409x</span>
+<span class="cline-any cline-yes">25409x</span>
+<span class="cline-any cline-yes">25409x</span>
+<span class="cline-any cline-yes">25409x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14880x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14880x</span>
+<span class="cline-any cline-yes">2557x</span>
+<span class="cline-any cline-yes">9888x</span>
+<span class="cline-any cline-yes">9888x</span>
+<span class="cline-any cline-yes">9888x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9888x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9866x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12323x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12311x</span>
+<span class="cline-any cline-yes">1271x</span>
+<span class="cline-any cline-yes">1271x</span>
+<span class="cline-any cline-yes">8422x</span>
+<span class="cline-any cline-yes">8422x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8422x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8401x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14877x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14877x</span>
+<span class="cline-any cline-yes">13559x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14877x</span>
+<span class="cline-any cline-yes">14877x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14877x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">14876x</span>
+<span class="cline-any cline-yes">14217x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14217x</span>
+<span class="cline-any cline-yes">12332x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1885x</span>
+<span class="cline-any cline-yes">1885x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14877x</span>
+<span class="cline-any cline-yes">11920x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">11916x</span>
+<span class="cline-any cline-yes">708x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11208x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10935x</span>
+<span class="cline-any cline-yes">273x</span>
+<span class="cline-any cline-yes">272x</span>
+<span class="cline-any cline-yes">272x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14877x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14876x</span>
+<span class="cline-any cline-yes">14876x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14876x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18451x</span>
+<span class="cline-any cline-yes">8540x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8540x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8540x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18448x</span>
+<span class="cline-any cline-yes">18448x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">660x</span>
+<span class="cline-any cline-yes">660x</span>
+<span class="cline-any cline-yes">660x</span>
+<span class="cline-any cline-yes">56x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">56x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">660x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">634x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18448x</span>
+<span class="cline-any cline-yes">18448x</span>
+<span class="cline-any cline-yes">14789x</span>
+<span class="cline-any cline-yes">3659x</span>
+<span class="cline-any cline-yes">3659x</span>
+<span class="cline-any cline-yes">660x</span>
+<span class="cline-any cline-yes">660x</span>
+<span class="cline-any cline-yes">2999x</span>
+<span class="cline-any cline-yes">589x</span>
+<span class="cline-any cline-yes">589x</span>
+<span class="cline-any cline-yes">2410x</span>
+<span class="cline-any cline-yes">2371x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9911x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">9904x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">9901x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">9899x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">9911x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9898x</span>
+<span class="cline-any cline-yes">2560x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9898x</span>
+<span class="cline-any cline-yes">9898x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9898x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">637x</span>
+<span class="cline-any cline-yes">635x</span>
+<span class="cline-any cline-yes">637x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1229x</span>
+<span class="cline-any cline-yes">1228x</span>
+<span class="cline-any cline-yes">1229x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">602x</span>
+<span class="cline-any cline-yes">582x</span>
+<span class="cline-any cline-yes">602x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">3924x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3923x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3280x</span>
+<span class="cline-any cline-yes">3280x</span>
+<span class="cline-any cline-yes">1974x</span>
+<span class="cline-any cline-yes">1306x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">7570x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19172x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19169x</span>
+<span class="cline-any cline-yes">12131x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19168x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19166x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19163x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18935x</span>
+<span class="cline-any cline-yes">5721x</span>
+<span class="cline-any cline-yes">5721x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18935x</span>
+<span class="cline-any cline-yes">6261x</span>
+<span class="cline-any cline-yes">3526x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2735x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6261x</span>
+<span class="cline-any cline-yes">6261x</span>
+<span class="cline-any cline-yes">6261x</span>
+<span class="cline-any cline-yes">6261x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12674x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18935x</span>
+<span class="cline-any cline-yes">18935x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5721x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18462x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13623x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">14866x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">14865x</span>
+<span class="cline-any cline-yes">10003x</span>
+<span class="cline-any cline-yes">10003x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14866x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14857x</span>
+<span class="cline-any cline-yes">11603x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11602x</span>
+<span class="cline-any cline-yes">10288x</span>
+<span class="cline-any cline-yes">271x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10017x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11602x</span>
+<span class="cline-any cline-yes">1545x</span>
+<span class="cline-any cline-yes">1545x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11602x</span>
+<span class="cline-any cline-yes">3254x</span>
+<span class="cline-any cline-yes">1333x</span>
+<span class="cline-any cline-yes">1333x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14856x</span>
+<span class="cline-any cline-yes">10006x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14856x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14856x</span>
+<span class="cline-any cline-yes">840x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14016x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14856x</span>
+<span class="cline-any cline-yes">1545x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14856x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14856x</span>
+<span class="cline-any cline-yes">14856x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2302x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14856x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">13653x</span>
+<span class="cline-any cline-yes">13653x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">13722x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13722x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13718x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13718x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11351x</span>
+<span class="cline-any cline-yes">2367x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13737x</span>
+<span class="cline-any cline-yes">13737x</span>
+<span class="cline-any cline-yes">2351x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11386x</span>
+<span class="cline-any cline-yes">11386x</span>
+<span class="cline-any cline-yes">11386x</span>
+<span class="cline-any cline-yes">11386x</span>
+<span class="cline-any cline-yes">11386x</span>
+<span class="cline-any cline-yes">33103x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11386x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11386x</span>
+<span class="cline-any cline-yes">11386x</span>
+<span class="cline-any cline-yes">11386x</span>
+<span class="cline-any cline-yes">11386x</span>
+<span class="cline-any cline-yes">11386x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11386x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+&nbsp;
+'use strict';
+&nbsp;
+const assert = require('assert').ok;
+const Stream = require('stream');
+const util = require('util');
+const internalUtil = require('internal/util');
+const internalHttp = require('internal/http');
+const Buffer = require('buffer').Buffer;
+const common = require('_http_common');
+const checkIsHttpToken = common._checkIsHttpToken;
+const checkInvalidHeaderChar = common._checkInvalidHeaderChar;
+const outHeadersKey = require('internal/http').outHeadersKey;
+const async_id_symbol = process.binding('async_wrap').async_id_symbol;
+const nextTick = require('internal/process/next_tick').nextTick;
+const errors = require('internal/errors');
+&nbsp;
+const CRLF = common.CRLF;
+const debug = common.debug;
+const utcDate = internalHttp.utcDate;
+&nbsp;
+var RE_FIELDS =
+  /^(?:Connection|Transfer-Encoding|Content-Length|Date|Expect|Trailer|Upgrade)$/i;
+var RE_CONN_VALUES = /(?:^|\W)close|upgrade(?:$|\W)/ig;
+var RE_TE_CHUNKED = common.chunkExpression;
+&nbsp;
+// isCookieField performs a case-insensitive comparison of a provided string
+// against the word "cookie." This method (at least as of V8 5.4) is faster than
+// the equivalent case-insensitive regexp, even if isCookieField does not get
+// inlined.
+function isCookieField(s) {
+  if (s.length !== 6) return false;
+  var ch = s.charCodeAt(0);
+  if (ch !== 99 &amp;&amp; ch !== 67) return false;
+  ch = s.charCodeAt(1);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (ch !== 111 &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >ch !== 79)</span> <span class="cstat-no" title="statement not covered" >return false;</span>
+  ch = s.charCodeAt(2);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (ch !== 111 &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >ch !== 79)</span> <span class="cstat-no" title="statement not covered" >return false;</span>
+  ch = s.charCodeAt(3);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (ch !== 107 &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >ch !== 75)</span> <span class="cstat-no" title="statement not covered" >return false;</span>
+  ch = s.charCodeAt(4);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (ch !== 105 &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >ch !== 73)</span> <span class="cstat-no" title="statement not covered" >return false;</span>
+  ch = s.charCodeAt(5);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (ch !== 101 &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >ch !== 69)</span> <span class="cstat-no" title="statement not covered" >return false;</span>
+  return true;
+}
+&nbsp;
+function noopPendingOutput(amount) {}
+&nbsp;
+function OutgoingMessage() {
+  Stream.call(this);
+&nbsp;
+  // Queue that holds all currently pending data, until the response will be
+  // assigned to the socket (until it will its turn in the HTTP pipeline).
+  this.output = [];
+  this.outputEncodings = [];
+  this.outputCallbacks = [];
+&nbsp;
+  // `outputSize` is an approximate measure of how much data is queued on this
+  // response. `_onPendingData` will be invoked to update similar global
+  // per-connection counter. That counter will be used to pause/unpause the
+  // TCP socket and HTTP Parser and thus handle the backpressure.
+  this.outputSize = 0;
+&nbsp;
+  this.writable = true;
+&nbsp;
+  this._last = false;
+  this.upgrading = false;
+  this.chunkedEncoding = false;
+  this.shouldKeepAlive = true;
+  this.useChunkedEncodingByDefault = true;
+  this.sendDate = false;
+  this._removedConnection = false;
+  this._removedContLen = false;
+  this._removedTE = false;
+&nbsp;
+  this._contentLength = null;
+  this._hasBody = true;
+  this._trailer = '';
+&nbsp;
+  this.finished = false;
+  this._headerSent = false;
+&nbsp;
+  this.socket = null;
+  this.connection = null;
+  this._header = null;
+  this[outHeadersKey] = null;
+&nbsp;
+  this._onPendingData = noopPendingOutput;
+}
+util.inherits(OutgoingMessage, Stream);
+&nbsp;
+&nbsp;
+Object.defineProperty(OutgoingMessage.prototype, '_headers', {
+  get: function() {
+    return this.getHeaders();
+  },
+  set: function(val) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (val == null) {
+<span class="cstat-no" title="statement not covered" >      this[outHeadersKey] = null;</span>
+    } else <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof val === 'object') {
+      const headers = this[outHeadersKey] = {};
+      const keys = Object.keys(val);
+      for (var i = 0; i &lt; keys.length; ++i) {
+        const name = keys[i];
+        headers[name.toLowerCase()] = [name, val[name]];
+      }
+    }
+  }
+});
+&nbsp;
+Object.defineProperty(OutgoingMessage.prototype, '_headerNames', {
+  get: <span class="fstat-no" title="function not covered" >fu</span>nction() {
+    const headers = <span class="cstat-no" title="statement not covered" >this[outHeadersKey];</span>
+<span class="cstat-no" title="statement not covered" >    if (headers) {</span>
+      const out = <span class="cstat-no" title="statement not covered" >Object.create(null);</span>
+      const keys = <span class="cstat-no" title="statement not covered" >Object.keys(headers);</span>
+<span class="cstat-no" title="statement not covered" >      for (var i = 0; i &lt; keys.length; ++i) {</span>
+        const key = <span class="cstat-no" title="statement not covered" >keys[i];</span>
+        const val = <span class="cstat-no" title="statement not covered" >headers[key][0];</span>
+<span class="cstat-no" title="statement not covered" >        out[key] = val;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      return out;</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      return headers;</span>
+    }
+  },
+  set: <span class="fstat-no" title="function not covered" >fu</span>nction(val) {
+<span class="cstat-no" title="statement not covered" >    if (typeof val === 'object' &amp;&amp; val !== null) {</span>
+      const headers = <span class="cstat-no" title="statement not covered" >this[outHeadersKey];</span>
+<span class="cstat-no" title="statement not covered" >      if (!headers)</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      const keys = <span class="cstat-no" title="statement not covered" >Object.keys(val);</span>
+<span class="cstat-no" title="statement not covered" >      for (var i = 0; i &lt; keys.length; ++i) {</span>
+        const header = <span class="cstat-no" title="statement not covered" >headers[keys[i]];</span>
+<span class="cstat-no" title="statement not covered" >        if (header)</span>
+<span class="cstat-no" title="statement not covered" >          header[0] = val[keys[i]];</span>
+      }
+    }
+  }
+});
+&nbsp;
+&nbsp;
+OutgoingMessage.prototype._renderHeaders = function _renderHeaders() {
+  if (this._header) {
+    throw new errors.Error('ERR_HTTP_HEADERS_SENT', 'render');
+  }
+&nbsp;
+  var headersMap = this[outHeadersKey];
+  if (!headersMap) return {};
+&nbsp;
+  var headers = {};
+  var keys = Object.keys(headersMap);
+&nbsp;
+  for (var i = 0, l = keys.length; i &lt; l; i++) {
+    var key = keys[i];
+    headers[headersMap[key][0]] = headersMap[key][1];
+  }
+  return headers;
+};
+&nbsp;
+&nbsp;
+exports.OutgoingMessage = OutgoingMessage;
+&nbsp;
+&nbsp;
+OutgoingMessage.prototype.setTimeout = function setTimeout(msecs, callback) {
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (callback) {
+    this.on('timeout', callback);
+  }
+&nbsp;
+  if (!this.socket) {
+    this.once('socket', function(socket) {
+      socket.setTimeout(msecs);
+    });
+  } else {
+    this.socket.setTimeout(msecs);
+  }
+  return this;
+};
+&nbsp;
+&nbsp;
+// It's possible that the socket will be destroyed, and removed from
+// any messages, before ever calling this.  In that case, just skip
+// it, since something else is destroying this connection anyway.
+OutgoingMessage.prototype.destroy = function destroy(error) {
+  if (this.socket) {
+    this.socket.destroy(error);
+  } else {
+    this.once('socket', <span class="fstat-no" title="function not covered" >fu</span>nction(socket) {
+<span class="cstat-no" title="statement not covered" >      socket.destroy(error);</span>
+    });
+  }
+};
+&nbsp;
+&nbsp;
+// This abstract either writing directly to the socket or buffering it.
+OutgoingMessage.prototype._send = function _send(data, encoding, callback) {
+  // This is a shameful hack to get the headers and first body chunk onto
+  // the same packet. Future versions of Node are going to take care of
+  // this at a lower level and in a more general way.
+  if (!this._headerSent) {
+    if (typeof data === 'string' &amp;&amp;
+        (encoding === 'utf8' || encoding === 'latin1' || !encoding)) {
+      data = this._header + data;
+    } else {
+      var header = this._header;
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (this.output.length === 0) {
+        this.output = [header];
+        this.outputEncodings = ['latin1'];
+        this.outputCallbacks = [null];
+      } else {
+<span class="cstat-no" title="statement not covered" >        this.output.unshift(header);</span>
+<span class="cstat-no" title="statement not covered" >        this.outputEncodings.unshift('latin1');</span>
+<span class="cstat-no" title="statement not covered" >        this.outputCallbacks.unshift(null);</span>
+      }
+      this.outputSize += header.length;
+      this._onPendingData(header.length);
+    }
+    this._headerSent = true;
+  }
+  return this._writeRaw(data, encoding, callback);
+};
+&nbsp;
+&nbsp;
+OutgoingMessage.prototype._writeRaw = _writeRaw;
+function _writeRaw(data, encoding, callback) {
+  const conn = this.connection;
+  if (conn &amp;&amp; conn.destroyed) {
+    // The socket was destroyed. If we're still trying to write to it,
+    // then we haven't gotten the 'close' event yet.
+    return false;
+  }
+&nbsp;
+  if (typeof encoding === 'function') {
+    callback = encoding;
+    encoding = null;
+  }
+&nbsp;
+  if (conn &amp;&amp; conn._httpMessage === this &amp;&amp; conn.writable &amp;&amp; !conn.destroyed) {
+    // There might be pending data in the this.output buffer.
+    if (this.output.length) {
+      this._flushOutput(conn);
+    } else if (!data.length) {
+      if (typeof callback === 'function') {
+        nextTick(this.socket[async_id_symbol], callback);
+      }
+      return true;
+    }
+    // Directly write to socket.
+    return conn.write(data, encoding, callback);
+  }
+  // Buffer, as long as we're not destroyed.
+  this.output.push(data);
+  this.outputEncodings.push(encoding);
+  this.outputCallbacks.push(callback);
+  this.outputSize += data.length;
+  this._onPendingData(data.length);
+  return false;
+}
+&nbsp;
+&nbsp;
+OutgoingMessage.prototype._storeHeader = _storeHeader;
+function _storeHeader(firstLine, headers) {
+  // firstLine in the case of request is: 'GET /index.html HTTP/1.1\r\n'
+  // in the case of response it is: 'HTTP/1.1 200 OK\r\n'
+  var state = {
+    connection: false,
+    connUpgrade: false,
+    contLen: false,
+    te: false,
+    date: false,
+    expect: false,
+    trailer: false,
+    upgrade: false,
+    header: firstLine
+  };
+&nbsp;
+  var field;
+  var key;
+  var value;
+  var i;
+  var j;
+  if (headers === this[outHeadersKey]) {
+    for (key in headers) {
+      var entry = headers[key];
+      field = entry[0];
+      value = entry[1];
+&nbsp;
+      if (value instanceof Array) {
+        if (value.length &lt; 2 || !isCookieField(field)) {
+          for (j = 0; j &lt; value.length; j++)
+            storeHeader(this, state, field, value[j], false);
+          continue;
+        }
+        value = value.join('; ');
+      }
+      storeHeader(this, state, field, value, false);
+    }
+  } else if (headers instanceof Array) {
+    for (i = 0; i &lt; headers.length; i++) {
+      field = headers[i][0];
+      value = headers[i][1];
+&nbsp;
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (value instanceof Array) {
+<span class="cstat-no" title="statement not covered" >        for (j = 0; j &lt; value.length; j++) {</span>
+<span class="cstat-no" title="statement not covered" >          storeHeader(this, state, field, value[j], true);</span>
+        }
+      } else {
+        storeHeader(this, state, field, value, true);
+      }
+    }
+  } else if (headers) {
+    var keys = Object.keys(headers);
+    for (i = 0; i &lt; keys.length; i++) {
+      field = keys[i];
+      value = headers[field];
+&nbsp;
+      if (value instanceof Array) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (value.length &lt; 2 || !isCookieField(field)) {
+          for (j = 0; j &lt; value.length; j++)
+            storeHeader(this, state, field, value[j], true);
+          continue;
+        }
+<span class="cstat-no" title="statement not covered" >        value = value.join('; ');</span>
+      }
+      storeHeader(this, state, field, value, true);
+    }
+  }
+&nbsp;
+  // Are we upgrading the connection?
+  if (state.connUpgrade &amp;&amp; state.upgrade)
+    this.upgrading = true;
+&nbsp;
+  // Date header
+  if (this.sendDate &amp;&amp; !state.date) {
+    state.header += 'Date: ' + utcDate() + CRLF;
+  }
+&nbsp;
+  // Force the connection to close when the response is a 204 No Content or
+  // a 304 Not Modified and the user has set a "Transfer-Encoding: chunked"
+  // header.
+  //
+  // RFC 2616 mandates that 204 and 304 responses MUST NOT have a body but
+  // node.js used to send out a zero chunk anyway to accommodate clients
+  // that don't have special handling for those responses.
+  //
+  // It was pointed out that this might confuse reverse proxies to the point
+  // of creating security liabilities, so suppress the zero chunk and force
+  // the connection to close.
+  var statusCode = this.statusCode;
+  if ((statusCode === 204 || statusCode === 304) &amp;&amp; this.chunkedEncoding) {
+    debug(statusCode + ' response should not use chunked encoding,' +
+          ' closing connection.');
+    this.chunkedEncoding = false;
+    this.shouldKeepAlive = false;
+  }
+&nbsp;
+  // keep-alive logic
+  if (this._removedConnection) {
+    this._last = true;
+    this.shouldKeepAlive = false;
+  } else if (!state.connection) {
+    var shouldSendKeepAlive = this.shouldKeepAlive &amp;&amp;
+        (state.contLen || this.useChunkedEncodingByDefault || this.agent);
+    if (shouldSendKeepAlive) {
+      state.header += 'Connection: keep-alive\r\n';
+    } else {
+      this._last = true;
+      state.header += 'Connection: close\r\n';
+    }
+  }
+&nbsp;
+  if (!state.contLen &amp;&amp; !state.te) {
+    if (!this._hasBody) {
+      // Make sure we don't end the 0\r\n\r\n at the end of the message.
+      this.chunkedEncoding = false;
+    } else if (!this.useChunkedEncodingByDefault) {
+      this._last = true;
+    } else {
+      if (!state.trailer &amp;&amp;
+          !this._removedContLen &amp;&amp;
+          typeof this._contentLength === 'number') {
+        state.header += 'Content-Length: ' + this._contentLength + CRLF;
+      } else if (!this._removedTE) {
+        state.header += 'Transfer-Encoding: chunked\r\n';
+        this.chunkedEncoding = true;
+      } else {
+        // We should only be able to get here if both Content-Length and
+        // Transfer-Encoding are removed by the user.
+        // See: test/parallel/test-http-remove-header-stays-removed.js
+        debug('Both Content-Length and Transfer-Encoding are removed');
+      }
+    }
+  }
+&nbsp;
+  // Test non-chunked message does not have trailer header set,
+  // message will be terminated by the first empty line after the
+  // header fields, regardless of the header fields present in the
+  // message, and thus cannot contain a message body or 'trailers'.
+  if (this.chunkedEncoding !== true &amp;&amp; state.trailer) {
+    throw new errors.Error('ERR_HTTP_TRAILER_INVALID');
+  }
+&nbsp;
+  this._header = state.header + CRLF;
+  this._headerSent = false;
+&nbsp;
+  // wait until the first body chunk, or close(), is sent to flush,
+  // UNLESS we're sending Expect: 100-continue.
+  if (state.expect) this._send('');
+}
+&nbsp;
+function storeHeader(self, state, key, value, validate) {
+  if (validate) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof key !== 'string' || !key || !checkIsHttpToken(key)) {
+<span class="cstat-no" title="statement not covered" >      throw new errors.TypeError(</span>
+        'ERR_INVALID_HTTP_TOKEN', 'Header name', key);
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (value === undefined) {
+<span class="cstat-no" title="statement not covered" >      throw new errors.TypeError('ERR_MISSING_ARGS', `header "${key}"`);</span>
+    } else if (checkInvalidHeaderChar(value)) {
+      debug('Header "%s" contains invalid characters', key);
+      throw new errors.TypeError('ERR_INVALID_CHAR', 'header content', key);
+    }
+  }
+  state.header += key + ': ' + escapeHeaderValue(value) + CRLF;
+  matchHeader(self, state, key, value);
+}
+&nbsp;
+function matchConnValue(self, state, value) {
+  var sawClose = false;
+  var m = RE_CONN_VALUES.exec(value);
+  while (m) {
+    if (m[0].length === 5)
+      sawClose = true;
+    else
+      state.connUpgrade = true;
+    m = RE_CONN_VALUES.exec(value);
+  }
+  if (sawClose)
+    self._last = true;
+  else
+    self.shouldKeepAlive = true;
+}
+&nbsp;
+function matchHeader(self, state, field, value) {
+  var m = RE_FIELDS.exec(field);
+  if (!m)
+    return;
+  var len = m[0].length;
+  if (len === 10) {
+    state.connection = true;
+    matchConnValue(self, state, value);
+  } else if (len === 17) {
+    state.te = true;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (RE_TE_CHUNKED.test(value)) self.chunkedEncoding = true;
+  } else if (len === 14) {
+    state.contLen = true;
+  } else if (len === 4) {
+    state.date = true;
+  } else if (len === 6) {
+    state.expect = true;
+  } else <span class="missing-if-branch" title="else path not taken" >E</span>if (len === 7) {
+    var ch = m[0].charCodeAt(0);
+    if (ch === 85 || ch === 117)
+      state.upgrade = true;
+    else
+      state.trailer = true;
+  }
+}
+&nbsp;
+function validateHeader(msg, name, value) {
+  if (typeof name !== 'string' || !name || !checkIsHttpToken(name))
+    throw new errors.TypeError('ERR_INVALID_HTTP_TOKEN', 'Header name', name);
+  if (value === undefined)
+    throw new errors.TypeError('ERR_MISSING_ARGS', 'value');
+  if (msg._header)
+    throw new errors.Error('ERR_HTTP_HEADERS_SENT', 'set');
+  if (checkInvalidHeaderChar(value)) {
+    debug('Header "%s" contains invalid characters', name);
+    throw new errors.TypeError('ERR_INVALID_CHAR', 'header content', name);
+  }
+}
+OutgoingMessage.prototype.setHeader = function setHeader(name, value) {
+  validateHeader(this, name, value);
+&nbsp;
+  if (!this[outHeadersKey])
+    this[outHeadersKey] = {};
+&nbsp;
+  const key = name.toLowerCase();
+  this[outHeadersKey][key] = [name, value];
+&nbsp;
+  switch (key.length) {
+    case 10:
+      if (key === 'connection')
+        this._removedConnection = false;
+      break;
+    case 14:
+      if (key === 'content-length')
+        this._removedContLen = false;
+      break;
+    case 17:
+      if (key === 'transfer-encoding')
+        this._removedTE = false;
+      break;
+  }
+};
+&nbsp;
+&nbsp;
+OutgoingMessage.prototype.getHeader = function getHeader(name) {
+  if (typeof name !== 'string') {
+    throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'name', 'string');
+  }
+&nbsp;
+  if (!this[outHeadersKey]) return;
+&nbsp;
+  var entry = this[outHeadersKey][name.toLowerCase()];
+  if (!entry)
+    return;
+  return entry[1];
+};
+&nbsp;
+&nbsp;
+// Returns an array of the names of the current outgoing headers.
+OutgoingMessage.prototype.getHeaderNames = function getHeaderNames() {
+  return (this[outHeadersKey] ? Object.keys(this[outHeadersKey]) : []);
+};
+&nbsp;
+&nbsp;
+// Returns a shallow copy of the current outgoing headers.
+OutgoingMessage.prototype.getHeaders = function getHeaders() {
+  const headers = this[outHeadersKey];
+  const ret = Object.create(null);
+  if (headers) {
+    const keys = Object.keys(headers);
+    for (var i = 0; i &lt; keys.length; ++i) {
+      const key = keys[i];
+      const val = headers[key][1];
+      ret[key] = val;
+    }
+  }
+  return ret;
+};
+&nbsp;
+&nbsp;
+OutgoingMessage.prototype.hasHeader = function hasHeader(name) {
+  if (typeof name !== 'string') {
+    throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'name', 'string');
+  }
+&nbsp;
+  return !!(this[outHeadersKey] &amp;&amp; this[outHeadersKey][name.toLowerCase()]);
+};
+&nbsp;
+&nbsp;
+OutgoingMessage.prototype.removeHeader = function removeHeader(name) {
+  if (typeof name !== 'string') {
+    throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'name', 'string');
+  }
+&nbsp;
+  if (this._header) {
+    throw new errors.Error('ERR_HTTP_HEADERS_SENT', 'remove');
+  }
+&nbsp;
+  var key = name.toLowerCase();
+&nbsp;
+  switch (key.length) {
+    case 10:
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (key === 'connection')
+        this._removedConnection = true;
+      break;
+    case 14:
+      if (key === 'content-length')
+        this._removedContLen = true;
+      break;
+    case 17:
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (key === 'transfer-encoding')
+        this._removedTE = true;
+      break;
+    case 4:
+      if (key === 'date')
+        this.sendDate = false;
+      break;
+  }
+&nbsp;
+  if (this[outHeadersKey]) {
+    delete this[outHeadersKey][key];
+  }
+};
+&nbsp;
+&nbsp;
+OutgoingMessage.prototype._implicitHeader = function _implicitHeader() {
+  throw new errors.Error('ERR_METHOD_NOT_IMPLEMENTED', '_implicitHeader()');
+};
+&nbsp;
+Object.defineProperty(OutgoingMessage.prototype, 'headersSent', {
+  configurable: true,
+  enumerable: true,
+  get: function() { return !!this._header; }
+});
+&nbsp;
+&nbsp;
+const crlf_buf = Buffer.from('\r\n');
+OutgoingMessage.prototype.write = function write(chunk, encoding, callback) {
+  return write_(this, chunk, encoding, callback, false);
+};
+&nbsp;
+function write_(msg, chunk, encoding, callback, fromEnd) {
+  if (msg.finished) {
+    var err = new Error('write after end');
+    nextTick(msg.socket &amp;&amp; msg.socket[async_id_symbol],
+             writeAfterEndNT.bind(msg),
+             err,
+             callback);
+&nbsp;
+    return true;
+  }
+&nbsp;
+  if (!msg._header) {
+    msg._implicitHeader();
+  }
+&nbsp;
+  if (!msg._hasBody) {
+    debug('This type of response MUST NOT have a body. ' +
+          'Ignoring write() calls.');
+    return true;
+  }
+&nbsp;
+  if (!fromEnd &amp;&amp; typeof chunk !== 'string' &amp;&amp; !(chunk instanceof Buffer)) {
+    throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'first argument',
+                               ['string', 'buffer']);
+  }
+&nbsp;
+&nbsp;
+  // If we get an empty string or buffer, then just do nothing, and
+  // signal the user to keep writing.
+  if (chunk.length === 0) return true;
+&nbsp;
+  if (!fromEnd &amp;&amp; msg.connection &amp;&amp; !msg.connection.corked) {
+    msg.connection.cork();
+    process.nextTick(connectionCorkNT, msg.connection);
+  }
+&nbsp;
+  var len, ret;
+  if (msg.chunkedEncoding) {
+    if (typeof chunk === 'string')
+      len = Buffer.byteLength(chunk, encoding);
+    else
+      len = chunk.length;
+&nbsp;
+    msg._send(len.toString(16), 'latin1', null);
+    msg._send(crlf_buf, null, null);
+    msg._send(chunk, encoding, null);
+    ret = msg._send(crlf_buf, null, callback);
+  } else {
+    ret = msg._send(chunk, encoding, callback);
+  }
+&nbsp;
+  debug('write ret = ' + ret);
+  return ret;
+}
+&nbsp;
+&nbsp;
+function writeAfterEndNT(err, callback) {
+  this.emit('error', err);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (callback) <span class="cstat-no" title="statement not covered" >callback(err);</span>
+}
+&nbsp;
+&nbsp;
+function connectionCorkNT(conn) {
+  conn.uncork();
+}
+&nbsp;
+&nbsp;
+function escapeHeaderValue(value) {
+  // Protect against response splitting. The regex test is there to
+  // minimize the performance impact in the common case.
+  return /[\r\n]/.test(value) ? <span class="branch-0 cbranch-no" title="branch not covered" >value.replace(/[\r\n]+[ \t]*/g, '') </span>: value;
+}
+&nbsp;
+&nbsp;
+OutgoingMessage.prototype.addTrailers = function addTrailers(headers) {
+  this._trailer = '';
+  var keys = Object.keys(headers);
+  var isArray = Array.isArray(headers);
+  var field, value;
+  for (var i = 0, l = keys.length; i &lt; l; i++) {
+    var key = keys[i];
+    if (isArray) {
+      field = headers[key][0];
+      value = headers[key][1];
+    } else {
+      field = key;
+      value = headers[key];
+    }
+    if (typeof field !== 'string' || !field || !checkIsHttpToken(field)) {
+      throw new errors.TypeError('ERR_INVALID_HTTP_TOKEN', 'Trailer name',
+                                 field);
+    }
+    if (checkInvalidHeaderChar(value)) {
+      debug('Trailer "%s" contains invalid characters', field);
+      throw new errors.TypeError('ERR_INVALID_CHAR', 'trailer content', field);
+    }
+    this._trailer += field + ': ' + escapeHeaderValue(value) + CRLF;
+  }
+};
+&nbsp;
+function onFinish(outmsg) {
+  outmsg.emit('finish');
+}
+&nbsp;
+OutgoingMessage.prototype.end = function end(chunk, encoding, callback) {
+  if (typeof chunk === 'function') {
+    callback = chunk;
+    chunk = null;
+  } else if (typeof encoding === 'function') {
+    callback = encoding;
+    encoding = null;
+  }
+&nbsp;
+  if (this.finished) {
+    return false;
+  }
+&nbsp;
+  var uncork;
+  if (chunk) {
+    if (typeof chunk !== 'string' &amp;&amp; !(chunk instanceof Buffer)) {
+      throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'first argument',
+                                 ['string', 'buffer']);
+    }
+    if (!this._header) {
+      if (typeof chunk === 'string')
+        this._contentLength = Buffer.byteLength(chunk, encoding);
+      else
+        this._contentLength = chunk.length;
+    }
+    if (this.connection) {
+      this.connection.cork();
+      uncork = true;
+    }
+    write_(this, chunk, encoding, null, true);
+  } else if (!this._header) {
+    this._contentLength = 0;
+    this._implicitHeader();
+  }
+&nbsp;
+  if (typeof callback === 'function')
+    this.once('finish', callback);
+&nbsp;
+  var finish = onFinish.bind(undefined, this);
+&nbsp;
+  var ret;
+  if (this._hasBody &amp;&amp; this.chunkedEncoding) {
+    ret = this._send('0\r\n' + this._trailer + '\r\n', 'latin1', finish);
+  } else {
+    // Force a flush, HACK.
+    ret = this._send('', 'latin1', finish);
+  }
+&nbsp;
+  if (uncork)
+    this.connection.uncork();
+&nbsp;
+  this.finished = true;
+&nbsp;
+  // There is the first message on the outgoing queue, and we've sent
+  // everything to the socket.
+  debug('outgoing message end.');
+  if (this.output.length === 0 &amp;&amp;
+      this.connection &amp;&amp;
+      this.connection._httpMessage === this) {
+    this._finish();
+  }
+&nbsp;
+  return ret;
+};
+&nbsp;
+&nbsp;
+OutgoingMessage.prototype._finish = function _finish() {
+  assert(this.connection);
+  this.emit('prefinish');
+};
+&nbsp;
+&nbsp;
+// This logic is probably a bit confusing. Let me explain a bit:
+//
+// In both HTTP servers and clients it is possible to queue up several
+// outgoing messages. This is easiest to imagine in the case of a client.
+// Take the following situation:
+//
+//    req1 = client.request('GET', '/');
+//    req2 = client.request('POST', '/');
+//
+// When the user does
+//
+//   req2.write('hello world\n');
+//
+// it's possible that the first request has not been completely flushed to
+// the socket yet. Thus the outgoing messages need to be prepared to queue
+// up data internally before sending it on further to the socket's queue.
+//
+// This function, outgoingFlush(), is called by both the Server and Client
+// to attempt to flush any pending messages out to the socket.
+OutgoingMessage.prototype._flush = function _flush() {
+  var socket = this.socket;
+  var ret;
+&nbsp;
+  if (socket &amp;&amp; socket.writable) {
+    // There might be remaining data in this.output; write it out
+    ret = this._flushOutput(socket);
+&nbsp;
+    if (this.finished) {
+      // This is a queue to the server or client to bring in the next this.
+      this._finish();
+    } else if (ret) {
+      // This is necessary to prevent https from breaking
+      this.emit('drain');
+    }
+  }
+};
+&nbsp;
+OutgoingMessage.prototype._flushOutput = function _flushOutput(socket) {
+  var ret;
+  var outputLength = this.output.length;
+  if (outputLength &lt;= 0)
+    return ret;
+&nbsp;
+  var output = this.output;
+  var outputEncodings = this.outputEncodings;
+  var outputCallbacks = this.outputCallbacks;
+  socket.cork();
+  for (var i = 0; i &lt; outputLength; i++) {
+    ret = socket.write(output[i], outputEncodings[i], outputCallbacks[i]);
+  }
+  socket.uncork();
+&nbsp;
+  this.output = [];
+  this.outputEncodings = [];
+  this.outputCallbacks = [];
+  this._onPendingData(-this.outputSize);
+  this.outputSize = 0;
+&nbsp;
+  return ret;
+};
+&nbsp;
+&nbsp;
+OutgoingMessage.prototype.flushHeaders = function flushHeaders() {
+  if (!this._header) {
+    this._implicitHeader();
+  }
+&nbsp;
+  // Force-flush the headers.
+  this._send('');
+};
+&nbsp;
+OutgoingMessage.prototype.flush = internalUtil.deprecate(function() {
+  this.flushHeaders();
+}, 'OutgoingMessage.flush is deprecated. Use flushHeaders instead.', 'DEP0001');
+&nbsp;
+OutgoingMessage.prototype.pipe = function pipe() {
+  // OutgoingMessage should be write-only. Piping from it is disabled.
+  this.emit('error', new Error('Cannot pipe, not readable'));
+};
+&nbsp;
+module.exports = {
+  OutgoingMessage
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 06 2017 10:15:08 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

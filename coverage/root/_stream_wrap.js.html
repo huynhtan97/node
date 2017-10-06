@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for root/_stream_wrap.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">root</a> _stream_wrap.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.03% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>126/134</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">73.68% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>28/38</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80.77% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>21/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.03% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>126/134</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">323x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+const assert = require('assert');
+const util = require('util');
+const Socket = require('net').Socket;
+const JSStream = process.binding('js_stream').JSStream;
+const uv = process.binding('uv');
+const debug = util.debuglog('stream_wrap');
+const errors = require('internal/errors');
+&nbsp;
+function StreamWrap(stream) {
+  const handle = new JSStream();
+&nbsp;
+  this.stream = stream;
+&nbsp;
+  this._list = null;
+&nbsp;
+  const self = this;
+  handle.close = function(cb) {
+    debug('close');
+    self.doClose(cb);
+  };
+  handle.isAlive = function() {
+    return self.isAlive();
+  };
+  handle.isClosing = <span class="fstat-no" title="function not covered" >fu</span>nction() {
+<span class="cstat-no" title="statement not covered" >    return self.isClosing();</span>
+  };
+  handle.onreadstart = function() {
+    return self.readStart();
+  };
+  handle.onreadstop = <span class="fstat-no" title="function not covered" >fu</span>nction() {
+<span class="cstat-no" title="statement not covered" >    return self.readStop();</span>
+  };
+  handle.onshutdown = function(req) {
+    return self.doShutdown(req);
+  };
+  handle.onwrite = function(req, bufs) {
+    return self.doWrite(req, bufs);
+  };
+&nbsp;
+  this.stream.pause();
+  this.stream.on('error', function <span class="fstat-no" title="function not covered" >onerror(</span>err) {
+<span class="cstat-no" title="statement not covered" >    self.emit('error', err);</span>
+  });
+  this.stream.on('data', function ondata(chunk) {
+    if (typeof chunk === 'string' || this._readableState.objectMode === true) {
+      // Make sure that no further `data` events will happen
+      this.pause();
+      this.removeListener('data', ondata);
+&nbsp;
+      self.emit('error', new errors.Error('ERR_STREAM_WRAP'));
+      return;
+    }
+&nbsp;
+    debug('data', chunk.length);
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (self._handle)
+      self._handle.readBuffer(chunk);
+  });
+  this.stream.once('end', function onend() {
+    debug('end');
+    if (self._handle)
+      self._handle.emitEOF();
+  });
+&nbsp;
+  Socket.call(this, {
+    handle: handle
+  });
+}
+util.inherits(StreamWrap, Socket);
+module.exports = StreamWrap;
+&nbsp;
+// require('_stream_wrap').StreamWrap
+StreamWrap.StreamWrap = StreamWrap;
+&nbsp;
+StreamWrap.prototype.isAlive = function isAlive() {
+  return true;
+};
+&nbsp;
+StreamWrap.prototype.isClosing = function <span class="fstat-no" title="function not covered" >isClosing(</span>) {
+<span class="cstat-no" title="statement not covered" >  return !this.readable || !this.writable;</span>
+};
+&nbsp;
+StreamWrap.prototype.readStart = function readStart() {
+  this.stream.resume();
+  return 0;
+};
+&nbsp;
+StreamWrap.prototype.readStop = function <span class="fstat-no" title="function not covered" >readStop(</span>) {
+<span class="cstat-no" title="statement not covered" >  this.stream.pause();</span>
+<span class="cstat-no" title="statement not covered" >  return 0;</span>
+};
+&nbsp;
+StreamWrap.prototype.doShutdown = function doShutdown(req) {
+  const self = this;
+  const handle = this._handle;
+  const item = this._enqueue('shutdown', req);
+&nbsp;
+  this.stream.end(function() {
+    // Ensure that write was dispatched
+    setImmediate(function() {
+      if (!self._dequeue(item))
+        return;
+&nbsp;
+      handle.finishShutdown(req, 0);
+    });
+  });
+  return 0;
+};
+&nbsp;
+StreamWrap.prototype.doWrite = function doWrite(req, bufs) {
+  const self = this;
+  const handle = self._handle;
+&nbsp;
+  var pending = bufs.length;
+&nbsp;
+  // Queue the request to be able to cancel it
+  const item = self._enqueue('write', req);
+&nbsp;
+  self.stream.cork();
+  for (var n = 0; n &lt; bufs.length; n++)
+    self.stream.write(bufs[n], done);
+  self.stream.uncork();
+&nbsp;
+  function done(err) {
+    if (!err &amp;&amp; --pending !== 0)
+      return;
+&nbsp;
+    // Ensure that this is called once in case of error
+    pending = 0;
+&nbsp;
+    let errCode = 0;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
+      const code = <span class="cstat-no" title="statement not covered" >uv[`UV_${err.code}`];</span>
+<span class="cstat-no" title="statement not covered" >      errCode = (err.code &amp;&amp; code) ? code : uv.UV_EPIPE;</span>
+    }
+&nbsp;
+    // Ensure that write was dispatched
+    setImmediate(function() {
+      // Do not invoke callback twice
+      if (!self._dequeue(item))
+        return;
+&nbsp;
+      handle.doAfterWrite(req);
+      handle.finishWrite(req, errCode);
+    });
+  }
+&nbsp;
+  return 0;
+};
+&nbsp;
+function QueueItem(type, req) {
+  this.type = type;
+  this.req = req;
+  this.prev = this;
+  this.next = this;
+}
+&nbsp;
+StreamWrap.prototype._enqueue = function _enqueue(type, req) {
+  const item = new QueueItem(type, req);
+  if (this._list === null) {
+    this._list = item;
+    return item;
+  }
+&nbsp;
+  item.next = this._list.next;
+  item.prev = this._list;
+  item.next.prev = item;
+  item.prev.next = item;
+&nbsp;
+  return item;
+};
+&nbsp;
+StreamWrap.prototype._dequeue = function _dequeue(item) {
+  assert(item instanceof QueueItem);
+&nbsp;
+  var next = item.next;
+  var prev = item.prev;
+&nbsp;
+  if (next === null &amp;&amp; prev === null)
+    return false;
+&nbsp;
+  item.next = null;
+  item.prev = null;
+&nbsp;
+  if (next === item) {
+    prev = null;
+    next = null;
+  } else {
+    prev.next = next;
+    next.prev = prev;
+  }
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (this._list === item)
+    this._list = next;
+&nbsp;
+  return true;
+};
+&nbsp;
+StreamWrap.prototype.doClose = function doClose(cb) {
+  const self = this;
+  const handle = self._handle;
+&nbsp;
+  setImmediate(function() {
+    while (self._list !== null) {
+      const item = self._list;
+      const req = item.req;
+      self._dequeue(item);
+&nbsp;
+      const errCode = uv.UV_ECANCELED;
+      if (item.type === 'write') {
+        handle.doAfterWrite(req);
+        handle.finishWrite(req, errCode);
+      } else <span class="missing-if-branch" title="else path not taken" >E</span>if (item.type === 'shutdown') {
+        handle.finishShutdown(req, errCode);
+      }
+    }
+&nbsp;
+    // Should be already set by net.js
+    assert(self._handle === null);
+    cb();
+  });
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 06 2017 10:15:08 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

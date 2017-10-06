@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for root/inspector.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">root</a> inspector.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.29% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>50/56</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">82.35% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>28/34</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>7/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.29% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>50/56</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">218x</span>
+<span class="cline-any cline-yes">218x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+const EventEmitter = require('events');
+const util = require('util');
+const { Connection, open, url } = process.binding('inspector');
+&nbsp;
+<span class="missing-if-branch" title="if path not taken" >I</span>if (!Connection)
+<span class="cstat-no" title="statement not covered" >  throw new Error('Inspector is not available');</span>
+&nbsp;
+const connectionSymbol = Symbol('connectionProperty');
+const messageCallbacksSymbol = Symbol('messageCallbacks');
+const nextIdSymbol = Symbol('nextId');
+const onMessageSymbol = Symbol('onMessage');
+&nbsp;
+class Session extends EventEmitter {
+  constructor() {
+    super();
+    this[connectionSymbol] = null;
+    this[nextIdSymbol] = 1;
+    this[messageCallbacksSymbol] = new Map();
+  }
+&nbsp;
+  connect() {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (this[connectionSymbol])
+<span class="cstat-no" title="statement not covered" >      throw new Error('Already connected');</span>
+    this[connectionSymbol] =
+        new Connection((message) =&gt; this[onMessageSymbol](message));
+  }
+&nbsp;
+  [onMessageSymbol](message) {
+    const parsed = JSON.parse(message);
+    try {
+      if (parsed.id) {
+        const callback = this[messageCallbacksSymbol].get(parsed.id);
+        this[messageCallbacksSymbol].delete(parsed.id);
+        if (callback)
+          callback(parsed.error || null, parsed.result || <span class="branch-1 cbranch-no" title="branch not covered" >null)</span>;
+      } else {
+        this.emit(parsed.method, parsed);
+        this.emit('inspectorNotification', parsed);
+      }
+    } catch (error) {
+      process.emitWarning(error);
+    }
+  }
+&nbsp;
+  post(method, params, callback) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof method !== 'string') {
+<span class="cstat-no" title="statement not covered" >      throw new TypeError(</span>
+        `"method" must be a string, got ${typeof method} instead`);
+    }
+    if (!callback &amp;&amp; util.isFunction(params)) {
+      callback = params;
+      params = null;
+    }
+    if (params &amp;&amp; typeof params !== 'object') {
+      throw new TypeError(
+        `"params" must be an object, got ${typeof params} instead`);
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (callback &amp;&amp; typeof callback !== 'function') {
+<span class="cstat-no" title="statement not covered" >      throw new TypeError(</span>
+        `"callback" must be a function, got ${typeof callback} instead`);
+    }
+&nbsp;
+    if (!this[connectionSymbol]) {
+      throw new Error('Session is not connected');
+    }
+    const id = this[nextIdSymbol]++;
+    const message = { id, method };
+    if (params) {
+      message['params'] = params;
+    }
+    if (callback) {
+      this[messageCallbacksSymbol].set(id, callback);
+    }
+    this[connectionSymbol].dispatch(JSON.stringify(message));
+  }
+&nbsp;
+  disconnect() {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this[connectionSymbol])
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    this[connectionSymbol].disconnect();
+    this[connectionSymbol] = null;
+    const remainingCallbacks = this[messageCallbacksSymbol].values();
+    for (const callback of remainingCallbacks) {
+<span class="cstat-no" title="statement not covered" >      process.nextTick(callback, new Error('Session was closed'));</span>
+    }
+    this[messageCallbacksSymbol].clear();
+    this[nextIdSymbol] = 1;
+  }
+}
+&nbsp;
+module.exports = {
+  open: (port, host, wait) =&gt; open(port, host, !!wait),
+  close: process._debugEnd,
+  url: url,
+  Session
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 06 2017 10:15:08 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

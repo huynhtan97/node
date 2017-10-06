@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for root/internal/crypto/util.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">root/internal/crypto</a> util.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">85.71% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>24/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">78.57% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>11/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>7/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">84% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>21/25</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">101808x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">102782x</span>
+<span class="cline-any cline-yes">508x</span>
+<span class="cline-any cline-yes">444x</span>
+<span class="cline-any cline-yes">508x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">102274x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+const {
+  getCiphers: _getCiphers,
+  getCurves: _getCurves,
+  getHashes: _getHashes,
+  setEngine: _setEngine
+} = process.binding('crypto');
+&nbsp;
+const {
+  ENGINE_METHOD_ALL
+} = process.binding('constants').crypto;
+&nbsp;
+const errors = require('internal/errors');
+const { Buffer } = require('buffer');
+const {
+  cachedResult,
+  filterDuplicateStrings
+} = require('internal/util');
+&nbsp;
+var defaultEncoding = 'buffer';
+&nbsp;
+function setDefaultEncoding(val) {
+  defaultEncoding = val;
+}
+&nbsp;
+function getDefaultEncoding() {
+  return defaultEncoding;
+}
+&nbsp;
+// This is here because many functions accepted binary strings without
+// any explicit encoding in older versions of node, and we don't want
+// to break them unnecessarily.
+function toBuf(str, encoding) {
+  if (typeof str === 'string') {
+    if (encoding === 'buffer' || !encoding)
+      encoding = 'utf8';
+    return Buffer.from(str, encoding);
+  }
+  return str;
+}
+&nbsp;
+const getCiphers = cachedResult(() =&gt; filterDuplicateStrings(_getCiphers()));
+const getHashes = cachedResult(() =&gt; filterDuplicateStrings(_getHashes()));
+const getCurves = cachedResult(() =&gt; filterDuplicateStrings(_getCurves()));
+&nbsp;
+function setEngine(id, flags) {
+  if (typeof id !== 'string')
+    throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'id', 'string');
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (flags &amp;&amp; typeof flags !== 'number')
+    throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'flags', 'number');
+<span class="cstat-no" title="statement not covered" >  flags = flags &gt;&gt;&gt; 0;</span>
+&nbsp;
+  // Use provided engine for everything by default
+<span class="cstat-no" title="statement not covered" >  if (flags === 0)</span>
+<span class="cstat-no" title="statement not covered" >    flags = ENGINE_METHOD_ALL;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return _setEngine(id, flags);</span>
+}
+&nbsp;
+module.exports = {
+  getCiphers,
+  getCurves,
+  getDefaultEncoding,
+  getHashes,
+  setDefaultEncoding,
+  setEngine,
+  toBuf
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 06 2017 10:15:08 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

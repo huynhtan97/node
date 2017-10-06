@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for root/internal/process/next_tick.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">root/internal/process</a> next_tick.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">93.63% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>147/157</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">88.71% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>55/62</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>14/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.04% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>142/151</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">315739x</span>
+<span class="cline-any cline-yes">315739x</span>
+<span class="cline-any cline-yes">188122x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127617x</span>
+<span class="cline-any cline-yes">315739x</span>
+<span class="cline-any cline-yes">315739x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">315075x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">315075x</span>
+<span class="cline-any cline-yes">315075x</span>
+<span class="cline-any cline-yes">127468x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">187607x</span>
+<span class="cline-any cline-yes">315075x</span>
+<span class="cline-any cline-yes">315075x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">51197x</span>
+<span class="cline-any cline-yes">51197x</span>
+<span class="cline-any cline-yes">51197x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52145x</span>
+<span class="cline-any cline-yes">51208x</span>
+<span class="cline-any cline-yes">51197x</span>
+<span class="cline-any cline-yes">51197x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52145x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5577x</span>
+<span class="cline-any cline-yes">5487x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">90x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">315074x</span>
+<span class="cline-any cline-yes">82504x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">232570x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">47991x</span>
+<span class="cline-any cline-yes">47973x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127556x</span>
+<span class="cline-any cline-yes">127523x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4205x</span>
+<span class="cline-any cline-yes">4175x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52818x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">51154x</span>
+<span class="cline-any cline-yes">51289x</span>
+<span class="cline-any cline-yes">311309x</span>
+<span class="cline-any cline-yes">311309x</span>
+<span class="cline-any cline-yes">311309x</span>
+<span class="cline-any cline-yes">311309x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">311309x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">311308x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">311308x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">311174x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">311174x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">51154x</span>
+<span class="cline-any cline-yes">51154x</span>
+<span class="cline-any cline-yes">51154x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1996x</span>
+<span class="cline-any cline-yes">2026x</span>
+<span class="cline-any cline-yes">3766x</span>
+<span class="cline-any cline-yes">3766x</span>
+<span class="cline-any cline-yes">3766x</span>
+<span class="cline-any cline-yes">3766x</span>
+<span class="cline-any cline-yes">3766x</span>
+<span class="cline-any cline-yes">3766x</span>
+<span class="cline-any cline-yes">681x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3766x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3766x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3766x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2720x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2720x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2720x</span>
+<span class="cline-any cline-yes">660x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">980x</span>
+<span class="cline-any cline-yes">980x</span>
+<span class="cline-any cline-yes">980x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">315650x</span>
+<span class="cline-any cline-yes">315650x</span>
+<span class="cline-any cline-yes">315650x</span>
+<span class="cline-any cline-yes">315650x</span>
+<span class="cline-any cline-yes">315650x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">311342x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">311329x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">311315x</span>
+<span class="cline-any cline-yes">80784x</span>
+<span class="cline-any cline-yes">45345x</span>
+<span class="cline-any cline-yes">127564x</span>
+<span class="cline-any cline-yes">4205x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">53417x</span>
+<span class="cline-any cline-yes">53417x</span>
+<span class="cline-any cline-yes">214919x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">311315x</span>
+<span class="cline-any cline-yes">311315x</span>
+<span class="cline-any cline-yes">311315x</span>
+<span class="cline-any cline-yes">311315x</span>
+<span class="cline-any cline-yes">311315x</span>
+<span class="cline-any cline-yes">311315x</span>
+<span class="cline-any cline-yes">311x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4335x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4335x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4335x</span>
+<span class="cline-any cline-yes">858x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4335x</span>
+<span class="cline-any cline-yes">1650x</span>
+<span class="cline-any cline-yes">2655x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4335x</span>
+<span class="cline-any cline-yes">4335x</span>
+<span class="cline-any cline-yes">4335x</span>
+<span class="cline-any cline-yes">4335x</span>
+<span class="cline-any cline-yes">4335x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+// This value is used to prevent the nextTickQueue from becoming too
+// large and cause the process to run out of memory. When this value
+// is reached the nextTimeQueue array will be shortened (see tickDone
+// for details).
+const kMaxCallbacksPerLoop = 1e4;
+&nbsp;
+exports.setup = setupNextTick;
+// Will be overwritten when setupNextTick() is called.
+exports.nextTick = null;
+&nbsp;
+class NextTickQueue {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+&nbsp;
+  push(v) {
+    const entry = { data: v, next: null };
+    if (this.length &gt; 0)
+      this.tail.next = entry;
+    else
+      this.head = entry;
+    this.tail = entry;
+    ++this.length;
+  }
+&nbsp;
+  shift() {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.length === 0)
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    const ret = this.head.data;
+    if (this.length === 1)
+      this.head = this.tail = null;
+    else
+      this.head = this.head.next;
+    --this.length;
+    return ret;
+  }
+&nbsp;
+  clear() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+}
+&nbsp;
+function setupNextTick() {
+  const async_wrap = process.binding('async_wrap');
+  const async_hooks = require('async_hooks');
+  const promises = require('internal/process/promises');
+  const errors = require('internal/errors');
+  const emitPendingUnhandledRejections = promises.setup(scheduleMicrotasks);
+  const initTriggerId = async_hooks.initTriggerId;
+  // Two arrays that share state between C++ and JS.
+  const { async_hook_fields, async_id_fields } = async_wrap;
+  // Used to change the state of the async id stack.
+  const { emitInit, emitBefore, emitAfter, emitDestroy } = async_hooks;
+  // Grab the constants necessary for working with internal arrays.
+  const { kInit, kDestroy, kAsyncIdCounter } = async_wrap.constants;
+  const { async_id_symbol, trigger_async_id_symbol } = async_wrap;
+  var nextTickQueue = new NextTickQueue();
+  var microtasksScheduled = false;
+&nbsp;
+  // Used to run V8's micro task queue.
+  var _runMicrotasks = {};
+&nbsp;
+  // *Must* match Environment::TickInfo::Fields in src/env.h.
+  var kIndex = 0;
+  var kLength = 1;
+&nbsp;
+  process.nextTick = nextTick;
+  // Needs to be accessible from beyond this scope.
+  process._tickCallback = _tickCallback;
+  process._tickDomainCallback = _tickDomainCallback;
+&nbsp;
+  // Set the nextTick() function for internal usage.
+  exports.nextTick = internalNextTick;
+&nbsp;
+  // This tickInfo thing is used so that the C++ code in src/node.cc
+  // can have easy access to our nextTick state, and avoid unnecessary
+  // calls into JS land.
+  const tickInfo = process._setupNextTick(_tickCallback, _runMicrotasks);
+&nbsp;
+  _runMicrotasks = _runMicrotasks.runMicrotasks;
+&nbsp;
+  function tickDone() {
+    if (tickInfo[kLength] !== 0) {
+      if (tickInfo[kLength] &lt;= tickInfo[kIndex]) {
+        nextTickQueue.clear();
+        tickInfo[kLength] = 0;
+      } else {
+        tickInfo[kLength] = nextTickQueue.length;
+      }
+    }
+    tickInfo[kIndex] = 0;
+  }
+&nbsp;
+  const microTasksTickObject = {
+    callback: runMicrotasksCallback,
+    args: undefined,
+    domain: null,
+    [async_id_symbol]: 0,
+    [trigger_async_id_symbol]: 0
+  };
+  function scheduleMicrotasks() {
+    if (microtasksScheduled)
+      return;
+&nbsp;
+    // For the moment all microtasks come from the void until the PromiseHook
+    // API is implemented.
+    nextTickQueue.push(microTasksTickObject);
+&nbsp;
+    tickInfo[kLength]++;
+    microtasksScheduled = true;
+  }
+&nbsp;
+  function runMicrotasksCallback() {
+    microtasksScheduled = false;
+    _runMicrotasks();
+&nbsp;
+    if (tickInfo[kIndex] &lt; tickInfo[kLength] ||
+        emitPendingUnhandledRejections()) {
+      scheduleMicrotasks();
+    }
+  }
+&nbsp;
+  function _combinedTickCallback(args, callback) {
+    if (args === undefined) {
+      callback();
+    } else {
+      switch (args.length) {
+        case 1:
+          callback(args[0]);
+          break;
+        case 2:
+          callback(args[0], args[1]);
+          break;
+        case 3:
+          callback(args[0], args[1], args[2]);
+          break;
+        default:
+          callback(...args);
+      }
+    }
+  }
+&nbsp;
+  // Run callbacks that have no domain.
+  // Using domains will cause this to be overridden.
+  function _tickCallback() {
+    do {
+      while (tickInfo[kIndex] &lt; tickInfo[kLength]) {
+        ++tickInfo[kIndex];
+        const tock = nextTickQueue.shift();
+        const callback = tock.callback;
+        const args = tock.args;
+&nbsp;
+        // CHECK(Number.isSafeInteger(tock[async_id_symbol]))
+        // CHECK(tock[async_id_symbol] &gt; 0)
+        // CHECK(Number.isSafeInteger(tock[trigger_async_id_symbol]))
+        // CHECK(tock[trigger_async_id_symbol] &gt; 0)
+&nbsp;
+        emitBefore(tock[async_id_symbol], tock[trigger_async_id_symbol]);
+        // emitDestroy() places the async_id_symbol into an asynchronous queue
+        // that calls the destroy callback in the future. It's called before
+        // calling tock.callback so destroy will be called even if the callback
+        // throws an exception that is handles by 'uncaughtException' or a
+        // domain.
+        // TODO(trevnorris): This is a bit of a hack. It relies on the fact
+        // that nextTick() doesn't allow the event loop to proceed, but if
+        // any async hooks are enabled during the callback's execution then
+        // this tock's after hook will be called, but not its destroy hook.
+        if (async_hook_fields[kDestroy] &gt; 0)
+          emitDestroy(tock[async_id_symbol]);
+&nbsp;
+        // Using separate callback execution functions allows direct
+        // callback invocation with small numbers of arguments to avoid the
+        // performance hit associated with using `fn.apply()`
+        _combinedTickCallback(args, callback);
+&nbsp;
+        emitAfter(tock[async_id_symbol]);
+&nbsp;
+        if (kMaxCallbacksPerLoop &lt; tickInfo[kIndex])
+          tickDone();
+      }
+      tickDone();
+      _runMicrotasks();
+      emitPendingUnhandledRejections();
+    } while (tickInfo[kLength] !== 0);
+  }
+&nbsp;
+  function _tickDomainCallback() {
+    do {
+      while (tickInfo[kIndex] &lt; tickInfo[kLength]) {
+        ++tickInfo[kIndex];
+        const tock = nextTickQueue.shift();
+        const callback = tock.callback;
+        const domain = tock.domain;
+        const args = tock.args;
+        if (domain)
+          domain.enter();
+&nbsp;
+        // CHECK(Number.isSafeInteger(tock[async_id_symbol]))
+        // CHECK(tock[async_id_symbol] &gt; 0)
+        // CHECK(Number.isSafeInteger(tock[trigger_async_id_symbol]))
+        // CHECK(tock[trigger_async_id_symbol] &gt; 0)
+&nbsp;
+        emitBefore(tock[async_id_symbol], tock[trigger_async_id_symbol]);
+        // TODO(trevnorris): See comment in _tickCallback() as to why this
+        // isn't a good solution.
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (async_hook_fields[kDestroy] &gt; 0)
+<span class="cstat-no" title="statement not covered" >          emitDestroy(tock[async_id_symbol]);</span>
+&nbsp;
+        // Using separate callback execution functions allows direct
+        // callback invocation with small numbers of arguments to avoid the
+        // performance hit associated with using `fn.apply()`
+        _combinedTickCallback(args, callback);
+&nbsp;
+        emitAfter(tock[async_id_symbol]);
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (kMaxCallbacksPerLoop &lt; tickInfo[kIndex])
+<span class="cstat-no" title="statement not covered" >          tickDone();</span>
+        if (domain)
+          domain.exit();
+      }
+      tickDone();
+      _runMicrotasks();
+      emitPendingUnhandledRejections();
+    } while (tickInfo[kLength] !== 0);
+  }
+&nbsp;
+  class TickObject {
+    constructor(callback, args, asyncId, triggerAsyncId) {
+      this.callback = callback;
+      this.args = args;
+      this.domain = process.domain || null;
+      this[async_id_symbol] = asyncId;
+      this[trigger_async_id_symbol] = triggerAsyncId;
+    }
+  }
+&nbsp;
+  // `nextTick()` will not enqueue any callback when the process is about to
+  // exit since the callback would not have a chance to be executed.
+  function nextTick(callback) {
+    if (typeof callback !== 'function')
+      throw new errors.TypeError('ERR_INVALID_CALLBACK');
+&nbsp;
+    if (process._exiting)
+      return;
+&nbsp;
+    var args;
+    switch (arguments.length) {
+      case 1: break;
+      case 2: args = [arguments[1]]; break;
+      case 3: args = [arguments[1], arguments[2]]; break;
+      case 4: args = [arguments[1], arguments[2], arguments[3]]; break;
+      default:
+        args = new Array(arguments.length - 1);
+        for (var i = 1; i &lt; arguments.length; i++)
+          args[i - 1] = arguments[i];
+    }
+&nbsp;
+    const asyncId = ++async_id_fields[kAsyncIdCounter];
+    const triggerAsyncId = initTriggerId();
+    const obj = new TickObject(callback, args, asyncId, triggerAsyncId);
+    nextTickQueue.push(obj);
+    ++tickInfo[kLength];
+    if (async_hook_fields[kInit] &gt; 0)
+      emitInit(asyncId, 'TickObject', triggerAsyncId, obj);
+  }
+&nbsp;
+  // `internalNextTick()` will not enqueue any callback when the process is
+  // about to exit since the callback would not have a chance to be executed.
+  function internalNextTick(triggerAsyncId, callback) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof callback !== 'function')
+<span class="cstat-no" title="statement not covered" >      throw new errors.TypeError('ERR_INVALID_CALLBACK');</span>
+    // CHECK(Number.isSafeInteger(triggerAsyncId) || triggerAsyncId === null)
+    // CHECK(triggerAsyncId &gt; 0 || triggerAsyncId === null)
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (process._exiting)
+<span class="cstat-no" title="statement not covered" >      return;</span>
+&nbsp;
+    if (!Number.isSafeInteger(triggerAsyncId) || triggerAsyncId &lt;= 0) {
+      triggerAsyncId = async_hooks.initTriggerId();
+    }
+&nbsp;
+    var args;
+    switch (arguments.length) {
+      case 2: break;
+      case 3: args = [arguments[2]]; break;
+      case 4: args = [arguments[2], arguments[3]]; break;
+<span class="branch-3 cbranch-no" title="branch not covered" >      case 5: <span class="cstat-no" title="statement not covered" >args = [arguments[2], arguments[3], arguments[4]]; <span class="cstat-no" title="statement not covered" ></span>break;</span></span>
+<span class="branch-4 cbranch-no" title="branch not covered" >      default:</span>
+<span class="cstat-no" title="statement not covered" >        args = new Array(arguments.length - 2);</span>
+<span class="cstat-no" title="statement not covered" >        for (var i = 2; i &lt; arguments.length; i++)</span>
+<span class="cstat-no" title="statement not covered" >          args[i - 2] = arguments[i];</span>
+    }
+&nbsp;
+    const asyncId = ++async_id_fields[kAsyncIdCounter];
+    const obj = new TickObject(callback, args, asyncId, triggerAsyncId);
+    nextTickQueue.push(obj);
+    ++tickInfo[kLength];
+    if (async_hook_fields[kInit] &gt; 0)
+      emitInit(asyncId, 'TickObject', triggerAsyncId, obj);
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 06 2017 10:15:08 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

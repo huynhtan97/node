@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for root/v8.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">root</a> v8.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>62/62</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">87.5% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>7/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>9/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>62/62</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">60x</span>
+<span class="cline-any cline-yes">60x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Copyright (c) 2014, StrongLoop Inc.
+//
+// Permission to use, copy, modify, and/or distribute this software for any
+// purpose with or without fee is hereby granted, provided that the above
+// copyright notice and this permission notice appear in all copies.
+//
+// THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+// WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+// MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+// ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+// WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+// ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+// OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+&nbsp;
+'use strict';
+&nbsp;
+const { Buffer } = require('buffer');
+const {
+  Serializer: _Serializer,
+  Deserializer: _Deserializer
+} = process.binding('serdes');
+const { copy } = process.binding('buffer');
+const { objectToString } = require('internal/util');
+const { FastBuffer } = require('internal/buffer');
+&nbsp;
+// Calling exposed c++ functions directly throws exception as it expected to be
+// called with new operator and caused an assert to fire.
+// Creating JS wrapper so that it gets caught at JS layer.
+class Serializer extends _Serializer { }
+&nbsp;
+class Deserializer extends _Deserializer { }
+&nbsp;
+const {
+  cachedDataVersionTag,
+  setFlagsFromString,
+  heapStatisticsArrayBuffer,
+  heapSpaceStatisticsArrayBuffer,
+  updateHeapStatisticsArrayBuffer,
+  updateHeapSpaceStatisticsArrayBuffer,
+&nbsp;
+  // Properties for heap and heap space statistics buffer extraction.
+  kTotalHeapSizeIndex,
+  kTotalHeapSizeExecutableIndex,
+  kTotalPhysicalSizeIndex,
+  kTotalAvailableSize,
+  kUsedHeapSizeIndex,
+  kHeapSizeLimitIndex,
+  kDoesZapGarbageIndex,
+  kMallocedMemoryIndex,
+  kPeakMallocedMemoryIndex,
+  kHeapSpaces,
+  kHeapSpaceStatisticsPropertiesCount,
+  kSpaceSizeIndex,
+  kSpaceUsedSizeIndex,
+  kSpaceAvailableSizeIndex,
+  kPhysicalSpaceSizeIndex
+} = process.binding('v8');
+&nbsp;
+const kNumberOfHeapSpaces = kHeapSpaces.length;
+&nbsp;
+const heapStatisticsBuffer =
+    new Float64Array(heapStatisticsArrayBuffer);
+&nbsp;
+const heapSpaceStatisticsBuffer =
+    new Float64Array(heapSpaceStatisticsArrayBuffer);
+&nbsp;
+function getHeapStatistics() {
+  const buffer = heapStatisticsBuffer;
+&nbsp;
+  updateHeapStatisticsArrayBuffer();
+&nbsp;
+  return {
+    'total_heap_size': buffer[kTotalHeapSizeIndex],
+    'total_heap_size_executable': buffer[kTotalHeapSizeExecutableIndex],
+    'total_physical_size': buffer[kTotalPhysicalSizeIndex],
+    'total_available_size': buffer[kTotalAvailableSize],
+    'used_heap_size': buffer[kUsedHeapSizeIndex],
+    'heap_size_limit': buffer[kHeapSizeLimitIndex],
+    'malloced_memory': buffer[kMallocedMemoryIndex],
+    'peak_malloced_memory': buffer[kPeakMallocedMemoryIndex],
+    'does_zap_garbage': buffer[kDoesZapGarbageIndex]
+  };
+}
+&nbsp;
+function getHeapSpaceStatistics() {
+  const heapSpaceStatistics = new Array(kNumberOfHeapSpaces);
+  const buffer = heapSpaceStatisticsBuffer;
+  updateHeapSpaceStatisticsArrayBuffer();
+&nbsp;
+  for (var i = 0; i &lt; kNumberOfHeapSpaces; i++) {
+    const propertyOffset = i * kHeapSpaceStatisticsPropertiesCount;
+    heapSpaceStatistics[i] = {
+      space_name: kHeapSpaces[i],
+      space_size: buffer[propertyOffset + kSpaceSizeIndex],
+      space_used_size: buffer[propertyOffset + kSpaceUsedSizeIndex],
+      space_available_size: buffer[propertyOffset + kSpaceAvailableSizeIndex],
+      physical_space_size: buffer[propertyOffset + kPhysicalSpaceSizeIndex]
+    };
+  }
+&nbsp;
+  return heapSpaceStatistics;
+}
+&nbsp;
+/* V8 serialization API */
+&nbsp;
+/* JS methods for the base objects */
+Serializer.prototype._getDataCloneError = Error;
+&nbsp;
+Deserializer.prototype.readRawBytes = function readRawBytes(length) {
+  const offset = this._readRawBytes(length);
+  // `this.buffer` can be a Buffer or a plain Uint8Array, so just calling
+  // `.slice()` doesn't work.
+  return new FastBuffer(this.buffer.buffer,
+                        this.buffer.byteOffset + offset,
+                        length);
+};
+&nbsp;
+/* Keep track of how to handle different ArrayBufferViews.
+ * The default Serializer for Node does not use the V8 methods for serializing
+ * those objects because Node's `Buffer` objects use pooled allocation in many
+ * cases, and their underlying `ArrayBuffer`s would show up in the
+ * serialization. Because a) those may contain sensitive data and the user
+ * may not be aware of that and b) they are often much larger than the `Buffer`
+ * itself, custom serialization is applied. */
+const arrayBufferViewTypes = [Int8Array, Uint8Array, Uint8ClampedArray,
+                              Int16Array, Uint16Array, Int32Array, Uint32Array,
+                              Float32Array, Float64Array, DataView];
+&nbsp;
+const arrayBufferViewTypeToIndex = new Map();
+&nbsp;
+{
+  const dummy = new ArrayBuffer();
+  for (const [i, ctor] of arrayBufferViewTypes.entries()) {
+    const tag = objectToString(new ctor(dummy));
+    arrayBufferViewTypeToIndex.set(tag, i);
+  }
+}
+&nbsp;
+const bufferConstructorIndex = arrayBufferViewTypes.push(Buffer) - 1;
+&nbsp;
+class DefaultSerializer extends Serializer {
+  constructor() {
+    super();
+&nbsp;
+    this._setTreatArrayBufferViewsAsHostObjects(true);
+  }
+&nbsp;
+  _writeHostObject(abView) {
+    let i = 0;
+    if (abView.constructor === Buffer) {
+      i = bufferConstructorIndex;
+    } else {
+      const tag = objectToString(abView);
+      i = arrayBufferViewTypeToIndex.get(tag);
+&nbsp;
+      if (i === undefined) {
+        throw new this._getDataCloneError(`Unknown host object type: ${tag}`);
+      }
+    }
+    this.writeUint32(i);
+    this.writeUint32(abView.byteLength);
+    this.writeRawBytes(new Uint8Array(abView.buffer,
+                                      abView.byteOffset,
+                                      abView.byteLength));
+  }
+}
+&nbsp;
+class DefaultDeserializer extends Deserializer {
+  constructor(buffer) {
+    super(buffer);
+  }
+&nbsp;
+  _readHostObject() {
+    const typeIndex = this.readUint32();
+    const ctor = arrayBufferViewTypes[typeIndex];
+    const byteLength = this.readUint32();
+    const byteOffset = this._readRawBytes(byteLength);
+    const BYTES_PER_ELEMENT = ctor.BYTES_PER_ELEMENT || <span class="branch-1 cbranch-no" title="branch not covered" >1;</span>
+&nbsp;
+    const offset = this.buffer.byteOffset + byteOffset;
+    if (offset % BYTES_PER_ELEMENT === 0) {
+      return new ctor(this.buffer.buffer,
+                      offset,
+                      byteLength / BYTES_PER_ELEMENT);
+    } else {
+      // Copy to an aligned buffer first.
+      const buffer_copy = Buffer.allocUnsafe(byteLength);
+      copy(this.buffer, buffer_copy, 0, byteOffset, byteOffset + byteLength);
+      return new ctor(buffer_copy.buffer,
+                      buffer_copy.byteOffset,
+                      byteLength / BYTES_PER_ELEMENT);
+    }
+  }
+}
+&nbsp;
+function serialize(value) {
+  const ser = new DefaultSerializer();
+  ser.writeHeader();
+  ser.writeValue(value);
+  return ser.releaseBuffer();
+}
+&nbsp;
+function deserialize(buffer) {
+  const der = new DefaultDeserializer(buffer);
+  der.readHeader();
+  return der.readValue();
+}
+&nbsp;
+module.exports = exports = {
+  cachedDataVersionTag,
+  getHeapStatistics,
+  getHeapSpaceStatistics,
+  setFlagsFromString,
+  Serializer,
+  Deserializer,
+  DefaultSerializer,
+  DefaultDeserializer,
+  deserialize,
+  serialize
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 06 2017 10:15:08 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

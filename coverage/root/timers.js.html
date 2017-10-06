@@ -1,0 +1,2765 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for root/timers.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">root</a> timers.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">97.3% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>396/407</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.77% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>218/235</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>36/36</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">97.49% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>389/399</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">4056x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">109268x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">113324x</span>
+<span class="cline-any cline-yes">113324x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38360x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38360x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38360x</span>
+<span class="cline-any cline-yes">38360x</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38360x</span>
+<span class="cline-any cline-yes">2528x</span>
+<span class="cline-any cline-yes">2528x</span>
+<span class="cline-any cline-yes">2528x</span>
+<span class="cline-any cline-yes">2528x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38360x</span>
+<span class="cline-any cline-yes">38360x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-yes">1609x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">46522x</span>
+<span class="cline-any cline-yes">46522x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">46522x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">46519x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">46519x</span>
+<span class="cline-any cline-yes">46519x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">46519x</span>
+<span class="cline-any cline-yes">49839x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49839x</span>
+<span class="cline-any cline-yes">45820x</span>
+<span class="cline-any cline-yes">45820x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">45820x</span>
+<span class="cline-any cline-yes">45820x</span>
+<span class="cline-any cline-yes">45820x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4019x</span>
+<span class="cline-any cline-yes">4019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4019x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4017x</span>
+<span class="cline-any cline-yes">4017x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4017x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3957x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">639x</span>
+<span class="cline-any cline-yes">639x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">639x</span>
+<span class="cline-any cline-yes">79x</span>
+<span class="cline-any cline-yes">560x</span>
+<span class="cline-any cline-yes">537x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">639x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">636x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4017x</span>
+<span class="cline-any cline-yes">4017x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4017x</span>
+<span class="cline-any cline-yes">4017x</span>
+<span class="cline-any cline-yes">4017x</span>
+<span class="cline-any cline-yes">4017x</span>
+<span class="cline-any cline-yes">4017x</span>
+<span class="cline-any cline-yes">3957x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3983x</span>
+<span class="cline-any cline-yes">3983x</span>
+<span class="cline-any cline-yes">3957x</span>
+<span class="cline-any cline-yes">3983x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3983x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12140x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12140x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12140x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11998x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12103x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12103x</span>
+<span class="cline-any cline-yes">12103x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12103x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">4262x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4248x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4240x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4240x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4240x</span>
+<span class="cline-any cline-yes">4240x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3589x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3583x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3583x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">3544x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3541x</span>
+<span class="cline-any cline-yes">257x</span>
+<span class="cline-any cline-yes">257x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16003x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3583x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3585x</span>
+<span class="cline-any cline-yes">3585x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3585x</span>
+<span class="cline-any cline-yes">3585x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3585x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3585x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4149x</span>
+<span class="cline-any cline-yes">4149x</span>
+<span class="cline-any cline-yes">4149x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4147x</span>
+<span class="cline-any cline-yes">3842x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">305x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">254x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4086x</span>
+<span class="cline-any cline-yes">509x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">509x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">502x</span>
+<span class="cline-any cline-yes">122x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">380x</span>
+<span class="cline-any cline-yes">380x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">151x</span>
+<span class="cline-any cline-yes">151x</span>
+<span class="cline-any cline-yes">151x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">83x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">68x</span>
+<span class="cline-any cline-yes">68x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3671x</span>
+<span class="cline-any cline-yes">3671x</span>
+<span class="cline-any cline-yes">3671x</span>
+<span class="cline-any cline-yes">3671x</span>
+<span class="cline-any cline-yes">3671x</span>
+<span class="cline-any cline-yes">3671x</span>
+<span class="cline-any cline-yes">3671x</span>
+<span class="cline-any cline-yes">3671x</span>
+<span class="cline-any cline-yes">3671x</span>
+<span class="cline-any cline-yes">3671x</span>
+<span class="cline-any cline-yes">3671x</span>
+<span class="cline-any cline-yes">3671x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">132x</span>
+<span class="cline-any cline-yes">132x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">131x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">47x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">163x</span>
+<span class="cline-any cline-yes">163x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">143x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">163x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">3924x</span>
+<span class="cline-any cline-yes">3924x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38367x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38400x</span>
+<span class="cline-any cline-yes">38400x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38400x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38400x</span>
+<span class="cline-any cline-yes">42284x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42284x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42283x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42283x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42283x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42283x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41243x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41243x</span>
+<span class="cline-any cline-yes">3899x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37344x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37360x</span>
+<span class="cline-any cline-yes">2463x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42283x</span>
+<span class="cline-any cline-yes">42283x</span>
+<span class="cline-any cline-yes">42283x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42283x</span>
+<span class="cline-any cline-yes">41243x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42275x</span>
+<span class="cline-any cline-yes">42275x</span>
+<span class="cline-any cline-yes">41243x</span>
+<span class="cline-any cline-yes">42275x</span>
+<span class="cline-any cline-yes">30065x</span>
+<span class="cline-any cline-yes">30065x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42275x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42283x</span>
+<span class="cline-any cline-yes">42283x</span>
+<span class="cline-any cline-yes">42283x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">42281x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">40143x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">800x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1332x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">30065x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42295x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42289x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">40151x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">800x</span>
+<span class="cline-any cline-yes">800x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1332x</span>
+<span class="cline-any cline-yes">1332x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42289x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-yes">2456x</span>
+<span class="cline-any cline-yes">2456x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42291x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3019x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+&nbsp;
+'use strict';
+&nbsp;
+const async_wrap = process.binding('async_wrap');
+const TimerWrap = process.binding('timer_wrap').Timer;
+const L = require('internal/linkedlist');
+const internalUtil = require('internal/util');
+const { createPromise, promiseResolve } = process.binding('util');
+const async_hooks = require('async_hooks');
+const assert = require('assert');
+const util = require('util');
+const errors = require('internal/errors');
+const debug = util.debuglog('timer');
+const kOnTimeout = TimerWrap.kOnTimeout | 0;
+const initTriggerId = async_hooks.initTriggerId;
+// Two arrays that share state between C++ and JS.
+const { async_hook_fields, async_id_fields } = async_wrap;
+// The needed emit*() functions.
+const { emitInit, emitBefore, emitAfter, emitDestroy } = async_hooks;
+// Grab the constants necessary for working with internal arrays.
+const { kInit, kDestroy, kAsyncIdCounter } = async_wrap.constants;
+// Symbols for storing async id state.
+const async_id_symbol = Symbol('asyncId');
+const trigger_async_id_symbol = Symbol('triggerAsyncId');
+&nbsp;
+// Timeout values &gt; TIMEOUT_MAX are set to 1.
+const TIMEOUT_MAX = 2147483647; // 2^31-1
+&nbsp;
+&nbsp;
+// HOW and WHY the timers implementation works the way it does.
+//
+// Timers are crucial to Node.js. Internally, any TCP I/O connection creates a
+// timer so that we can time out of connections. Additionally, many user
+// libraries and applications also use timers. As such there may be a
+// significantly large amount of timeouts scheduled at any given time.
+// Therefore, it is very important that the timers implementation is performant
+// and efficient.
+//
+// Note: It is suggested you first read though the lib/internal/linkedlist.js
+// linked list implementation, since timers depend on it extensively. It can be
+// somewhat counter-intuitive at first, as it is not actually a class. Instead,
+// it is a set of helpers that operate on an existing object.
+//
+// In order to be as performant as possible, the architecture and data
+// structures are designed so that they are optimized to handle the following
+// use cases as efficiently as possible:
+&nbsp;
+// - Adding a new timer. (insert)
+// - Removing an existing timer. (remove)
+// - Handling a timer timing out. (timeout)
+//
+// Whenever possible, the implementation tries to make the complexity of these
+// operations as close to constant-time as possible.
+// (So that performance is not impacted by the number of scheduled timers.)
+//
+// Object maps are kept which contain linked lists keyed by their duration in
+// milliseconds.
+// The linked lists within also have some meta-properties, one of which is a
+// TimerWrap C++ handle, which makes the call after the duration to process the
+// list it is attached to.
+//
+//
+// ╔════ &gt; Object Map
+// ║
+// ╠══
+// ║ refedLists: { '40': { }, '320': { etc } } (keys of millisecond duration)
+// ╚══          ┌─────────┘
+//              │
+// ╔══          │
+// ║ TimersList { _idleNext: { }, _idlePrev: (self), _timer: (TimerWrap) }
+// ║         ┌────────────────┘
+// ║    ╔══  │                              ^
+// ║    ║    { _idleNext: { },  _idlePrev: { }, _onTimeout: (callback) }
+// ║    ║      ┌───────────┘
+// ║    ║      │                                  ^
+// ║    ║      { _idleNext: { etc },  _idlePrev: { }, _onTimeout: (callback) }
+// ╠══  ╠══
+// ║    ║
+// ║    ╚════ &gt;  Actual JavaScript timeouts
+// ║
+// ╚════ &gt; Linked List
+//
+//
+// With this, virtually constant-time insertion (append), removal, and timeout
+// is possible in the JavaScript layer. Any one list of timers is able to be
+// sorted by just appending to it because all timers within share the same
+// duration. Therefore, any timer added later will always have been scheduled to
+// timeout later, thus only needing to be appended.
+// Removal from an object-property linked list is also virtually constant-time
+// as can be seen in the lib/internal/linkedlist.js implementation.
+// Timeouts only need to process any timers currently due to expire, which will
+// always be at the beginning of the list for reasons stated above. Any timers
+// after the first one encountered that does not yet need to timeout will also
+// always be due to timeout at a later time.
+//
+// Less-than constant time operations are thus contained in two places:
+// TimerWrap's backing libuv timers implementation (a performant heap-based
+// queue), and the object map lookup of a specific list by the duration of
+// timers within (or creation of a new list).
+// However, these operations combined have shown to be trivial in comparison to
+// other alternative timers architectures.
+&nbsp;
+&nbsp;
+// Object maps containing linked lists of timers, keyed and sorted by their
+// duration in milliseconds.
+//
+// The difference between these two objects is that the former contains timers
+// that will keep the process open if they are the only thing left, while the
+// latter will not.
+//
+// - key = time in milliseconds
+// - value = linked list
+const refedLists = Object.create(null);
+const unrefedLists = Object.create(null);
+&nbsp;
+&nbsp;
+// Schedule or re-schedule a timer.
+// The item must have been enroll()'d first.
+const active = exports.active = function(item) {
+  insert(item, false);
+};
+&nbsp;
+// Internal APIs that need timeouts should use `_unrefActive()` instead of
+// `active()` so that they do not unnecessarily keep the process open.
+exports._unrefActive = function(item) {
+  insert(item, true);
+};
+&nbsp;
+&nbsp;
+// The underlying logic for scheduling or re-scheduling a timer.
+//
+// Appends a timer onto the end of an existing timers list, or creates a new
+// TimerWrap backed list if one does not already exist for the specified timeout
+// duration.
+function insert(item, unrefed) {
+  const msecs = item._idleTimeout;
+  if (msecs &lt; 0 || msecs === undefined) return;
+&nbsp;
+  item._idleStart = TimerWrap.now();
+&nbsp;
+  const lists = unrefed === true ? unrefedLists : refedLists;
+&nbsp;
+  // Use an existing list if there is one, otherwise we need to make a new one.
+  var list = lists[msecs];
+  if (!list) {
+    debug('no %d list was found in insert, creating a new one', msecs);
+    lists[msecs] = list = createTimersList(msecs, unrefed);
+  }
+&nbsp;
+  if (!item[async_id_symbol] || item._destroyed) {
+    item._destroyed = false;
+    item[async_id_symbol] = ++async_id_fields[kAsyncIdCounter];
+    item[trigger_async_id_symbol] = initTriggerId();
+    if (async_hook_fields[kInit] &gt; 0)
+      emitInit(
+        item[async_id_symbol], 'Timeout', item[trigger_async_id_symbol], item
+      );
+  }
+&nbsp;
+  L.append(list, item);
+  assert(!L.isEmpty(list)); // list is not empty
+}
+&nbsp;
+function createTimersList(msecs, unrefed) {
+  // Make a new linked list of timers, and create a TimerWrap to schedule
+  // processing for the list.
+  const list = new TimersList(msecs, unrefed);
+  L.init(list);
+  list._timer._list = list;
+&nbsp;
+  if (unrefed === true) list._timer.unref();
+  list._timer.start(msecs);
+&nbsp;
+  list._timer[kOnTimeout] = listOnTimeout;
+&nbsp;
+  return list;
+}
+&nbsp;
+function TimersList(msecs, unrefed) {
+  this._idleNext = null; // Create the list with the linkedlist properties to
+  this._idlePrev = null; // prevent any unnecessary hidden class changes.
+  this._timer = new TimerWrap();
+  this._unrefed = unrefed;
+  this.msecs = msecs;
+  this.nextTick = false;
+}
+&nbsp;
+function listOnTimeout() {
+  var list = this._list;
+  var msecs = list.msecs;
+&nbsp;
+  if (list.nextTick) {
+    list.nextTick = false;
+    process.nextTick(listOnTimeoutNT, list);
+    return;
+  }
+&nbsp;
+  debug('timeout callback %d', msecs);
+&nbsp;
+  var now = TimerWrap.now();
+  debug('now: %d', now);
+&nbsp;
+  var diff, timer;
+  while (timer = L.peek(list)) {
+    diff = now - timer._idleStart;
+&nbsp;
+    // Check if this loop iteration is too early for the next timer.
+    // This happens if there are more timers scheduled for later in the list.
+    if (diff &lt; msecs) {
+      var timeRemaining = msecs - (TimerWrap.now() - timer._idleStart);
+      if (timeRemaining &lt; 0) {
+        timeRemaining = 0;
+      }
+      this.start(timeRemaining);
+      debug('%d list wait because diff is %d', msecs, diff);
+      return;
+    }
+&nbsp;
+    // The actual logic for when a timeout happens.
+&nbsp;
+    L.remove(timer);
+    assert(timer !== L.peek(list));
+&nbsp;
+    if (!timer._onTimeout) {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (async_hook_fields[kDestroy] &gt; 0 &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!timer._destroyed </span>&amp;&amp;
+<span class="branch-2 cbranch-no" title="branch not covered" >            typeof timer[async_id_symbol] === 'number')</span> {
+<span class="cstat-no" title="statement not covered" >        emitDestroy(timer[async_id_symbol]);</span>
+<span class="cstat-no" title="statement not covered" >        timer._destroyed = true;</span>
+      }
+      continue;
+    }
+&nbsp;
+    var domain = timer.domain;
+    if (domain) {
+      domain.enter();
+    }
+&nbsp;
+    tryOnTimeout(timer, list);
+&nbsp;
+    if (domain)
+      domain.exit();
+  }
+&nbsp;
+  // If `L.peek(list)` returned nothing, the list was either empty or we have
+  // called all of the timer timeouts.
+  // As such, we can remove the list and clean up the TimerWrap C++ handle.
+  debug('%d list empty', msecs);
+  assert(L.isEmpty(list));
+&nbsp;
+  // Either refedLists[msecs] or unrefedLists[msecs] may have been removed and
+  // recreated since the reference to `list` was created. Make sure they're
+  // the same instance of the list before destroying.
+  if (list._unrefed === true &amp;&amp; list === unrefedLists[msecs]) {
+    delete unrefedLists[msecs];
+  } else if (list === refedLists[msecs]) {
+    delete refedLists[msecs];
+  }
+&nbsp;
+  // Do not close the underlying handle if its ownership has changed
+  // (e.g it was unrefed in its callback).
+  if (this.owner)
+    return;
+&nbsp;
+  this.close();
+}
+&nbsp;
+&nbsp;
+// An optimization so that the try/finally only de-optimizes (since at least v8
+// 4.7) what is in this smaller function.
+function tryOnTimeout(timer, list) {
+  timer._called = true;
+  const timerAsyncId = (typeof timer[async_id_symbol] === 'number') ?
+    timer[async_id_symbol] : <span class="branch-1 cbranch-no" title="branch not covered" >null;</span>
+  var threw = true;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (timerAsyncId !== null)
+    emitBefore(timerAsyncId, timer[trigger_async_id_symbol]);
+  try {
+    ontimeout(timer);
+    threw = false;
+  } finally {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (timerAsyncId !== null) {
+      if (!threw)
+        emitAfter(timerAsyncId);
+      if (!timer._repeat &amp;&amp; async_hook_fields[kDestroy] &gt; 0 &amp;&amp;
+          !timer._destroyed) {
+        emitDestroy(timerAsyncId);
+        timer._destroyed = true;
+      }
+    }
+&nbsp;
+    if (!threw) return;
+&nbsp;
+    // Postpone all later list events to next tick. We need to do this
+    // so that the events are called in the order they were created.
+    const lists = list._unrefed === true ? <span class="branch-0 cbranch-no" title="branch not covered" >unrefedLists </span>: refedLists;
+    for (var key in lists) {
+      if (key &gt; list.msecs) {
+        lists[key].nextTick = true;
+      }
+    }
+    // We need to continue processing after domain error handling
+    // is complete, but not by using whatever domain was left over
+    // when the timeout threw its exception.
+    const domain = process.domain;
+    process.domain = null;
+    // If we threw, we need to process the rest of the list in nextTick.
+    process.nextTick(listOnTimeoutNT, list);
+    process.domain = domain;
+  }
+}
+&nbsp;
+&nbsp;
+function listOnTimeoutNT(list) {
+  list._timer[kOnTimeout]();
+}
+&nbsp;
+&nbsp;
+// A convenience function for re-using TimerWrap handles more easily.
+//
+// This mostly exists to fix https://github.com/nodejs/node/issues/1264.
+// Handles in libuv take at least one `uv_run` to be registered as unreferenced.
+// Re-using an existing handle allows us to skip that, so that a second `uv_run`
+// will return no active handles, even when running `setTimeout(fn).unref()`.
+function reuse(item) {
+  L.remove(item);
+&nbsp;
+  var list = refedLists[item._idleTimeout];
+  // if empty - reuse the watcher
+  if (list &amp;&amp; L.isEmpty(list)) {
+    debug('reuse hit');
+    list._timer.stop();
+    delete refedLists[item._idleTimeout];
+    return list._timer;
+  }
+&nbsp;
+  return null;
+}
+&nbsp;
+&nbsp;
+// Remove a timer. Cancels the timeout and resets the relevant timer properties.
+const unenroll = exports.unenroll = function(item) {
+  // Fewer checks may be possible, but these cover everything.
+  if (async_hook_fields[kDestroy] &gt; 0 &amp;&amp;
+      item &amp;&amp;
+      typeof item[async_id_symbol] === 'number' &amp;&amp;
+      !item._destroyed) {
+    emitDestroy(item[async_id_symbol]);
+    item._destroyed = true;
+  }
+&nbsp;
+  var handle = reuse(item);
+  if (handle) {
+    debug('unenroll: list empty');
+    handle.close();
+  }
+  // if active is called later, then we want to make sure not to insert again
+  item._idleTimeout = -1;
+};
+&nbsp;
+&nbsp;
+// Make a regular object able to act as a timer by setting some properties.
+// This function does not start the timer, see `active()`.
+// Using existing objects as timers slightly reduces object overhead.
+exports.enroll = function(item, msecs) {
+  if (typeof msecs !== 'number') {
+    throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'msecs',
+                               'number', msecs);
+  }
+&nbsp;
+  if (msecs &lt; 0 || !isFinite(msecs)) {
+    throw new errors.RangeError('ERR_VALUE_OUT_OF_RANGE', 'msecs',
+                                'a non-negative finite number', msecs);
+  }
+&nbsp;
+  // if this item was already in a list somewhere
+  // then we should unenroll it from that
+  if (item._idleNext) unenroll(item);
+&nbsp;
+  // Ensure that msecs fits into signed int32
+  if (msecs &gt; TIMEOUT_MAX) {
+    process.emitWarning(`${msecs} does not fit into a 32-bit signed integer.` +
+                        `\nTimer duration was truncated to ${TIMEOUT_MAX}.`,
+                        'TimeoutOverflowWarning');
+    msecs = TIMEOUT_MAX;
+  }
+&nbsp;
+  item._idleTimeout = msecs;
+  L.init(item);
+};
+&nbsp;
+&nbsp;
+/*
+ * DOM-style timers
+ */
+&nbsp;
+&nbsp;
+function setTimeout(callback, after, arg1, arg2, arg3) {
+  if (typeof callback !== 'function') {
+    throw new errors.TypeError('ERR_INVALID_CALLBACK');
+  }
+&nbsp;
+  var len = arguments.length;
+  var args;
+  if (len === 3) {
+    args = [arg1];
+  } else if (len === 4) {
+    args = [arg1, arg2];
+  } else if (len &gt; 4) {
+    args = [arg1, arg2, arg3];
+    for (var i = 5; i &lt; len; i++)
+      // extend array dynamically, makes .apply run much faster in v6.0.0
+      args[i - 2] = arguments[i];
+  }
+&nbsp;
+  return createSingleTimeout(callback, after, args);
+}
+&nbsp;
+setTimeout[internalUtil.promisify.custom] = function(after, value) {
+  const promise = createPromise();
+  createSingleTimeout(promise, after, [value]);
+  return promise;
+};
+&nbsp;
+exports.setTimeout = setTimeout;
+&nbsp;
+function createSingleTimeout(callback, after, args) {
+  after *= 1; // coalesce to number or NaN
+  if (!(after &gt;= 1 &amp;&amp; after &lt;= TIMEOUT_MAX)) {
+    if (after &gt; TIMEOUT_MAX) {
+      process.emitWarning(`${after} does not fit into` +
+                          ' a 32-bit signed integer.' +
+                          '\nTimeout duration was set to 1.',
+                          'TimeoutOverflowWarning');
+    }
+    after = 1; // schedule on next tick, follows browser behavior
+  }
+&nbsp;
+  var timer = new Timeout(after, callback, args);
+  if (process.domain)
+    timer.domain = process.domain;
+&nbsp;
+  active(timer);
+&nbsp;
+  return timer;
+}
+&nbsp;
+&nbsp;
+function ontimeout(timer) {
+  var args = timer._timerArgs;
+  var callback = timer._onTimeout;
+  if (typeof callback !== 'function')
+    return promiseResolve(callback, args[0]);
+  if (!args)
+    timer._onTimeout();
+  else {
+    switch (args.length) {
+      case 1:
+        timer._onTimeout(args[0]);
+        break;
+      case 2:
+        timer._onTimeout(args[0], args[1]);
+        break;
+      case 3:
+        timer._onTimeout(args[0], args[1], args[2]);
+        break;
+      default:
+        Function.prototype.apply.call(callback, timer, args);
+    }
+  }
+  if (timer._repeat)
+    rearm(timer);
+}
+&nbsp;
+&nbsp;
+function rearm(timer) {
+  // // Do not re-arm unenroll'd or closed timers.
+  if (timer._idleTimeout === -1) return;
+&nbsp;
+  // If timer is unref'd (or was - it's permanently removed from the list.)
+  if (timer._handle &amp;&amp; timer instanceof Timeout) {
+    timer._handle.start(timer._repeat);
+  } else {
+    timer._idleTimeout = timer._repeat;
+    active(timer);
+  }
+}
+&nbsp;
+&nbsp;
+const clearTimeout = exports.clearTimeout = function(timer) {
+  if (timer &amp;&amp; (timer[kOnTimeout] || timer._onTimeout)) {
+    timer[kOnTimeout] = timer._onTimeout = null;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (timer instanceof Timeout) {
+      timer.close(); // for after === 0
+    } else {
+<span class="cstat-no" title="statement not covered" >      unenroll(timer);</span>
+    }
+  }
+};
+&nbsp;
+&nbsp;
+exports.setInterval = function(callback, repeat, arg1, arg2, arg3) {
+  if (typeof callback !== 'function') {
+    throw new errors.TypeError('ERR_INVALID_CALLBACK');
+  }
+&nbsp;
+  var len = arguments.length;
+  var args;
+  if (len === 3) {
+    args = [arg1];
+  } else if (len === 4) {
+    args = [arg1, arg2];
+  } else if (len &gt; 4) {
+    args = [arg1, arg2, arg3];
+    for (var i = 5; i &lt; len; i++)
+      // extend array dynamically, makes .apply run much faster in v6.0.0
+      args[i - 2] = arguments[i];
+  }
+&nbsp;
+  return createRepeatTimeout(callback, repeat, args);
+};
+&nbsp;
+function createRepeatTimeout(callback, repeat, args) {
+  repeat *= 1; // coalesce to number or NaN
+  if (!(repeat &gt;= 1 &amp;&amp; repeat &lt;= TIMEOUT_MAX)) {
+    if (repeat &gt; TIMEOUT_MAX) {
+      process.emitWarning(`${repeat} does not fit into` +
+                          ' a 32-bit signed integer.' +
+                          '\nInterval duration was set to 1.',
+                          'TimeoutOverflowWarning');
+    }
+    repeat = 1; // schedule on next tick, follows browser behavior
+  }
+&nbsp;
+  var timer = new Timeout(repeat, callback, args);
+  timer._repeat = repeat;
+  if (process.domain)
+    timer.domain = process.domain;
+&nbsp;
+  active(timer);
+&nbsp;
+  return timer;
+}
+&nbsp;
+exports.clearInterval = function(timer) {
+  if (timer &amp;&amp; timer._repeat) {
+    timer._repeat = null;
+    clearTimeout(timer);
+  }
+};
+&nbsp;
+&nbsp;
+function Timeout(after, callback, args) {
+  this._called = false;
+  this._idleTimeout = after;
+  this._idlePrev = this;
+  this._idleNext = this;
+  this._idleStart = null;
+  this._onTimeout = callback;
+  this._timerArgs = args;
+  this._repeat = null;
+  this._destroyed = false;
+  this[async_id_symbol] = ++async_id_fields[kAsyncIdCounter];
+  this[trigger_async_id_symbol] = initTriggerId();
+  if (async_hook_fields[kInit] &gt; 0)
+    emitInit(
+      this[async_id_symbol], 'Timeout', this[trigger_async_id_symbol], this
+    );
+}
+&nbsp;
+&nbsp;
+function unrefdHandle() {
+  // Don't attempt to call the callback if it is not a function.
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof this.owner._onTimeout === 'function') {
+    ontimeout(this.owner);
+  }
+&nbsp;
+  // Make sure we clean up if the callback is no longer a function
+  // even if the timer is an interval.
+  if (!this.owner._repeat ||
+      typeof this.owner._onTimeout !== 'function') {
+    this.owner.close();
+  }
+}
+&nbsp;
+&nbsp;
+Timeout.prototype.unref = function() {
+  if (this._handle) {
+    this._handle.unref();
+  } else if (typeof this._onTimeout === 'function') {
+    var now = TimerWrap.now();
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this._idleStart) <span class="cstat-no" title="statement not covered" >this._idleStart = now;</span>
+    var delay = this._idleStart + this._idleTimeout - now;
+    if (delay &lt; 0) delay = 0;
+&nbsp;
+    // Prevent running cb again when unref() is called during the same cb
+    if (this._called &amp;&amp; !this._repeat) {
+      unenroll(this);
+      return;
+    }
+&nbsp;
+    var handle = reuse(this);
+    if (handle) {
+      handle._list = undefined;
+    }
+&nbsp;
+    this._handle = handle || new TimerWrap();
+    this._handle.owner = this;
+    this._handle[kOnTimeout] = unrefdHandle;
+    this._handle.start(delay);
+    this._handle.domain = this.domain;
+    this._handle.unref();
+  }
+  return this;
+};
+&nbsp;
+Timeout.prototype.ref = function() {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (this._handle)
+    this._handle.ref();
+  return this;
+};
+&nbsp;
+Timeout.prototype.close = function() {
+  this._onTimeout = null;
+  if (this._handle) {
+    // Fewer checks may be possible, but these cover everything.
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (async_hook_fields[kDestroy] &gt; 0 &amp;&amp;
+<span class="branch-1 cbranch-no" title="branch not covered" >        this </span>&amp;&amp;
+<span class="branch-2 cbranch-no" title="branch not covered" >        typeof this[async_id_symbol] === 'number' </span>&amp;&amp;
+<span class="branch-3 cbranch-no" title="branch not covered" >        !this._destroyed)</span> {
+<span class="cstat-no" title="statement not covered" >      emitDestroy(this[async_id_symbol]);</span>
+<span class="cstat-no" title="statement not covered" >      this._destroyed = true;</span>
+    }
+&nbsp;
+    this._idleTimeout = -1;
+    this._handle[kOnTimeout] = null;
+    this._handle.close();
+  } else {
+    unenroll(this);
+  }
+  return this;
+};
+&nbsp;
+&nbsp;
+// A linked list for storing `setImmediate()` requests
+function ImmediateList() {
+  this.head = null;
+  this.tail = null;
+}
+&nbsp;
+// Appends an item to the end of the linked list, adjusting the current tail's
+// previous and next pointers where applicable
+ImmediateList.prototype.append = function(item) {
+  if (this.tail) {
+    this.tail._idleNext = item;
+    item._idlePrev = this.tail;
+  } else {
+    this.head = item;
+  }
+  this.tail = item;
+};
+&nbsp;
+// Removes an item from the linked list, adjusting the pointers of adjacent
+// items and the linked list's head or tail pointers as necessary
+ImmediateList.prototype.remove = function(item) {
+  if (item._idleNext) {
+    item._idleNext._idlePrev = item._idlePrev;
+  }
+&nbsp;
+  if (item._idlePrev) {
+    item._idlePrev._idleNext = item._idleNext;
+  }
+&nbsp;
+  if (item === this.head)
+    this.head = item._idleNext;
+  if (item === this.tail)
+    this.tail = item._idlePrev;
+&nbsp;
+  item._idleNext = null;
+  item._idlePrev = null;
+};
+&nbsp;
+// Create a single linked list instance only once at startup
+var immediateQueue = new ImmediateList();
+&nbsp;
+&nbsp;
+function processImmediate() {
+  var immediate = immediateQueue.head;
+  var tail = immediateQueue.tail;
+  var domain;
+&nbsp;
+  // Clear the linked list early in case new `setImmediate()` calls occur while
+  // immediate callbacks are executed
+  immediateQueue.head = immediateQueue.tail = null;
+&nbsp;
+  while (immediate) {
+    domain = immediate.domain;
+&nbsp;
+    if (!immediate._onImmediate) {
+      immediate = immediate._idleNext;
+      continue;
+    }
+&nbsp;
+    if (domain)
+      domain.enter();
+&nbsp;
+    immediate._callback = immediate._onImmediate;
+&nbsp;
+    // Save next in case `clearImmediate(immediate)` is called from callback
+    var next = immediate._idleNext;
+&nbsp;
+    tryOnImmediate(immediate, tail);
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (domain)
+<span class="cstat-no" title="statement not covered" >      domain.exit();</span>
+&nbsp;
+    // If `clearImmediate(immediate)` wasn't called from the callback, use the
+    // `immediate`'s next item
+    if (immediate._idleNext)
+      immediate = immediate._idleNext;
+    else
+      immediate = next;
+  }
+&nbsp;
+  // Only round-trip to C++ land if we have to. Calling clearImmediate() on an
+  // immediate that's in |queue| is okay. Worst case is we make a superfluous
+  // call to NeedImmediateCallbackSetter().
+  if (!immediateQueue.head) {
+    process._needImmediateCallback = false;
+  }
+}
+&nbsp;
+&nbsp;
+// An optimization so that the try/finally only de-optimizes (since at least v8
+// 4.7) what is in this smaller function.
+function tryOnImmediate(immediate, oldTail) {
+  var threw = true;
+  emitBefore(immediate[async_id_symbol], immediate[trigger_async_id_symbol]);
+  try {
+    // make the actual call outside the try/finally to allow it to be optimized
+    runCallback(immediate);
+    threw = false;
+  } finally {
+    // clearImmediate checks _callback === null for kDestroy hooks.
+    immediate._callback = null;
+    if (!threw)
+      emitAfter(immediate[async_id_symbol]);
+    if (async_hook_fields[kDestroy] &gt; 0 &amp;&amp; !immediate._destroyed) {
+      emitDestroy(immediate[async_id_symbol]);
+      immediate._destroyed = true;
+    }
+&nbsp;
+    if (threw &amp;&amp; immediate._idleNext) {
+      // Handle any remaining on next tick, assuming we're still alive to do so.
+      const curHead = immediateQueue.head;
+      const next = immediate._idleNext;
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (curHead) {
+<span class="cstat-no" title="statement not covered" >        curHead._idlePrev = oldTail;</span>
+<span class="cstat-no" title="statement not covered" >        oldTail._idleNext = curHead;</span>
+<span class="cstat-no" title="statement not covered" >        next._idlePrev = null;</span>
+<span class="cstat-no" title="statement not covered" >        immediateQueue.head = next;</span>
+      } else {
+        immediateQueue.head = next;
+        immediateQueue.tail = oldTail;
+      }
+      process.nextTick(processImmediate);
+    }
+  }
+}
+&nbsp;
+function runCallback(timer) {
+  const argv = timer._argv;
+  const argc = argv ? argv.length : 0;
+  if (typeof timer._callback !== 'function')
+    return promiseResolve(timer._callback, argv[0]);
+  switch (argc) {
+    // fast-path callbacks with 0-3 arguments
+    case 0:
+      return timer._callback();
+    case 1:
+      return timer._callback(argv[0]);
+    case 2:
+      return timer._callback(argv[0], argv[1]);
+    case 3:
+      return timer._callback(argv[0], argv[1], argv[2]);
+    // more than 3 arguments run slower with .apply
+    default:
+      return Function.prototype.apply.call(timer._callback, timer, argv);
+  }
+}
+&nbsp;
+&nbsp;
+function Immediate() {
+  // assigning the callback here can cause optimize/deoptimize thrashing
+  // so have caller annotate the object (node v6.0.0, v8 5.0.71.35)
+  this._idleNext = null;
+  this._idlePrev = null;
+  this._callback = null;
+  this._argv = null;
+  this._onImmediate = null;
+  this._destroyed = false;
+  this.domain = process.domain;
+  this[async_id_symbol] = ++async_id_fields[kAsyncIdCounter];
+  this[trigger_async_id_symbol] = initTriggerId();
+  if (async_hook_fields[kInit] &gt; 0)
+    emitInit(
+      this[async_id_symbol], 'Immediate', this[trigger_async_id_symbol], this
+    );
+}
+&nbsp;
+function setImmediate(callback, arg1, arg2, arg3) {
+  if (typeof callback !== 'function') {
+    throw new errors.TypeError('ERR_INVALID_CALLBACK');
+  }
+&nbsp;
+  var i, args;
+&nbsp;
+  switch (arguments.length) {
+    // fast cases
+    case 1:
+      break;
+    case 2:
+      args = [arg1];
+      break;
+    case 3:
+      args = [arg1, arg2];
+      break;
+    default:
+      args = [arg1, arg2, arg3];
+      for (i = 4; i &lt; arguments.length; i++)
+        // extend array dynamically, makes .apply run much faster in v6.0.0
+        args[i - 1] = arguments[i];
+      break;
+  }
+  return createImmediate(args, callback);
+}
+&nbsp;
+setImmediate[internalUtil.promisify.custom] = function(value) {
+  const promise = createPromise();
+  createImmediate([value], promise);
+  return promise;
+};
+&nbsp;
+exports.setImmediate = setImmediate;
+&nbsp;
+function createImmediate(args, callback) {
+  // declaring it `const immediate` causes v6.0.0 to deoptimize this function
+  var immediate = new Immediate();
+  immediate._callback = callback;
+  immediate._argv = args;
+  immediate._onImmediate = callback;
+&nbsp;
+  if (!process._needImmediateCallback) {
+    process._needImmediateCallback = true;
+    process._immediateCallback = processImmediate;
+  }
+&nbsp;
+  immediateQueue.append(immediate);
+&nbsp;
+  return immediate;
+}
+&nbsp;
+&nbsp;
+exports.clearImmediate = function(immediate) {
+  if (!immediate) return;
+&nbsp;
+  if (async_hook_fields[kDestroy] &gt; 0 &amp;&amp;
+      immediate._callback !== null &amp;&amp;
+      !immediate._destroyed) {
+    emitDestroy(immediate[async_id_symbol]);
+    immediate._destroyed = true;
+  }
+&nbsp;
+  immediate._onImmediate = null;
+&nbsp;
+  immediateQueue.remove(immediate);
+&nbsp;
+  if (!immediateQueue.head) {
+    process._needImmediateCallback = false;
+  }
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 06 2017 10:15:08 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

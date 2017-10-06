@@ -1,0 +1,3524 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for root/_tls_wrap.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">root</a> _tls_wrap.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.15% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>515/547</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">87.76% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>301/343</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">97.01% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>65/67</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.15% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>499/530</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907
+908
+909
+910
+911
+912
+913
+914
+915
+916
+917
+918
+919
+920
+921
+922
+923
+924
+925
+926
+927
+928
+929
+930
+931
+932
+933
+934
+935
+936
+937
+938
+939
+940
+941
+942
+943
+944
+945
+946
+947
+948
+949
+950
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960
+961
+962
+963
+964
+965
+966
+967
+968
+969
+970
+971
+972
+973
+974
+975
+976
+977
+978
+979
+980
+981
+982
+983
+984
+985
+986
+987
+988
+989
+990
+991
+992
+993
+994
+995
+996
+997
+998
+999
+1000
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+1010
+1011
+1012
+1013
+1014
+1015
+1016
+1017
+1018
+1019
+1020
+1021
+1022
+1023
+1024
+1025
+1026
+1027
+1028
+1029
+1030
+1031
+1032
+1033
+1034
+1035
+1036
+1037
+1038
+1039
+1040
+1041
+1042
+1043
+1044
+1045
+1046
+1047
+1048
+1049
+1050
+1051
+1052
+1053
+1054
+1055
+1056
+1057
+1058
+1059
+1060
+1061
+1062
+1063
+1064
+1065
+1066
+1067
+1068
+1069
+1070
+1071
+1072
+1073
+1074
+1075
+1076
+1077
+1078
+1079
+1080
+1081
+1082
+1083
+1084
+1085
+1086
+1087
+1088
+1089
+1090
+1091
+1092
+1093
+1094
+1095
+1096
+1097
+1098
+1099
+1100
+1101
+1102
+1103
+1104
+1105
+1106
+1107
+1108
+1109
+1110
+1111
+1112
+1113
+1114
+1115
+1116
+1117
+1118
+1119
+1120
+1121
+1122
+1123
+1124
+1125
+1126
+1127
+1128
+1129
+1130
+1131
+1132
+1133
+1134
+1135
+1136
+1137
+1138
+1139
+1140
+1141
+1142
+1143
+1144
+1145
+1146
+1147
+1148
+1149
+1150
+1151
+1152
+1153
+1154</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">421x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">421x</span>
+<span class="cline-any cline-yes">421x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">421x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">421x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">421x</span>
+<span class="cline-any cline-yes">421x</span>
+<span class="cline-any cline-yes">421x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">395x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">395x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">395x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">388x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">786x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">786x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">785x</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">789x</span>
+<span class="cline-any cline-yes">783x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4815x</span>
+<span class="cline-any cline-yes">377x</span>
+<span class="cline-any cline-yes">377x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">4815x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">770x</span>
+<span class="cline-any cline-yes">770x</span>
+<span class="cline-any cline-yes">770x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">770x</span>
+<span class="cline-any cline-yes">765x</span>
+<span class="cline-any cline-yes">764x</span>
+<span class="cline-any cline-yes">764x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">765x</span>
+<span class="cline-any cline-yes">765x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">770x</span>
+<span class="cline-any cline-yes">424x</span>
+<span class="cline-any cline-yes">424x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">434x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">354x</span>
+<span class="cline-any cline-yes">354x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">765x</span>
+<span class="cline-any cline-yes">765x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">765x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">766x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">775x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">420x</span>
+<span class="cline-any cline-yes">420x</span>
+<span class="cline-any cline-yes">420x</span>
+<span class="cline-any cline-yes">420x</span>
+<span class="cline-any cline-yes">420x</span>
+<span class="cline-any cline-yes">420x</span>
+<span class="cline-any cline-yes">420x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">420x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">157x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">177x</span>
+<span class="cline-any cline-yes">177x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">431x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">431x</span>
+<span class="cline-any cline-yes">431x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">434x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">354x</span>
+<span class="cline-any cline-yes">354x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">743x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">741x</span>
+<span class="cline-any cline-yes">741x</span>
+<span class="cline-any cline-yes">741x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">723x</span>
+<span class="cline-any cline-yes">723x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">723x</span>
+<span class="cline-any cline-yes">723x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">723x</span>
+<span class="cline-any cline-yes">395x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">723x</span>
+<span class="cline-any cline-yes">723x</span>
+<span class="cline-any cline-yes">723x</span>
+<span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-yes">723x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">354x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">347x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">129x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">117x</span>
+<span class="cline-any cline-yes">117x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">88x</span>
+<span class="cline-any cline-yes">88x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">332x</span>
+<span class="cline-any cline-yes">332x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-yes">384x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">405x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">388x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">351x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">349x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">282x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">282x</span>
+<span class="cline-any cline-yes">282x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">282x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">281x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">280x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">278x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">278x</span>
+<span class="cline-any cline-yes">239x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">213x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">129x</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">322x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">322x</span>
+<span class="cline-any cline-yes">322x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">268x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">302x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">321x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">380x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">373x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">369x</span>
+<span class="cline-any cline-yes">369x</span>
+<span class="cline-any cline-yes">369x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">303x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">348x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">348x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">357x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">357x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">357x</span>
+<span class="cline-any cline-yes">129x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">357x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">357x</span>
+<span class="cline-any cline-yes">357x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">357x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+&nbsp;
+'use strict';
+&nbsp;
+require('internal/util').assertCrypto();
+&nbsp;
+const assert = require('assert');
+const crypto = require('crypto');
+const net = require('net');
+const tls = require('tls');
+const util = require('util');
+const common = require('_tls_common');
+const StreamWrap = require('_stream_wrap').StreamWrap;
+const Buffer = require('buffer').Buffer;
+const debug = util.debuglog('tls');
+const Timer = process.binding('timer_wrap').Timer;
+const tls_wrap = process.binding('tls_wrap');
+const TCP = process.binding('tcp_wrap').TCP;
+const Pipe = process.binding('pipe_wrap').Pipe;
+const errors = require('internal/errors');
+const kConnectOptions = Symbol('connect-options');
+const kDisableRenegotiation = Symbol('disable-renegotiation');
+const kErrorEmitted = Symbol('error-emitted');
+const kHandshakeTimeout = Symbol('handshake-timeout');
+const kRes = Symbol('res');
+const kSNICallback = Symbol('snicallback');
+&nbsp;
+const noop = () =&gt; {};
+&nbsp;
+function onhandshakestart() {
+  debug('onhandshakestart');
+&nbsp;
+  const owner = this.owner;
+  const now = Timer.now();
+&nbsp;
+  assert(now &gt;= this.lastHandshakeTime);
+&nbsp;
+  <span class="missing-if-branch" title="if path not taken" >I</span>if ((now - this.lastHandshakeTime) &gt;= tls.CLIENT_RENEG_WINDOW * 1000) {
+<span class="cstat-no" title="statement not covered" >    this.handshakes = 0;</span>
+  }
+&nbsp;
+  const first = (this.lastHandshakeTime === 0);
+  this.lastHandshakeTime = now;
+  if (first) return;
+&nbsp;
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (++this.handshakes &gt; tls.CLIENT_RENEG_LIMIT) {
+    // Defer the error event to the next tick. We're being called from OpenSSL's
+    // state machine and OpenSSL is not re-entrant. We cannot allow the user's
+    // callback to destroy the connection right now, it would crash and burn.
+<span class="cstat-no" title="statement not covered" >    setImmediate(emitSessionAttackError, owner);</span>
+  }
+&nbsp;
+  if (owner[kDisableRenegotiation] &amp;&amp; this.handshakes &gt; 0) {
+    const err = new Error('TLS session renegotiation disabled for this socket');
+    owner._emitTLSError(err);
+  }
+}
+&nbsp;
+function <span class="fstat-no" title="function not covered" >emitSessionAttackError(</span>socket) {
+<span class="cstat-no" title="statement not covered" >  socket._emitTLSError(new errors.Error('ERR_TLS_SESSION_ATTACK'));</span>
+}
+&nbsp;
+function onhandshakedone() {
+  debug('onhandshakedone');
+&nbsp;
+  const owner = this.owner;
+&nbsp;
+  // `newSession` callback wasn't called yet
+  if (owner._newSessionPending) {
+    owner._securePending = true;
+    return;
+  }
+&nbsp;
+  owner._finishInit();
+}
+&nbsp;
+&nbsp;
+function loadSession(hello) {
+  const owner = this.owner;
+&nbsp;
+  var once = false;
+  function onSession(err, session) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (once)
+<span class="cstat-no" title="statement not covered" >      return owner.destroy(new errors.Error('ERR_MULTIPLE_CALLBACK'));</span>
+    once = true;
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (err)
+<span class="cstat-no" title="statement not covered" >      return owner.destroy(err);</span>
+&nbsp;
+    if (owner._handle === null)
+      return owner.destroy(new errors.Error('ERR_SOCKET_CLOSED'));
+&nbsp;
+    owner._handle.loadSession(session);
+    owner._handle.endParser();
+  }
+&nbsp;
+  if (hello.sessionId.length &lt;= 0 ||
+      hello.tlsTicket ||
+      owner.server &amp;&amp;
+      !owner.server.emit('resumeSession', hello.sessionId, onSession)) {
+    owner._handle.endParser();
+  }
+}
+&nbsp;
+&nbsp;
+function loadSNI(info) {
+  const owner = this.owner;
+  const servername = info.servername;
+  if (!servername || !owner._SNICallback)
+    return requestOCSP(owner, info);
+&nbsp;
+  let once = false;
+  owner._SNICallback(servername, (err, context) =&gt; {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (once)
+<span class="cstat-no" title="statement not covered" >      return owner.destroy(new errors.Error('ERR_MULTIPLE_CALLBACK'));</span>
+    once = true;
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (err)
+<span class="cstat-no" title="statement not covered" >      return owner.destroy(err);</span>
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (owner._handle === null)
+<span class="cstat-no" title="statement not covered" >      return owner.destroy(new errors.Error('ERR_SOCKET_CLOSED'));</span>
+&nbsp;
+    // TODO(indutny): eventually disallow raw `SecureContext`
+    if (context)
+      owner._handle.sni_context = context.context || context;
+&nbsp;
+    requestOCSP(owner, info);
+  });
+}
+&nbsp;
+&nbsp;
+function requestOCSP(socket, info) {
+  if (!info.OCSPRequest || !socket.server)
+    return requestOCSPDone(socket);
+&nbsp;
+  let ctx = socket._handle.sni_context;
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (!ctx) {
+    ctx = socket.server._sharedCreds;
+&nbsp;
+    // TLS socket is using a `net.Server` instead of a tls.TLSServer.
+    // Some TLS properties like `server._sharedCreds` will not be present
+    if (!ctx)
+      return requestOCSPDone(socket);
+  }
+&nbsp;
+  // TODO(indutny): eventually disallow raw `SecureContext`
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (ctx.context)
+    ctx = ctx.context;
+&nbsp;
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (socket.server.listenerCount('OCSPRequest') === 0) {
+<span class="cstat-no" title="statement not covered" >    return requestOCSPDone(socket);</span>
+  }
+&nbsp;
+  let once = false;
+  const onOCSP = (err, response) =&gt; {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (once)
+<span class="cstat-no" title="statement not covered" >      return socket.destroy(new errors.Error('ERR_MULTIPLE_CALLBACK'));</span>
+    once = true;
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (err)
+<span class="cstat-no" title="statement not covered" >      return socket.destroy(err);</span>
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (socket._handle === null)
+<span class="cstat-no" title="statement not covered" >      return socket.destroy(new errors.Error('ERR_SOCKET_CLOSED'));</span>
+&nbsp;
+    if (response)
+      socket._handle.setOCSPResponse(response);
+    requestOCSPDone(socket);
+  };
+&nbsp;
+  socket.server.emit('OCSPRequest',
+                     ctx.getCertificate(),
+                     ctx.getIssuer(),
+                     onOCSP);
+}
+&nbsp;
+function requestOCSPDone(socket) {
+  try {
+    socket._handle.certCbDone();
+  } catch (e) {
+    socket.destroy(e);
+  }
+}
+&nbsp;
+&nbsp;
+function onnewsession(key, session) {
+  const owner = this.owner;
+&nbsp;
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!owner.server)
+<span class="cstat-no" title="statement not covered" >    return;</span>
+&nbsp;
+  var once = false;
+  const done = () =&gt; {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (once)
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    once = true;
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (owner._handle === null)
+<span class="cstat-no" title="statement not covered" >      return owner.destroy(new errors.Error('ERR_SOCKET_CLOSED'));</span>
+&nbsp;
+    this.newSessionDone();
+&nbsp;
+    owner._newSessionPending = false;
+    if (owner._securePending)
+      owner._finishInit();
+    owner._securePending = false;
+  };
+&nbsp;
+  owner._newSessionPending = true;
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!owner.server.emit('newSession', key, session, done))
+<span class="cstat-no" title="statement not covered" >    done();</span>
+}
+&nbsp;
+&nbsp;
+function onocspresponse(resp) {
+  this.owner.emit('OCSPResponse', resp);
+}
+&nbsp;
+function onerror(err) {
+  const owner = this.owner;
+&nbsp;
+  if (owner._writableState.errorEmitted)
+    return;
+&nbsp;
+  // Destroy socket if error happened before handshake's finish
+  if (!owner._secureEstablished) {
+    // When handshake fails control is not yet released,
+    // so self._tlsError will return null instead of actual error
+    owner.destroy(err);
+  } else <span class="missing-if-branch" title="if path not taken" >I</span>if (owner._tlsOptions.isServer &amp;&amp;
+             owner._rejectUnauthorized &amp;&amp;
+             /peer did not return a certificate/.test(err.message)) {
+    // Ignore server's authorization errors
+<span class="cstat-no" title="statement not covered" >    owner.destroy();</span>
+  } else {
+    // Throw error
+    owner._emitTLSError(err);
+  }
+&nbsp;
+  owner._writableState.errorEmitted = true;
+}
+&nbsp;
+function initRead(tls, wrapped) {
+  // If we were destroyed already don't bother reading
+  if (!tls._handle)
+    return;
+&nbsp;
+  // Socket already has some buffered data - emulate receiving it
+  if (wrapped &amp;&amp; wrapped._readableState &amp;&amp; wrapped._readableState.length) {
+    var buf;
+    while ((buf = wrapped.read()) !== null)
+      tls._handle.receive(buf);
+  }
+&nbsp;
+  tls.read(0);
+}
+&nbsp;
+/**
+ * Provides a wrap of socket stream to do encrypted communication.
+ */
+&nbsp;
+function TLSSocket(socket, options) {
+  if (options === undefined)
+    this._tlsOptions = {};
+  else
+    this._tlsOptions = options;
+  this._secureEstablished = false;
+  this._securePending = false;
+  this._newSessionPending = false;
+  this._controlReleased = false;
+  this._SNICallback = null;
+  this.servername = null;
+  this.npnProtocol = null;
+  this.alpnProtocol = null;
+  this.authorized = false;
+  this.authorizationError = null;
+  this[kRes] = null;
+&nbsp;
+  // Wrap plain JS Stream into StreamWrap
+  var wrap;
+  if ((socket instanceof net.Socket &amp;&amp; socket._handle) || !socket)
+    wrap = socket;
+  else
+    wrap = new StreamWrap(socket);
+&nbsp;
+  // Just a documented property to make secure sockets
+  // distinguishable from regular ones.
+  this.encrypted = true;
+&nbsp;
+  net.Socket.call(this, {
+    handle: this._wrapHandle(wrap),
+    allowHalfOpen: socket &amp;&amp; socket.allowHalfOpen,
+    readable: false,
+    writable: false
+  });
+&nbsp;
+  // Proxy for API compatibility
+  this.ssl = this._handle;
+&nbsp;
+  this.on('error', this._tlsError);
+&nbsp;
+  this._init(socket, wrap);
+&nbsp;
+  // Make sure to setup all required properties like: `connecting` before
+  // starting the flow of the data
+  this.readable = true;
+  this.writable = true;
+&nbsp;
+  // Read on next tick so the caller has a chance to setup listeners
+  process.nextTick(initRead, this, socket);
+}
+util.inherits(TLSSocket, net.Socket);
+exports.TLSSocket = TLSSocket;
+&nbsp;
+var proxiedMethods = [
+  'ref', 'unref', 'open', 'bind', 'listen', 'connect', 'bind6',
+  'connect6', 'getsockname', 'getpeername', 'setNoDelay', 'setKeepAlive',
+  'setSimultaneousAccepts', 'setBlocking',
+&nbsp;
+  // PipeWrap
+  'setPendingInstances'
+];
+&nbsp;
+// Proxy HandleWrap, PipeWrap and TCPWrap methods
+function makeMethodProxy(name) {
+  return function methodProxy(...args) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (this._parent[name])
+      return this._parent[name].apply(this._parent, args);
+  };
+}
+for (var n = 0; n &lt; proxiedMethods.length; n++) {
+  tls_wrap.TLSWrap.prototype[proxiedMethods[n]] =
+    makeMethodProxy(proxiedMethods[n]);
+}
+&nbsp;
+tls_wrap.TLSWrap.prototype.close = function close(cb) {
+  let ssl;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (this.owner) {
+    ssl = this.owner.ssl;
+    this.owner.ssl = null;
+  }
+&nbsp;
+  // Invoke `destroySSL` on close to clean up possibly pending write requests
+  // that may self-reference TLSWrap, leading to leak
+  const done = () =&gt; {
+    if (ssl) {
+      ssl.destroySSL();
+      if (ssl._secureContext.singleUse) {
+        ssl._secureContext.context.close();
+        ssl._secureContext.context = null;
+      }
+    }
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (cb)
+      cb();
+  };
+&nbsp;
+  if (this._parentWrap &amp;&amp; this._parentWrap._handle === this._parent) {
+    this._parentWrap.once('close', done);
+    return this._parentWrap.destroy();
+  }
+  return this._parent.close(done);
+};
+&nbsp;
+TLSSocket.prototype.disableRenegotiation = function disableRenegotiation() {
+  this[kDisableRenegotiation] = true;
+};
+&nbsp;
+TLSSocket.prototype._wrapHandle = function(wrap) {
+  var handle;
+&nbsp;
+  if (wrap)
+    handle = wrap._handle;
+&nbsp;
+  var options = this._tlsOptions;
+  if (!handle) {
+    handle = options.pipe ? new Pipe() : new TCP();
+    handle.owner = this;
+  }
+&nbsp;
+  // Wrap socket's handle
+  const context = options.secureContext ||
+                  options.credentials ||
+                  tls.createSecureContext(options);
+  const res = tls_wrap.wrap(handle._externalStream,
+                            context.context,
+                            !!options.isServer);
+  res._parent = handle;
+  res._parentWrap = wrap;
+  res._secureContext = context;
+  res.reading = handle.reading;
+  this[kRes] = res;
+  defineHandleReading(this, handle);
+&nbsp;
+  this.on('close', onSocketCloseDestroySSL);
+&nbsp;
+  return res;
+};
+&nbsp;
+// This eliminates a cyclic reference to TLSWrap
+// Ref: https://github.com/nodejs/node/commit/f7620fb96d339f704932f9bb9a0dceb9952df2d4
+function defineHandleReading(socket, handle) {
+  Object.defineProperty(handle, 'reading', {
+    get: () =&gt; {
+      return socket[kRes].reading;
+    },
+    set: (value) =&gt; {
+      socket[kRes].reading = value;
+    }
+  });
+}
+&nbsp;
+function onSocketCloseDestroySSL() {
+  // Make sure we are not doing it on OpenSSL's stack
+  setImmediate(destroySSL, this);
+  this[kRes] = null;
+}
+&nbsp;
+function destroySSL(self) {
+  self._destroySSL();
+}
+&nbsp;
+TLSSocket.prototype._destroySSL = function _destroySSL() {
+  if (!this.ssl) return;
+  this.ssl.destroySSL();
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (this.ssl._secureContext.singleUse) {
+<span class="cstat-no" title="statement not covered" >    this.ssl._secureContext.context.close();</span>
+<span class="cstat-no" title="statement not covered" >    this.ssl._secureContext.context = null;</span>
+  }
+  this.ssl = null;
+};
+&nbsp;
+TLSSocket.prototype._init = function(socket, wrap) {
+  var options = this._tlsOptions;
+  var ssl = this._handle;
+&nbsp;
+  // lib/net.js expect this value to be non-zero if write hasn't been flushed
+  // immediately
+  // TODO(indutny): revise this solution, it might be 1 before handshake and
+  // represent real writeQueueSize during regular writes.
+  ssl.writeQueueSize = 1;
+&nbsp;
+  this.server = options.server;
+&nbsp;
+  // For clients, we will always have either a given ca list or be using
+  // default one
+  const requestCert = !!options.requestCert || !options.isServer;
+  const rejectUnauthorized = !!options.rejectUnauthorized;
+&nbsp;
+  this._requestCert = requestCert;
+  this._rejectUnauthorized = rejectUnauthorized;
+  if (requestCert || rejectUnauthorized)
+    ssl.setVerifyMode(requestCert, rejectUnauthorized);
+&nbsp;
+  if (options.isServer) {
+    ssl.onhandshakestart = onhandshakestart;
+    ssl.onhandshakedone = onhandshakedone;
+    ssl.onclienthello = loadSession;
+    ssl.oncertcb = loadSNI;
+    ssl.onnewsession = onnewsession;
+    ssl.lastHandshakeTime = 0;
+    ssl.handshakes = 0;
+&nbsp;
+    if (this.server) {
+      if (this.server.listenerCount('resumeSession') &gt; 0 ||
+          this.server.listenerCount('newSession') &gt; 0) {
+        ssl.enableSessionCallbacks();
+      }
+      if (this.server.listenerCount('OCSPRequest') &gt; 0)
+        ssl.enableCertCb();
+    }
+  } else {
+    ssl.onhandshakestart = noop;
+    ssl.onhandshakedone = this._finishInit.bind(this);
+    ssl.onocspresponse = onocspresponse;
+&nbsp;
+    if (options.session)
+      ssl.setSession(options.session);
+  }
+&nbsp;
+  ssl.onerror = onerror;
+&nbsp;
+  // If custom SNICallback was given, or if
+  // there're SNI contexts to perform match against -
+  // set `.onsniselect` callback.
+  if (process.features.tls_sni &amp;&amp;
+      options.isServer &amp;&amp;
+      options.SNICallback &amp;&amp;
+      options.server &amp;&amp;
+      (options.SNICallback !== SNICallback ||
+       options.server._contexts.length)) {
+    assert(typeof options.SNICallback === 'function');
+    this._SNICallback = options.SNICallback;
+    ssl.enableCertCb();
+  }
+&nbsp;
+  if (process.features.tls_npn &amp;&amp; options.NPNProtocols)
+    ssl.setNPNProtocols(options.NPNProtocols);
+&nbsp;
+  if (process.features.tls_alpn &amp;&amp; options.ALPNProtocols) {
+    // keep reference in secureContext not to be GC-ed
+    ssl._secureContext.alpnBuffer = options.ALPNProtocols;
+    ssl.setALPNProtocols(ssl._secureContext.alpnBuffer);
+  }
+&nbsp;
+  if (options.handshakeTimeout &gt; 0)
+    this.setTimeout(options.handshakeTimeout, this._handleTimeout);
+&nbsp;
+  if (socket instanceof net.Socket) {
+    this._parent = socket;
+&nbsp;
+    // To prevent assertion in afterConnect() and properly kick off readStart
+    this.connecting = socket.connecting || !socket._handle;
+    socket.once('connect', () =&gt; {
+      this.connecting = false;
+      this.emit('connect');
+    });
+  }
+&nbsp;
+  // Assume `tls.connect()`
+  if (wrap) {
+    wrap.on('error', <span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >this._emitTLSError(err))</span>;
+  } else {
+    assert(!socket);
+    this.connecting = true;
+  }
+};
+&nbsp;
+TLSSocket.prototype.renegotiate = function(options, callback) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (this.destroyed)
+<span class="cstat-no" title="statement not covered" >    return;</span>
+&nbsp;
+  let requestCert = this._requestCert;
+  let rejectUnauthorized = this._rejectUnauthorized;
+&nbsp;
+  if (options.requestCert !== undefined)
+    requestCert = !!options.requestCert;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (options.rejectUnauthorized !== undefined)
+    rejectUnauthorized = !!options.rejectUnauthorized;
+&nbsp;
+  if (requestCert !== this._requestCert ||
+      rejectUnauthorized !== this._rejectUnauthorized) {
+    this._handle.setVerifyMode(requestCert, rejectUnauthorized);
+    this._requestCert = requestCert;
+    this._rejectUnauthorized = rejectUnauthorized;
+  }
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!this._handle.renegotiate()) {
+<span class="cstat-no" title="statement not covered" >    if (callback) {</span>
+<span class="cstat-no" title="statement not covered" >      process.nextTick(callback, new errors.Error('ERR_TLS_RENEGOTIATE'));</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return false;</span>
+  }
+&nbsp;
+  // Ensure that we'll cycle through internal openssl's state
+  this.write('');
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (callback) {
+    this.once('secure', () =&gt; callback(null));
+  }
+&nbsp;
+  return true;
+};
+&nbsp;
+TLSSocket.prototype.setMaxSendFragment = function setMaxSendFragment(size) {
+  return this._handle.setMaxSendFragment(size) === 1;
+};
+&nbsp;
+TLSSocket.prototype.getTLSTicket = function getTLSTicket() {
+  return this._handle.getTLSTicket();
+};
+&nbsp;
+TLSSocket.prototype._handleTimeout = function() {
+  this._emitTLSError(new errors.Error('ERR_TLS_HANDSHAKE_TIMEOUT'));
+};
+&nbsp;
+TLSSocket.prototype._emitTLSError = function(err) {
+  var e = this._tlsError(err);
+  if (e)
+    this.emit('error', e);
+};
+&nbsp;
+TLSSocket.prototype._tlsError = function(err) {
+  this.emit('_tlsError', err);
+  if (this._controlReleased)
+    return err;
+  return null;
+};
+&nbsp;
+TLSSocket.prototype._releaseControl = function() {
+  if (this._controlReleased)
+    return false;
+  this._controlReleased = true;
+  this.removeListener('error', this._tlsError);
+  return true;
+};
+&nbsp;
+TLSSocket.prototype._finishInit = function() {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (process.features.tls_npn) {
+    this.npnProtocol = this._handle.getNegotiatedProtocol();
+  }
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (process.features.tls_alpn) {
+    this.alpnProtocol = this._handle.getALPNNegotiatedProtocol();
+  }
+&nbsp;
+  if (process.features.tls_sni &amp;&amp; this._tlsOptions.isServer) {
+    this.servername = this._handle.getServername();
+  }
+&nbsp;
+  debug('secure established');
+  this._secureEstablished = true;
+  if (this._tlsOptions.handshakeTimeout &gt; 0)
+    this.setTimeout(0, this._handleTimeout);
+  this.emit('secure');
+};
+&nbsp;
+TLSSocket.prototype._start = function() {
+  if (this.connecting) {
+    this.once('connect', this._start);
+    return;
+  }
+&nbsp;
+  // Socket was destroyed before the connection was established
+  if (!this._handle)
+    return;
+&nbsp;
+  debug('start');
+  if (this._tlsOptions.requestOCSP)
+    this._handle.requestOCSP();
+  this._handle.start();
+};
+&nbsp;
+TLSSocket.prototype.setServername = function(name) {
+  this._handle.setServername(name);
+};
+&nbsp;
+TLSSocket.prototype.setSession = function(session) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof session === 'string')
+<span class="cstat-no" title="statement not covered" >    session = Buffer.from(session, 'latin1');</span>
+  this._handle.setSession(session);
+};
+&nbsp;
+TLSSocket.prototype.getPeerCertificate = function(detailed) {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (this._handle) {
+    return common.translatePeerCertificate(
+      this._handle.getPeerCertificate(detailed));
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return null;</span>
+};
+&nbsp;
+TLSSocket.prototype.getSession = function() {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (this._handle) {
+    return this._handle.getSession();
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return null;</span>
+};
+&nbsp;
+TLSSocket.prototype.isSessionReused = function() {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (this._handle) {
+    return this._handle.isSessionReused();
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return null;</span>
+};
+&nbsp;
+TLSSocket.prototype.getCipher = function(err) {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (this._handle) {
+    return this._handle.getCurrentCipher();
+  } else {
+<span class="cstat-no" title="statement not covered" >    return null;</span>
+  }
+};
+&nbsp;
+TLSSocket.prototype.getEphemeralKeyInfo = function() {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (this._handle)
+    return this._handle.getEphemeralKeyInfo();
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return null;</span>
+};
+&nbsp;
+TLSSocket.prototype.getProtocol = function() {
+  if (this._handle)
+    return this._handle.getProtocol();
+&nbsp;
+  return null;
+};
+&nbsp;
+// TODO: support anonymous (nocert) and PSK
+&nbsp;
+&nbsp;
+function onSocketSecure() {
+  if (this._requestCert) {
+    const verifyError = this._handle.verifyError();
+    if (verifyError) {
+      this.authorizationError = verifyError.code;
+&nbsp;
+      if (this._rejectUnauthorized)
+        this.destroy();
+    } else {
+      this.authorized = true;
+    }
+  }
+&nbsp;
+  if (!this.destroyed &amp;&amp; this._releaseControl())
+    this._tlsOptions.server.emit('secureConnection', this);
+}
+&nbsp;
+function onSocketTLSError(err) {
+  if (!this._controlReleased &amp;&amp; !this[kErrorEmitted]) {
+    this[kErrorEmitted] = true;
+    this._tlsOptions.server.emit('tlsClientError', err, this);
+  }
+}
+&nbsp;
+function onSocketClose(err) {
+  // Closed because of error - no need to emit it twice
+  if (err)
+    return;
+&nbsp;
+  // Emit ECONNRESET
+  if (!this._controlReleased &amp;&amp; !this[kErrorEmitted]) {
+    this[kErrorEmitted] = true;
+    const connReset = new Error('socket hang up');
+    connReset.code = 'ECONNRESET';
+    this._tlsOptions.server.emit('tlsClientError', connReset, this);
+  }
+}
+&nbsp;
+function tlsConnectionListener(rawSocket) {
+  const socket = new TLSSocket(rawSocket, {
+    secureContext: this._sharedCreds,
+    isServer: true,
+    server: this,
+    requestCert: this.requestCert,
+    rejectUnauthorized: this.rejectUnauthorized,
+    handshakeTimeout: this[kHandshakeTimeout],
+    NPNProtocols: this.NPNProtocols,
+    ALPNProtocols: this.ALPNProtocols,
+    SNICallback: this[kSNICallback] || SNICallback
+  });
+&nbsp;
+  socket.on('secure', onSocketSecure);
+&nbsp;
+  socket[kErrorEmitted] = false;
+  socket.on('close', onSocketClose);
+  socket.on('_tlsError', onSocketTLSError);
+}
+&nbsp;
+// AUTHENTICATION MODES
+//
+// There are several levels of authentication that TLS/SSL supports.
+// Read more about this in "man SSL_set_verify".
+//
+// 1. The server sends a certificate to the client but does not request a
+// cert from the client. This is common for most HTTPS servers. The browser
+// can verify the identity of the server, but the server does not know who
+// the client is. Authenticating the client is usually done over HTTP using
+// login boxes and cookies and stuff.
+//
+// 2. The server sends a cert to the client and requests that the client
+// also send it a cert. The client knows who the server is and the server is
+// requesting the client also identify themselves. There are several
+// outcomes:
+//
+//   A) verifyError returns null meaning the client's certificate is signed
+//   by one of the server's CAs. The server now knows the client's identity
+//   and the client is authorized.
+//
+//   B) For some reason the client's certificate is not acceptable -
+//   verifyError returns a string indicating the problem. The server can
+//   either (i) reject the client or (ii) allow the client to connect as an
+//   unauthorized connection.
+//
+// The mode is controlled by two boolean variables.
+//
+// requestCert
+//   If true the server requests a certificate from client connections. For
+//   the common HTTPS case, users will want this to be false, which is what
+//   it defaults to.
+//
+// rejectUnauthorized
+//   If true clients whose certificates are invalid for any reason will not
+//   be allowed to make connections. If false, they will simply be marked as
+//   unauthorized but secure communication will continue. By default this is
+//   true.
+//
+//
+//
+// Options:
+// - requestCert. Send verify request. Default to false.
+// - rejectUnauthorized. Boolean, default to true.
+// - key. string.
+// - cert: string.
+// - ca: string or array of strings.
+// - sessionTimeout: integer.
+//
+// emit 'secureConnection'
+//   function (tlsSocket) { }
+//
+//   "UNABLE_TO_GET_ISSUER_CERT", "UNABLE_TO_GET_CRL",
+//   "UNABLE_TO_DECRYPT_CERT_SIGNATURE", "UNABLE_TO_DECRYPT_CRL_SIGNATURE",
+//   "UNABLE_TO_DECODE_ISSUER_PUBLIC_KEY", "CERT_SIGNATURE_FAILURE",
+//   "CRL_SIGNATURE_FAILURE", "CERT_NOT_YET_VALID" "CERT_HAS_EXPIRED",
+//   "CRL_NOT_YET_VALID", "CRL_HAS_EXPIRED" "ERROR_IN_CERT_NOT_BEFORE_FIELD",
+//   "ERROR_IN_CERT_NOT_AFTER_FIELD", "ERROR_IN_CRL_LAST_UPDATE_FIELD",
+//   "ERROR_IN_CRL_NEXT_UPDATE_FIELD", "OUT_OF_MEM",
+//   "DEPTH_ZERO_SELF_SIGNED_CERT", "SELF_SIGNED_CERT_IN_CHAIN",
+//   "UNABLE_TO_GET_ISSUER_CERT_LOCALLY", "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+//   "CERT_CHAIN_TOO_LONG", "CERT_REVOKED" "INVALID_CA",
+//   "PATH_LENGTH_EXCEEDED", "INVALID_PURPOSE" "CERT_UNTRUSTED",
+//   "CERT_REJECTED"
+//
+function Server(options, listener) {
+  if (!(this instanceof Server))
+    return new Server(options, listener);
+&nbsp;
+  if (typeof options === 'function') {
+    listener = options;
+    options = {};
+  } else if (options == null || typeof options === 'object') {
+    options = options || {};
+  } else {
+    throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'options', 'object');
+  }
+&nbsp;
+&nbsp;
+  this._contexts = [];
+&nbsp;
+  // Handle option defaults:
+  this.setOptions(options);
+&nbsp;
+  var sharedCreds = tls.createSecureContext({
+    pfx: this.pfx,
+    key: this.key,
+    passphrase: this.passphrase,
+    cert: this.cert,
+    ca: this.ca,
+    ciphers: this.ciphers,
+    ecdhCurve: this.ecdhCurve,
+    dhparam: this.dhparam,
+    secureProtocol: this.secureProtocol,
+    secureOptions: this.secureOptions,
+    honorCipherOrder: this.honorCipherOrder,
+    crl: this.crl,
+    sessionIdContext: this.sessionIdContext
+  });
+  this._sharedCreds = sharedCreds;
+&nbsp;
+  this[kHandshakeTimeout] = options.handshakeTimeout || (120 * 1000);
+  this[kSNICallback] = options.SNICallback;
+&nbsp;
+  if (typeof this[kHandshakeTimeout] !== 'number') {
+    throw new errors.TypeError('ERR_INVALID_ARG_TYPE', 'timeout', 'number');
+  }
+&nbsp;
+  if (this.sessionTimeout) {
+    sharedCreds.context.setSessionTimeout(this.sessionTimeout);
+  }
+&nbsp;
+  if (this.ticketKeys) {
+    sharedCreds.context.setTicketKeys(this.ticketKeys);
+  }
+&nbsp;
+  // constructor call
+  net.Server.call(this, tlsConnectionListener);
+&nbsp;
+  if (listener) {
+    this.on('secureConnection', listener);
+  }
+}
+&nbsp;
+util.inherits(Server, net.Server);
+exports.Server = Server;
+exports.createServer = function(options, listener) {
+  return new Server(options, listener);
+};
+&nbsp;
+&nbsp;
+Server.prototype._getServerData = function() {
+  return {
+    ticketKeys: this.getTicketKeys().toString('hex')
+  };
+};
+&nbsp;
+&nbsp;
+Server.prototype._setServerData = function(data) {
+  this.setTicketKeys(Buffer.from(data.ticketKeys, 'hex'));
+};
+&nbsp;
+&nbsp;
+Server.prototype.getTicketKeys = function getTicketKeys(keys) {
+  return this._sharedCreds.context.getTicketKeys(keys);
+};
+&nbsp;
+&nbsp;
+Server.prototype.setTicketKeys = function setTicketKeys(keys) {
+  this._sharedCreds.context.setTicketKeys(keys);
+};
+&nbsp;
+&nbsp;
+Server.prototype.setOptions = function(options) {
+  this.requestCert = options.requestCert === true;
+  this.rejectUnauthorized = options.rejectUnauthorized !== false;
+&nbsp;
+  if (options.pfx) this.pfx = options.pfx;
+  if (options.key) this.key = options.key;
+  if (options.passphrase) this.passphrase = options.passphrase;
+  if (options.cert) this.cert = options.cert;
+  if (options.ca) this.ca = options.ca;
+  if (options.secureProtocol) this.secureProtocol = options.secureProtocol;
+  if (options.crl) this.crl = options.crl;
+  if (options.ciphers) this.ciphers = options.ciphers;
+  if (options.ecdhCurve !== undefined)
+    this.ecdhCurve = options.ecdhCurve;
+  if (options.dhparam) this.dhparam = options.dhparam;
+  if (options.sessionTimeout) this.sessionTimeout = options.sessionTimeout;
+  if (options.ticketKeys) this.ticketKeys = options.ticketKeys;
+  var secureOptions = options.secureOptions || 0;
+  if (options.honorCipherOrder !== undefined)
+    this.honorCipherOrder = !!options.honorCipherOrder;
+  else
+    this.honorCipherOrder = true;
+  if (secureOptions) this.secureOptions = secureOptions;
+  if (options.NPNProtocols) tls.convertNPNProtocols(options.NPNProtocols, this);
+  if (options.ALPNProtocols)
+    tls.convertALPNProtocols(options.ALPNProtocols, this);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (options.sessionIdContext) {
+<span class="cstat-no" title="statement not covered" >    this.sessionIdContext = options.sessionIdContext;</span>
+  } else {
+    this.sessionIdContext = crypto.createHash('sha1')
+                                  .update(process.argv.join(' '))
+                                  .digest('hex')
+                                  .slice(0, 32);
+  }
+};
+&nbsp;
+// SNI Contexts High-Level API
+Server.prototype.addContext = function(servername, context) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!servername) {
+<span class="cstat-no" title="statement not covered" >    throw new errors.Error('ERR_TLS_REQUIRED_SERVER_NAME');</span>
+  }
+&nbsp;
+  var re = new RegExp('^' +
+                      servername.replace(/([.^$+?\-\\[\]{}])/g, '\\$1')
+                                .replace(/\*/g, '[^.]*') +
+                      '$');
+  this._contexts.push([re, tls.createSecureContext(context).context]);
+};
+&nbsp;
+function SNICallback(servername, callback) {
+  const contexts = this.server._contexts;
+&nbsp;
+  for (var i = 0; i &lt; contexts.length; i++) {
+    const elem = contexts[i];
+    if (elem[0].test(servername)) {
+      callback(null, elem[1]);
+      return;
+    }
+  }
+&nbsp;
+  callback(null, undefined);
+}
+&nbsp;
+&nbsp;
+// Target API:
+//
+//  var s = tls.connect({port: 8000, host: "google.com"}, function() {
+//    if (!s.authorized) {
+//      s.destroy();
+//      return;
+//    }
+//
+//    // s.socket;
+//
+//    s.end("hello world\n");
+//  });
+//
+//
+function normalizeConnectArgs(listArgs) {
+  var args = net._normalizeArgs(listArgs);
+  var options = args[0];
+  var cb = args[1];
+&nbsp;
+  // If args[0] was options, then normalize dealt with it.
+  // If args[0] is port, or args[0], args[1] is host, port, we need to
+  // find the options and merge them in, normalize's options has only
+  // the host/port/path args that it knows about, not the tls options.
+  // This means that options.host overrides a host arg.
+  if (listArgs[1] !== null &amp;&amp; typeof listArgs[1] === 'object') {
+    util._extend(options, listArgs[1]);
+  } else if (listArgs[2] !== null &amp;&amp; typeof listArgs[2] === 'object') {
+    util._extend(options, listArgs[2]);
+  }
+&nbsp;
+  return (cb) ? [options, cb] : [options];
+}
+&nbsp;
+function onConnectSecure() {
+  const options = this[kConnectOptions];
+&nbsp;
+  // Check the size of DHE parameter above minimum requirement
+  // specified in options.
+  const ekeyinfo = this.getEphemeralKeyInfo();
+  if (ekeyinfo.type === 'DH' &amp;&amp; ekeyinfo.size &lt; options.minDHSize) {
+    const err = new errors.Error('ERR_TLS_DH_PARAM_SIZE', ekeyinfo.size);
+    this.emit('error', err);
+    this.destroy();
+    return;
+  }
+&nbsp;
+  let verifyError = this._handle.verifyError();
+&nbsp;
+  // Verify that server's identity matches it's certificate's names
+  // Unless server has resumed our existing session
+  if (!verifyError &amp;&amp; !this.isSessionReused()) {
+    const hostname = options.servername ||
+                   options.host ||
+                   (options.socket &amp;&amp; <span class="branch-3 cbranch-no" title="branch not covered" >options.socket._host)</span> ||
+                   'localhost';
+    const cert = this.getPeerCertificate();
+    verifyError = options.checkServerIdentity(hostname, cert);
+  }
+&nbsp;
+  if (verifyError) {
+    this.authorized = false;
+    this.authorizationError = verifyError.code || <span class="branch-1 cbranch-no" title="branch not covered" >verifyError.message;</span>
+&nbsp;
+    if (options.rejectUnauthorized) {
+      this.destroy(verifyError);
+      return;
+    } else {
+      this.emit('secureConnect');
+    }
+  } else {
+    this.authorized = true;
+    this.emit('secureConnect');
+  }
+&nbsp;
+  // Uncork incoming data
+  this.removeListener('end', onConnectEnd);
+}
+&nbsp;
+function onConnectEnd() {
+  // NOTE: This logic is shared with _http_client.js
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (!this._hadError) {
+    const options = this[kConnectOptions];
+    this._hadError = true;
+    const error = new Error('socket hang up');
+    error.code = 'ECONNRESET';
+    error.path = options.path;
+    error.host = options.host;
+    error.port = options.port;
+    error.localAddress = options.localAddress;
+    this.destroy(error);
+  }
+}
+&nbsp;
+exports.connect = function(...args /* [port,] [host,] [options,] [cb] */) {
+  args = normalizeConnectArgs(args);
+  var options = args[0];
+  var cb = args[1];
+&nbsp;
+  var defaults = {
+    rejectUnauthorized: '0' !== process.env.NODE_TLS_REJECT_UNAUTHORIZED,
+    ciphers: tls.DEFAULT_CIPHERS,
+    checkServerIdentity: tls.checkServerIdentity,
+    minDHSize: 1024
+  };
+&nbsp;
+  options = util._extend(defaults, options || <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>;
+  if (!options.keepAlive)
+    options.singleUse = true;
+&nbsp;
+  assert(typeof options.checkServerIdentity === 'function');
+  assert(typeof options.minDHSize === 'number',
+         'options.minDHSize is not a number: ' + options.minDHSize);
+  assert(options.minDHSize &gt; 0,
+         'options.minDHSize is not a positive number: ' +
+         options.minDHSize);
+&nbsp;
+  const NPN = {};
+  const ALPN = {};
+  const context = options.secureContext || tls.createSecureContext(options);
+  tls.convertNPNProtocols(options.NPNProtocols, NPN);
+  tls.convertALPNProtocols(options.ALPNProtocols, ALPN);
+&nbsp;
+  var socket = new TLSSocket(options.socket, {
+    pipe: !!options.path,
+    secureContext: context,
+    isServer: false,
+    requestCert: true,
+    rejectUnauthorized: options.rejectUnauthorized !== false,
+    session: options.session,
+    NPNProtocols: NPN.NPNProtocols,
+    ALPNProtocols: ALPN.ALPNProtocols,
+    requestOCSP: options.requestOCSP
+  });
+&nbsp;
+  socket[kConnectOptions] = options;
+&nbsp;
+  if (cb)
+    socket.once('secureConnect', cb);
+&nbsp;
+  if (!options.socket) {
+    const connectOpt = {
+      path: options.path,
+      port: options.port,
+      host: options.host,
+      family: options.family,
+      localAddress: options.localAddress,
+      lookup: options.lookup
+    };
+    socket.connect(connectOpt, socket._start);
+  }
+&nbsp;
+  socket._releaseControl();
+&nbsp;
+  if (options.session)
+    socket.setSession(options.session);
+&nbsp;
+  if (options.servername)
+    socket.setServername(options.servername);
+&nbsp;
+  if (options.socket)
+    socket._start();
+&nbsp;
+  socket.on('secure', onConnectSecure);
+  socket.once('end', onConnectEnd);
+&nbsp;
+  return socket;
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 06 2017 10:15:08 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

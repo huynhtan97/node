@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for root/internal/crypto/sig.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">root/internal/crypto</a> sig.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">96.77% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>60/62</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.74% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>36/38</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>6/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">96.77% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>60/62</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">63x</span>
+<span class="cline-any cline-yes">63x</span>
+<span class="cline-any cline-yes">63x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">256x</span>
+<span class="cline-any cline-yes">256x</span>
+<span class="cline-any cline-yes">254x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">60x</span>
+<span class="cline-any cline-yes">60x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">60x</span>
+<span class="cline-any cline-yes">60x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52x</span>
+<span class="cline-any cline-yes">52x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">390x</span>
+<span class="cline-any cline-yes">195x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">195x</span>
+<span class="cline-any cline-yes">195x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">195x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">192x</span>
+<span class="cline-any cline-yes">192x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">192x</span>
+<span class="cline-any cline-yes">192x</span>
+<span class="cline-any cline-yes">172x</span>
+<span class="cline-any cline-yes">172x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">192x</span>
+<span class="cline-any cline-yes">192x</span>
+<span class="cline-any cline-yes">172x</span>
+<span class="cline-any cline-yes">172x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">192x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+const errors = require('internal/errors');
+const {
+  Sign: _Sign,
+  Verify: _Verify
+} = process.binding('crypto');
+const {
+  RSA_PSS_SALTLEN_AUTO,
+  RSA_PKCS1_PADDING
+} = process.binding('constants').crypto;
+const {
+  getDefaultEncoding,
+  toBuf
+} = require('internal/crypto/util');
+const { Writable } = require('stream');
+const { inherits } = require('util');
+&nbsp;
+function Sign(algorithm, options) {
+  if (!(this instanceof Sign))
+    return new Sign(algorithm, options);
+  this._handle = new _Sign();
+  this._handle.init(algorithm);
+&nbsp;
+  Writable.call(this, options);
+}
+&nbsp;
+inherits(Sign, Writable);
+&nbsp;
+Sign.prototype._write = function _write(chunk, encoding, callback) {
+  this._handle.update(chunk, encoding);
+  callback();
+};
+&nbsp;
+Sign.prototype.update = function update(data, encoding) {
+  encoding = encoding || getDefaultEncoding();
+  this._handle.update(data, encoding);
+  return this;
+};
+&nbsp;
+Sign.prototype.sign = function sign(options, encoding) {
+  if (!options)
+    throw new errors.Error('ERR_CRYPTO_SIGN_KEY_REQUIRED');
+&nbsp;
+  var key = options.key || options;
+  var passphrase = options.passphrase || null;
+&nbsp;
+  // Options specific to RSA
+  var rsaPadding = RSA_PKCS1_PADDING;
+  if (options.hasOwnProperty('padding')) {
+    if (options.padding === options.padding &gt;&gt; 0) {
+      rsaPadding = options.padding;
+    } else {
+      throw new errors.TypeError('ERR_INVALID_OPT_VALUE',
+                                 'padding',
+                                 options.padding);
+    }
+  }
+&nbsp;
+  var pssSaltLength = RSA_PSS_SALTLEN_AUTO;
+  if (options.hasOwnProperty('saltLength')) {
+    if (options.saltLength === options.saltLength &gt;&gt; 0) {
+      pssSaltLength = options.saltLength;
+    } else {
+      throw new errors.TypeError('ERR_INVALID_OPT_VALUE',
+                                 'saltLength',
+                                 options.saltLength);
+    }
+  }
+&nbsp;
+  var ret = this._handle.sign(toBuf(key), passphrase, rsaPadding,
+                              pssSaltLength);
+&nbsp;
+  encoding = encoding || getDefaultEncoding();
+  if (encoding &amp;&amp; encoding !== 'buffer')
+    ret = ret.toString(encoding);
+&nbsp;
+  return ret;
+};
+&nbsp;
+&nbsp;
+function Verify(algorithm, options) {
+  if (!(this instanceof Verify))
+    return new Verify(algorithm, options);
+&nbsp;
+  this._handle = new _Verify();
+  this._handle.init(algorithm);
+&nbsp;
+  Writable.call(this, options);
+}
+&nbsp;
+inherits(Verify, Writable);
+&nbsp;
+Verify.prototype._write = Sign.prototype._write;
+Verify.prototype.update = Sign.prototype.update;
+&nbsp;
+Verify.prototype.verify = function verify(options, signature, sigEncoding) {
+  var key = options.key || options;
+  sigEncoding = sigEncoding || getDefaultEncoding();
+&nbsp;
+  // Options specific to RSA
+  var rsaPadding = RSA_PKCS1_PADDING;
+  if (options.hasOwnProperty('padding')) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (options.padding === options.padding &gt;&gt; 0) {
+      rsaPadding = options.padding;
+    } else {
+<span class="cstat-no" title="statement not covered" >      throw new errors.TypeError('ERR_INVALID_OPT_VALUE',</span>
+                                 'padding',
+                                 options.padding);
+    }
+  }
+&nbsp;
+  var pssSaltLength = RSA_PSS_SALTLEN_AUTO;
+  if (options.hasOwnProperty('saltLength')) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (options.saltLength === options.saltLength &gt;&gt; 0) {
+      pssSaltLength = options.saltLength;
+    } else {
+<span class="cstat-no" title="statement not covered" >      throw new errors.TypeError('ERR_INVALID_OPT_VALUE',</span>
+                                 'saltLength',
+                                 options.saltLength);
+    }
+  }
+&nbsp;
+  return this._handle.verify(toBuf(key), toBuf(signature, sigEncoding),
+                             rsaPadding, pssSaltLength);
+};
+&nbsp;
+module.exports = {
+  Sign,
+  Verify
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 06 2017 10:15:08 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

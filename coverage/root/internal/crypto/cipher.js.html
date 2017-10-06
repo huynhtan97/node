@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for root/internal/crypto/cipher.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">root/internal/crypto</a> cipher.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>117/117</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>36/36</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>17/17</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>117/117</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">788x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">214x</span>
+<span class="cline-any cline-yes">214x</span>
+<span class="cline-any cline-yes">214x</span>
+<span class="cline-any cline-yes">213x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">152x</span>
+<span class="cline-any cline-yes">104x</span>
+<span class="cline-any cline-yes">104x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">152x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">136x</span>
+<span class="cline-any cline-yes">136x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">125x</span>
+<span class="cline-any cline-yes">110x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">80x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">55x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1788x</span>
+<span class="cline-any cline-yes">894x</span>
+<span class="cline-any cline-yes">894x</span>
+<span class="cline-any cline-yes">894x</span>
+<span class="cline-any cline-yes">359x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">359x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">81x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">81x</span>
+<span class="cline-any cline-yes">81x</span>
+<span class="cline-any cline-yes">81x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">81x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">394x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+const {
+  RSA_PKCS1_OAEP_PADDING,
+  RSA_PKCS1_PADDING
+} = process.binding('constants').crypto;
+&nbsp;
+const {
+  getDefaultEncoding,
+  toBuf
+} = require('internal/crypto/util');
+&nbsp;
+const {
+  CipherBase,
+  privateDecrypt: _privateDecrypt,
+  privateEncrypt: _privateEncrypt,
+  publicDecrypt: _publicDecrypt,
+  publicEncrypt: _publicEncrypt
+} = process.binding('crypto');
+&nbsp;
+const assert = require('assert');
+const LazyTransform = require('internal/streams/lazy_transform');
+const { StringDecoder } = require('string_decoder');
+&nbsp;
+const { inherits } = require('util');
+const { normalizeEncoding } = require('internal/util');
+&nbsp;
+function rsaPublic(method, defaultPadding) {
+  return function(options, buffer) {
+    const key = options.key || options;
+    const padding = options.padding || defaultPadding;
+    const passphrase = options.passphrase || null;
+    return method(toBuf(key), buffer, padding, passphrase);
+  };
+}
+&nbsp;
+function rsaPrivate(method, defaultPadding) {
+  return function(options, buffer) {
+    const key = options.key || options;
+    const passphrase = options.passphrase || null;
+    const padding = options.padding || defaultPadding;
+    return method(toBuf(key), buffer, padding, passphrase);
+  };
+}
+&nbsp;
+const publicEncrypt = rsaPublic(_publicEncrypt, RSA_PKCS1_OAEP_PADDING);
+const publicDecrypt = rsaPublic(_publicDecrypt, RSA_PKCS1_PADDING);
+const privateEncrypt = rsaPrivate(_privateEncrypt, RSA_PKCS1_PADDING);
+const privateDecrypt = rsaPrivate(_privateDecrypt, RSA_PKCS1_OAEP_PADDING);
+&nbsp;
+function getDecoder(decoder, encoding) {
+  encoding = normalizeEncoding(encoding);
+  decoder = decoder || new StringDecoder(encoding);
+  assert(decoder.encoding === encoding, 'Cannot change encoding');
+  return decoder;
+}
+&nbsp;
+function Cipher(cipher, password, options) {
+  if (!(this instanceof Cipher))
+    return new Cipher(cipher, password, options);
+  this._handle = new CipherBase(true);
+&nbsp;
+  this._handle.init(cipher, toBuf(password));
+  this._decoder = null;
+&nbsp;
+  LazyTransform.call(this, options);
+}
+&nbsp;
+inherits(Cipher, LazyTransform);
+&nbsp;
+Cipher.prototype._transform = function _transform(chunk, encoding, callback) {
+  this.push(this._handle.update(chunk, encoding));
+  callback();
+};
+&nbsp;
+Cipher.prototype._flush = function _flush(callback) {
+  try {
+    this.push(this._handle.final());
+  } catch (e) {
+    callback(e);
+    return;
+  }
+  callback();
+};
+&nbsp;
+Cipher.prototype.update = function update(data, inputEncoding, outputEncoding) {
+  const encoding = getDefaultEncoding();
+  inputEncoding = inputEncoding || encoding;
+  outputEncoding = outputEncoding || encoding;
+&nbsp;
+  var ret = this._handle.update(data, inputEncoding);
+&nbsp;
+  if (outputEncoding &amp;&amp; outputEncoding !== 'buffer') {
+    this._decoder = getDecoder(this._decoder, outputEncoding);
+    ret = this._decoder.write(ret);
+  }
+&nbsp;
+  return ret;
+};
+&nbsp;
+&nbsp;
+Cipher.prototype.final = function final(outputEncoding) {
+  outputEncoding = outputEncoding || getDefaultEncoding();
+  var ret = this._handle.final();
+&nbsp;
+  if (outputEncoding &amp;&amp; outputEncoding !== 'buffer') {
+    this._decoder = getDecoder(this._decoder, outputEncoding);
+    ret = this._decoder.end(ret);
+  }
+&nbsp;
+  return ret;
+};
+&nbsp;
+&nbsp;
+Cipher.prototype.setAutoPadding = function setAutoPadding(ap) {
+  this._handle.setAutoPadding(ap);
+  return this;
+};
+&nbsp;
+Cipher.prototype.getAuthTag = function getAuthTag() {
+  return this._handle.getAuthTag();
+};
+&nbsp;
+&nbsp;
+Cipher.prototype.setAuthTag = function setAuthTag(tagbuf) {
+  this._handle.setAuthTag(tagbuf);
+  return this;
+};
+&nbsp;
+Cipher.prototype.setAAD = function setAAD(aadbuf) {
+  this._handle.setAAD(aadbuf);
+  return this;
+};
+&nbsp;
+function Cipheriv(cipher, key, iv, options) {
+  if (!(this instanceof Cipheriv))
+    return new Cipheriv(cipher, key, iv, options);
+  this._handle = new CipherBase(true);
+  this._handle.initiv(cipher, toBuf(key), toBuf(iv));
+  this._decoder = null;
+&nbsp;
+  LazyTransform.call(this, options);
+}
+&nbsp;
+inherits(Cipheriv, LazyTransform);
+&nbsp;
+Cipheriv.prototype._transform = Cipher.prototype._transform;
+Cipheriv.prototype._flush = Cipher.prototype._flush;
+Cipheriv.prototype.update = Cipher.prototype.update;
+Cipheriv.prototype.final = Cipher.prototype.final;
+Cipheriv.prototype.setAutoPadding = Cipher.prototype.setAutoPadding;
+Cipheriv.prototype.getAuthTag = Cipher.prototype.getAuthTag;
+Cipheriv.prototype.setAuthTag = Cipher.prototype.setAuthTag;
+Cipheriv.prototype.setAAD = Cipher.prototype.setAAD;
+&nbsp;
+&nbsp;
+function Decipher(cipher, password, options) {
+  if (!(this instanceof Decipher))
+    return new Decipher(cipher, password, options);
+&nbsp;
+  this._handle = new CipherBase(false);
+  this._handle.init(cipher, toBuf(password));
+  this._decoder = null;
+&nbsp;
+  LazyTransform.call(this, options);
+}
+&nbsp;
+inherits(Decipher, LazyTransform);
+&nbsp;
+Decipher.prototype._transform = Cipher.prototype._transform;
+Decipher.prototype._flush = Cipher.prototype._flush;
+Decipher.prototype.update = Cipher.prototype.update;
+Decipher.prototype.final = Cipher.prototype.final;
+Decipher.prototype.finaltol = Cipher.prototype.final;
+Decipher.prototype.setAutoPadding = Cipher.prototype.setAutoPadding;
+Decipher.prototype.getAuthTag = Cipher.prototype.getAuthTag;
+Decipher.prototype.setAuthTag = Cipher.prototype.setAuthTag;
+Decipher.prototype.setAAD = Cipher.prototype.setAAD;
+&nbsp;
+&nbsp;
+function Decipheriv(cipher, key, iv, options) {
+  if (!(this instanceof Decipheriv))
+    return new Decipheriv(cipher, key, iv, options);
+&nbsp;
+  this._handle = new CipherBase(false);
+  this._handle.initiv(cipher, toBuf(key), toBuf(iv));
+  this._decoder = null;
+&nbsp;
+  LazyTransform.call(this, options);
+}
+&nbsp;
+inherits(Decipheriv, LazyTransform);
+&nbsp;
+Decipheriv.prototype._transform = Cipher.prototype._transform;
+Decipheriv.prototype._flush = Cipher.prototype._flush;
+Decipheriv.prototype.update = Cipher.prototype.update;
+Decipheriv.prototype.final = Cipher.prototype.final;
+Decipheriv.prototype.finaltol = Cipher.prototype.final;
+Decipheriv.prototype.setAutoPadding = Cipher.prototype.setAutoPadding;
+Decipheriv.prototype.getAuthTag = Cipher.prototype.getAuthTag;
+Decipheriv.prototype.setAuthTag = Cipher.prototype.setAuthTag;
+Decipheriv.prototype.setAAD = Cipher.prototype.setAAD;
+&nbsp;
+&nbsp;
+module.exports = {
+  Cipher,
+  Cipheriv,
+  Decipher,
+  Decipheriv,
+  privateDecrypt,
+  privateEncrypt,
+  publicDecrypt,
+  publicEncrypt,
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 06 2017 10:15:08 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>
